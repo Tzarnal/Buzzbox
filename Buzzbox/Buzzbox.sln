@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buzzbox-Encode", "Buzzbox\Buzzbox-Encode.csproj", "{BBED4583-1D43-47BD-8208-091D2E97B15C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buzzbox-Decode", "Buzzbox-Decode\Buzzbox-Decode.csproj", "{DD8B82EE-23B6-4A08-915B-0F97ED839E50}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Buzzbox-Common", "Buzzbox-Common\Buzzbox-Common.shproj", "{D1A268AC-3E62-421A-A87A-D779A78D9EA8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Decode-Tests", "Decode-Tests\Decode-Tests.csproj", "{6FE0F503-3181-4023-8D21-504C8CF0DEA8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Encode-Tests", "Encode-Tests\Encode-Tests.csproj", "{7957C1BF-5F02-40D9-9980-C12E1801AABD}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Buzzbox-Common\Buzzbox-Common.projitems*{d1a268ac-3e62-421a-a87a-d779a78d9ea8}*SharedItemsImports = 13
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BBED4583-1D43-47BD-8208-091D2E97B15C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBED4583-1D43-47BD-8208-091D2E97B15C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBED4583-1D43-47BD-8208-091D2E97B15C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBED4583-1D43-47BD-8208-091D2E97B15C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD8B82EE-23B6-4A08-915B-0F97ED839E50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD8B82EE-23B6-4A08-915B-0F97ED839E50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD8B82EE-23B6-4A08-915B-0F97ED839E50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD8B82EE-23B6-4A08-915B-0F97ED839E50}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FE0F503-3181-4023-8D21-504C8CF0DEA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FE0F503-3181-4023-8D21-504C8CF0DEA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FE0F503-3181-4023-8D21-504C8CF0DEA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FE0F503-3181-4023-8D21-504C8CF0DEA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7957C1BF-5F02-40D9-9980-C12E1801AABD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7957C1BF-5F02-40D9-9980-C12E1801AABD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7957C1BF-5F02-40D9-9980-C12E1801AABD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7957C1BF-5F02-40D9-9980-C12E1801AABD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
