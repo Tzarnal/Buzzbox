@@ -9,5 +9,7 @@
     <Import_RootNamespace>Buzzbox_Common</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Card.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CardCollection.cs" />
   </ItemGroup>
 </Project>
