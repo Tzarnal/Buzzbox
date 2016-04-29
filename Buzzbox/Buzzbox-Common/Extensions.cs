@@ -6,9 +6,10 @@ namespace Buzzbox_Common
 {
     static class Extensions
     {
+        //Randomize a given lists order.
         //Source: http://stackoverflow.com/questions/273313/randomize-a-listt-in-c-sharp
         private static readonly Random Rng = new Random();
-
+        
         public static void Shuffle<T>(this IList<T> list)
         {
             var n = list.Count;
