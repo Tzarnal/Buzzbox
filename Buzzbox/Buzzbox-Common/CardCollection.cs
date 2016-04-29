@@ -29,21 +29,25 @@ namespace Buzzbox_Common
                 throw;
             }
 
+            var cardCollection = new CardCollection();
+
             try
             {
-                return JsonConvert.DeserializeObject<CardCollection>(data);
+                cardCollection.Cards = JsonConvert.DeserializeObject<List<Card>>(data);
             }
             catch (Exception e)
             {
                 Console.WriteLine("Could not Deserialize File: '{0}' due to {1}", path, e.Message);
                 throw;
             }
+
+            return cardCollection;
         }
 
         //Save This Card Collection to a supplied file path.
         public void Save(string path)
         {
-            var data = JsonConvert.SerializeObject(this);
+            var data = JsonConvert.SerializeObject(Cards);
 
             try
             {
