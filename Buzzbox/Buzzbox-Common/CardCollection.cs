@@ -14,6 +14,7 @@ namespace Buzzbox_Common
             Cards = new List<Card>();
         }
 
+        //Load a card collection from a supplied path and return it once deserialized.
         public static CardCollection Load(string path)
         {
             string data;
@@ -28,9 +29,18 @@ namespace Buzzbox_Common
                 throw;
             }
 
-            return JsonConvert.DeserializeObject<CardCollection>(data);
+            try
+            {
+                return JsonConvert.DeserializeObject<CardCollection>(data);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Could not Deserialize File: '{0}' due to {1}", path, e.Message);
+                throw;
+            }
         }
 
+        //Save This Card Collection to a supplied file path.
         public void Save(string path)
         {
             var data = JsonConvert.SerializeObject(this);
