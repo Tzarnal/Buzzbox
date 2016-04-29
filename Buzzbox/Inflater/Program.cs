@@ -13,19 +13,22 @@ namespace Inflater
         //Command line options through CommandLine: http://commandline.codeplex.com/
         class Options
         {
-            [Option('i',"input",Required = true, HelpText = "Path to input file to be inflated, must be in api.hearthstonejson format.")]
+            [Option('i',"input",Required = true, HelpText = "Path to input file to be inflated, must be in hearthstonejson format.")]
             public string InputFile { get; set; }
 
             [Option('o',"output",HelpText = "Output file path. Defaults to inflated.(inputFileName)")]
             public string OutputFile { get; set; }
 
-            [Option('r',"rate", HelpText = "Amount of inflation. Defaults to 3 times original.")]
-            public int InflationRate { get; set; } = 3;
+            [Option('r',"rate", 
+                HelpText = "Amount of inflation. Defaults to 3 times original.",
+                DefaultValue = 3)]
+            public int InflationRate { get; set; }
 
             [HelpOption]
             public string GetUsage()
             {
-                return HelpText.AutoBuild(this,
+                return "Adds additional copies of cards into a hearthstonejson file and randomizes the order. \n\n" + 
+                    HelpText.AutoBuild(this,
                   (current) => HelpText.DefaultParsingErrorsHandler(this, current));
             }
         }
