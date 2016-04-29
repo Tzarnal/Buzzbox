@@ -17,6 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inflater", "Inflater\Inflat
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Buzzbox-Common\Buzzbox-Common.projitems*{bbed4583-1d43-47bd-8208-091d2e97b15c}*SharedItemsImports = 4
 		Buzzbox-Common\Buzzbox-Common.projitems*{d1a268ac-3e62-421a-a87a-d779a78d9ea8}*SharedItemsImports = 13
 		Buzzbox-Common\Buzzbox-Common.projitems*{b6551276-6081-4138-bd37-af2e1478f2fa}*SharedItemsImports = 4
 	EndGlobalSection
