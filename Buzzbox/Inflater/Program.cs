@@ -91,7 +91,7 @@ namespace Inflater
                 }
                 catch (Exception)
                 {
-                    Console.WriteLine("Could not write output");
+                    Console.WriteLine("Could not write output to {0}", outPath);
                 }
             }
         }
