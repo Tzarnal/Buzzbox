@@ -91,7 +91,18 @@ namespace Buzzbox
                     return;
                 }
 
-                var output = encode.EncodeCardCollection(cardCollection, options.EncodingFormat);
+                //Actually encode.
+                string output;
+                try
+                {
+                    output = encode.EncodeCardCollection(cardCollection, options.EncodingFormat);
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Error while trying to encode {0} using {1}.", inPath, options.EncodingFormat);
+                    return;
+                }
+                
 
                 //Write out again
                 try
