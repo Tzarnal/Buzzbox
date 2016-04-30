@@ -42,11 +42,67 @@ namespace Buzzbox
             //Parse Commandline options
             var options = new Options();
             var commandLineResults = Parser.Default.ParseArguments(args, options);
+            var encode = new Encode();
 
             //Only continue if commandline options fullfilled. CommandLine will handle helptext if something was off.
             if (commandLineResults)
             {
-                
+                string outPath;
+                string inPath;
+
+                //Use Path to get proper filesystem path for input
+                try
+                {
+                    inPath = Path.GetFullPath(options.InputFile);
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Invalid Path to input file: {0}", options.InputFile);
+                    return;
+                }
+
+                //Check if input file is real.
+                if (!File.Exists(inPath))
+                {
+                    Console.WriteLine("File does not exist: {0}", options.InputFile);
+                    return;
+                }
+
+                //Use Path to get proper filesystem path for output
+                try
+                {
+                    outPath = Path.GetFullPath(options.OutputFile);
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Invalid Path to output file: {0}", options.OutputFile);
+                    return;
+                }
+
+                //Load card collection to encode
+                CardCollection cardCollection;
+                try
+                {
+                    cardCollection = CardCollection.Load(inPath);
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Could parse '{0}'.",inPath);
+                    return;
+                }
+
+                var output = encode.EncodeCardCollection(cardCollection, options.EncodingFormat);
+
+                //Write out again
+                try
+                {
+                    File.WriteAllText(outPath, output);
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Could not write output to {0}", outPath);
+                }
+
             }
         }
     }
