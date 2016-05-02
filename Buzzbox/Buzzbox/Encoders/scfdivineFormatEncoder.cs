@@ -9,6 +9,11 @@ namespace Buzzbox.Encoders
     {
         public string EncodeCard(Card card)
         {
+            if (card == null)
+            {
+                return string.Empty;
+            }
+
             string output;
 
             switch (card.Type)
@@ -22,8 +27,11 @@ namespace Buzzbox.Encoders
                     break;
 
                 case "MINION":
-                default:
                     output = EncodeMinion(card);
+                    break;
+
+                default:
+                    output = EncodeSpell(card);
                     break;
             }
 
