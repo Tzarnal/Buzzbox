@@ -54,6 +54,11 @@ namespace Buzzbox.Encoders
 
         private string EncodeCardText(string cardText)
         {
+            if (string.IsNullOrWhiteSpace(cardText))
+            {
+                return "";
+            }
+
             var output = cardText.RemoveMarkup();
 
             //Also strip newlines.
