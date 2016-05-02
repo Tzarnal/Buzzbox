@@ -19,7 +19,7 @@ namespace Buzzbox.Encoders.Tests
         };
 
         [TestMethod()]
-        public void EncodeMinionCardTest()
+        public void EncodeCardTest()
         {
             var encoder = new scfdivineFormatEncoder();
 
@@ -27,7 +27,7 @@ namespace Buzzbox.Encoders.Tests
             var expectedOutput =
                 "Tirion Fordring @ Paladin | | Minion | L | 8 | 6/6 || $V$. $T$. $A$ Equip a 5/3 Ashbringer. &";
 
-            Assert.AreEqual(expectedOutput, output);
+            Assert.Equals(output, expectedOutput);
         }
     }
 }

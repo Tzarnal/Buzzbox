@@ -22,10 +22,5 @@ namespace Buzzbox_Common
                 list[n] = value;
             }
         }
-
-        public static string CapitalizeOnlyFirstLetter(this string str)
-        {
-            return char.ToUpper(str[0]) + str.Substring(1).ToLower();
-        }
     }
 }
