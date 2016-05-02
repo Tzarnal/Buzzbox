@@ -2,9 +2,9 @@
 
 namespace Buzzbox_Common
 {
-    class Collections
+    public class Collections
     {
-        public Dictionary<string, string> KeywordReplacements = new Dictionary<string, string>
+        public static Dictionary<string, string> KeywordReplacements = new Dictionary<string, string>
         {            
             {"Battlecry", "$B$"},
             {"Charge", "$C$"},
