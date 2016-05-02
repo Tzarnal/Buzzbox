@@ -19,7 +19,7 @@ namespace Buzzbox
 
             foreach (var card in cardCollection.Cards)
             {
-                var cardOutput = $"{encoder.EncodeCard(card)}\n\n";
+                var cardOutput = $"{encoder.EncodeCard(card)}\r\n\r\n";
                 outputBuilder.Append(cardOutput);
             }
 
