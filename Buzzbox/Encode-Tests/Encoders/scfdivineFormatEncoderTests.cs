@@ -9,6 +9,7 @@ namespace Buzzbox.Encoders.Tests
         Card testMinion = new Card
         {
             Name = "Tirion Fordring",
+            Type = "MINION",
             PlayerClass = "PALADIN",
             Rarity = "LEGENDARY",
             Cost = 8,
