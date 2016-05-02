@@ -2,7 +2,7 @@
 
 namespace Buzzbox.Encoders
 {
-    interface IEncoderInterface
+    public interface IEncoderInterface
     {
         string EncodeCard(Card card);
     }
