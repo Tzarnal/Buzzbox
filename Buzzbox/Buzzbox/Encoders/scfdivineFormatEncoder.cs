@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using Buzzbox_Common;
 
 namespace Buzzbox.Encoders
@@ -34,8 +36,9 @@ namespace Buzzbox.Encoders
             var encodedRace = EncodeCardRace(card.Race);
             var encodedType = EncodeCardType(card.Type);
             var encodedRarity = EncodeCardRarity(card.Rarity);
+            var encodedText = EncodeCardText(card.Text);
 
-            var encodedCard = string.Format("{0} @ {1} | {2} | {3} | {4} | {5} | {6}/{7} | {8} &",
+            var encodedCard = string.Format("{0} @ {1} | {2} | {3} | {4} | {5} | {6}/{7} || {8} &",
                 card.Name,
                 encodedClass,
                 encodedRace,
@@ -44,10 +47,30 @@ namespace Buzzbox.Encoders
                 card.Cost,
                 card.Attack,
                 card.Health,
-                card.Text);
+                encodedText);
 
             return encodedCard;
         }
+
+        private string EncodeCardText(string cardText)
+        {
+            var output = cardText.RemoveMarkup();
+
+            //Also strip newlines.
+            output = Regex.Replace(output, @"\r\n?|\n", "");
+
+            //Get rid of : as well, it'll be put back in ( for 90 of cases ) at decode when keywords are put back in
+            output = output.Replace(":", string.Empty);
+
+            //Replace keywords with shorter symbols.
+            foreach (KeyValuePair<string, string> replacement in Collections.KeywordReplacements)
+            {
+                output = output.Replace(replacement.Key, replacement.Value);
+            }
+
+            return output;
+        }
+
 
         private string EncodeCardRace(string race)
         {
