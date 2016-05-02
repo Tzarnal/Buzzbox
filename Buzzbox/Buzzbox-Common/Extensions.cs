@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Buzzbox_Common
 {
@@ -26,6 +27,14 @@ namespace Buzzbox_Common
         public static string CapitalizeOnlyFirstLetter(this string str)
         {
             return char.ToUpper(str[0]) + str.Substring(1).ToLower();
+        }
+
+        public static string RemoveMarkup(this string str)
+        {
+            var output = Regex.Replace(str, @"</?.>", "");
+            output = Regex.Replace(output, @"\[.\]", "");
+            
+            return output;
         }
     }
 }
