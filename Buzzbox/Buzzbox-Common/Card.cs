@@ -10,6 +10,7 @@ namespace Buzzbox_Common
         public string Artist { get; set; }
         public List<string> Mechanics { get; set; }
         public string Rarity { get; set; }
+        public string Race { get; set; }
         public string Set { get; set; }
         public string HowToEarnGolden { get; set; }
         public string Type { get; set; }
