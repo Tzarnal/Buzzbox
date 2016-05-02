@@ -52,6 +52,26 @@ namespace Buzzbox.Encoders
             return encodedCard;
         }
 
+        private string EncodeWeapon(Card card)
+        {
+            var encodedClass = EncodeCardClass(card.PlayerClass);            
+            var encodedType = EncodeCardType(card.Type);
+            var encodedRarity = EncodeCardRarity(card.Rarity);
+            var encodedText = EncodeCardText(card.Text);
+
+            var encodedCard = string.Format("{0} @ {1} | {2} | {3} | {4} | {5}/{6} || {7} &",
+                card.Name,
+                encodedClass,
+                encodedType,
+                encodedRarity,
+                card.Cost,
+                card.Attack,
+                card.Durability,
+                encodedText);
+
+            return encodedCard;
+        }
+
         private string EncodeSpell(Card card)
         {
             var encodedClass = EncodeCardClass(card.PlayerClass);
@@ -138,9 +158,5 @@ namespace Buzzbox.Encoders
             return rarity[0].ToString();
         }
 
-        private string EncodeWeapon(Card card)
-        {
-            return "";
-        }
     }
 }
