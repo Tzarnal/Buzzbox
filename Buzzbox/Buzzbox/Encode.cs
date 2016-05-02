@@ -12,6 +12,7 @@ namespace Buzzbox
             
         }
 
+        //Dispatch cards to be encoded to an encoder selected by command line option. then stitch them together in a stringbuilder. 
         public string EncodeCardCollection(CardCollection cardCollection, EncodingFormats encodingFormat)
         {
             var outputBuilder = new StringBuilder();
@@ -26,6 +27,7 @@ namespace Buzzbox
             return outputBuilder.ToString();
         }
 
+        //Return an encoder based on the requested encodingFormat
         public IEncoderInterface InstanciateEncoder(EncodingFormats encodingFormat)
         {
             switch (encodingFormat)
