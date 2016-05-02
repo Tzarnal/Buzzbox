@@ -52,6 +52,24 @@ namespace Buzzbox.Encoders
             return encodedCard;
         }
 
+        private string EncodeSpell(Card card)
+        {
+            var encodedClass = EncodeCardClass(card.PlayerClass);
+            var encodedType = EncodeCardType(card.Type);
+            var encodedRarity = EncodeCardRarity(card.Rarity);
+            var encodedText = EncodeCardText(card.Text);
+
+            var encodedCard = string.Format("{0} @ {1} | {2} | {3} | {4} || {5} &",
+                card.Name,
+                encodedClass,                
+                encodedType,
+                encodedRarity,
+                card.Cost,
+                encodedText);
+
+            return encodedCard;
+        }
+
         private string EncodeCardText(string cardText)
         {
             if (string.IsNullOrWhiteSpace(cardText))
@@ -103,11 +121,6 @@ namespace Buzzbox.Encoders
             {
                 return "";
             }
-                
-            if (type == "FREE")
-            {
-                type = "COMMON";
-            }
 
             return type.CapitalizeOnlyFirstLetter();
         }
@@ -117,12 +130,12 @@ namespace Buzzbox.Encoders
             if (string.IsNullOrWhiteSpace(rarity))
                 return "";
 
-            return rarity[0].ToString();
-        }
+            if (rarity == "FREE")
+            {
+                rarity = "COMMON";
+            }
 
-        private string EncodeSpell(Card card)
-        {
-            return "";
+            return rarity[0].ToString();
         }
 
         private string EncodeWeapon(Card card)
