@@ -5,7 +5,7 @@ using Buzzbox_Common;
 
 namespace Buzzbox
 {
-    class Encode
+    public class Encode
     {
         public Encode()
         {
