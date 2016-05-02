@@ -3,7 +3,7 @@
 
 namespace Buzzbox_Common
 {
-    class Card
+    public class Card
     {
         public int Health { get; set; }
         public int Attack { get; set; }

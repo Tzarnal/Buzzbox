@@ -67,6 +67,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Encode.cs" />
+    <Compile Include="Encoders\IEncoderInterface.cs" />
+    <Compile Include="Encoders\scfdivineFormatEncoder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -86,9 +88,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Encoders\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="..\Buzzbox-Common\Buzzbox-Common.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace Buzzbox_Common
 {
-    class CardCollection
+    public class CardCollection
     {
         public List<Card> Cards;
 
