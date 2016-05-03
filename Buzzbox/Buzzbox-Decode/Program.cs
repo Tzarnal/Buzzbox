@@ -95,6 +95,7 @@ namespace Buzzbox_Decode
 
                 var cardCollection = new CardCollection();
 
+                //actually decode the text
                 try
                 {
                     cardCollection = decode.DecodeString(inputData, options.EncodingFormat);
@@ -105,14 +106,17 @@ namespace Buzzbox_Decode
                     return;
                 }
 
+                //fail out if no cards are found
                 if (cardCollection.Cards.Count == 0)
                 {
                     Console.WriteLine("Did not find any card to save to file");
                     return;
                 }
 
+                //write output cards to file, report on the amount found.
                 try
                 {
+                    Console.WriteLine("Found {0} cards in '{1}'.", cardCollection.Cards.Count, inPath);
                     cardCollection.Save(outPath);
                 }
                 catch (Exception e)
