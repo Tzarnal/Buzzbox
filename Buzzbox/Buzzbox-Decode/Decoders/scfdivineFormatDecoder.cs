@@ -53,7 +53,7 @@ namespace Buzzbox_Decode.Decoders
             var className = DecodeClass(nameClass[1]);
             if (className != null && className == "Unknown")
             {
-                Console.WriteLine("{0} is not a regcognized Class in Hearthstone.", nameClass[1]);
+                Console.WriteLine("{0} is not a recognized Class in Hearthstone.", nameClass[1]);
                 return null;
             }
 
@@ -70,7 +70,7 @@ namespace Buzzbox_Decode.Decoders
             var rarity = DecodeRarity(splitLine[3]);
             if (rarity == "Unknown")
             {
-                Console.WriteLine("{0} is not a regcognized rarity in Hearthstone.", splitLine[3]);
+                Console.WriteLine("{0} is not a recognized rarity in Hearthstone.", splitLine[3]);
                 return null;
             }
 
