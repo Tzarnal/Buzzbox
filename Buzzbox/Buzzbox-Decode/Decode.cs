@@ -14,6 +14,7 @@ namespace Buzzbox_Decode
             Verbal = verbal;
         }
 
+        //Dispatch lines to be decoded to a decoder selected by decodingFormat
         public CardCollection DecodeString(string inputData, EncodingFormats decodingFormat)
         {
             var cardCollection = new CardCollection();
@@ -27,6 +28,7 @@ namespace Buzzbox_Decode
             return cardCollection;
         }
 
+        //Return an encoder based on the requested decodingFormat
         public IDecoderInterface InstanciateDecoder(EncodingFormats decodingFormat)
         {
             switch (decodingFormat)
