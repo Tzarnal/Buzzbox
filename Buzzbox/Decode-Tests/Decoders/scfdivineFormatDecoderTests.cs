@@ -23,7 +23,7 @@ namespace Buzzbox_Decode.Decoders.Tests
             Name = "Fireball",
             Type = "SPELL",
             PlayerClass = "MAGE",
-            Rarity = "FREE",
+            Rarity = "COMMON",
             Cost = 4,
             Text = "Deal $6 damage."
         };
@@ -68,12 +68,12 @@ namespace Buzzbox_Decode.Decoders.Tests
 
             var output = decoder.DecodeCard(input);
 
-            Assert.AreEqual(testMinion.Name, output.Name);
-            Assert.AreEqual(testMinion.Type, output.Type);
-            Assert.AreEqual(testMinion.PlayerClass, output.PlayerClass);
-            Assert.AreEqual(testMinion.Rarity, output.Rarity);
-            Assert.AreEqual(testMinion.Cost, output.Cost);
-            Assert.AreEqual(testMinion.Text, output.Text);
+            Assert.AreEqual(testSpell.Name, output.Name);
+            Assert.AreEqual(testSpell.Type, output.Type);
+            Assert.AreEqual(testSpell.PlayerClass, output.PlayerClass);
+            Assert.AreEqual(testSpell.Rarity, output.Rarity);
+            Assert.AreEqual(testSpell.Cost, output.Cost);
+            Assert.AreEqual(testSpell.Text, output.Text);
         }
 
         [TestMethod()]
@@ -84,14 +84,14 @@ namespace Buzzbox_Decode.Decoders.Tests
 
             var output = decoder.DecodeCard(input);
 
-            Assert.AreEqual(testMinion.Name, output.Name);
-            Assert.AreEqual(testMinion.Type, output.Type);
-            Assert.AreEqual(testMinion.PlayerClass, output.PlayerClass);
-            Assert.AreEqual(testMinion.Rarity, output.Rarity);
-            Assert.AreEqual(testMinion.Cost, output.Cost);
-            Assert.AreEqual(testMinion.Attack, output.Attack);
-            Assert.AreEqual(testMinion.Durability, output.Durability);
-            Assert.AreEqual(testMinion.Text, output.Text);
+            Assert.AreEqual(testWeapon.Name, output.Name);
+            Assert.AreEqual(testWeapon.Type, output.Type);
+            Assert.AreEqual(testWeapon.PlayerClass, output.PlayerClass);
+            Assert.AreEqual(testWeapon.Rarity, output.Rarity);
+            Assert.AreEqual(testWeapon.Cost, output.Cost);
+            Assert.AreEqual(testWeapon.Attack, output.Attack);
+            Assert.AreEqual(testWeapon.Durability, output.Durability);
+            Assert.AreEqual(testWeapon.Text, output.Text);
         }
     }
 }
