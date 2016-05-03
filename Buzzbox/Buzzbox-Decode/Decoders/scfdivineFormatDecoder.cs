@@ -9,6 +9,11 @@ namespace Buzzbox_Decode.Decoders
     {
         public Card DecodeCard(string cardLine)
         {
+            if (string.IsNullOrWhiteSpace(cardLine))
+            {
+                return null;
+            }
+
             var splitLine = cardLine.Split('|');
             Card card;
 
