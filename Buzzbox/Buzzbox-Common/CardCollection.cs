@@ -47,7 +47,7 @@ namespace Buzzbox_Common
         //Save This Card Collection to a supplied file path.
         public void Save(string path)
         {
-            var data = JsonConvert.SerializeObject(Cards);
+            var data = LowercaseJsonSerializer.SerializeObject(Cards);
 
             try
             {
