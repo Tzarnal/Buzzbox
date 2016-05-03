@@ -58,7 +58,7 @@ namespace Buzzbox.Tests
             var result = encoder.EncodeCardCollection(collection, EncodingFormats.scfdivineFormat);
 
             var expected =
-                "Tirion Fordring @ Paladin |  | Minion | L | 8 | 6/6 || $DV$. $T$. $DR$ Equip a 5/3 Ashbringer. &\r\n\r\nFireball @ Mage | Spell | C | 4 || Deal $6 damage. &\r\n\r\nDeath's Bite @ Warrior | Weapon | C | 4 | 4/2 || $DR$ Deal 1 damage to all minions. &\r\n\r\n";
+                "Tirion Fordring @ Paladin |  | Minion | L | 8 | 6/6 || $DV$. $T$. $DR$ Equip a 5/3 Ashbringer. &\n\nFireball @ Mage | Spell | C | 4 || Deal $6 damage. &\n\nDeath's Bite @ Warrior | Weapon | C | 4 | 4/2 || $DR$ Deal 1 damage to all minions. &\n\n";
 
             Assert.AreEqual(expected,result);
         }
