@@ -31,6 +31,17 @@ namespace Buzzbox_Decode
                 DefaultValue = true)]
             public bool Verbose { get; set; }
 
+            [Option("set",
+                HelpText = "The Set ( CORE, BRM, OG, etc) this card belongs too.",
+                DefaultValue = "HS-RNN")]
+            public string Set { get; set; }
+
+            [Option("source",
+                HelpText = "A costum atttribute, not in the hearhstoneapi json. Intended to store what generated the card.",
+                DefaultValue = "hs-rnn")]
+            public string Source { get; set; }
+
+
             [HelpOption]
             public string GetUsage()
             {
@@ -44,7 +55,7 @@ namespace Buzzbox_Decode
         {
             var options = new Options();
             var commandLineResults = Parser.Default.ParseArguments(args, options);
-            var decode = new Decode(options.Verbose);
+            var decode = new Decode(options.Verbose, options.Set, options.Source);
 
             if (commandLineResults)
             {
