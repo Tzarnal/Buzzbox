@@ -233,10 +233,14 @@ namespace Buzzbox_Decode.Decoders
                 return "";
             }
 
+            //clean up the start and end of the string
             cardText = cardText.TrimEnd('&');
             cardText = cardText.Trim();
 
-            //Replace keywords with shorter symbols.
+            //Ensure at least one space between keyword symbols
+            cardText = cardText.Replace("$$", "$ $");
+
+            //Replace keywords symbols with markup text
             foreach (KeyValuePair<string, string> replacement in Collections.ReverseKeywordReplacements)
             {
                 cardText = cardText.Replace(replacement.Key, replacement.Value);
