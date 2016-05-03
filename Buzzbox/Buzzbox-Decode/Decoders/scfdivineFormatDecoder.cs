@@ -157,7 +157,67 @@ namespace Buzzbox_Decode.Decoders
 
         private Card DecodeWeapon(string[] splitLine)
         {
-            return new Card();
+            var newCard = new Card { Type = "WEAPON" };
+
+            //Assign Card name
+            var nameClass = splitLine[0].Split('@');
+            newCard.Name = nameClass[0].Trim();
+
+            //Check for card class and assign, or fail out if not a real class.
+            var className = DecodeClass(nameClass[1]);
+            if (className != null && className == "Unknown")
+            {
+                Console.WriteLine("{0} is not a regcognized Class in Hearthstone.", nameClass[1]);
+                return null;
+            }
+
+            newCard.PlayerClass = className;
+
+            //Assign Rarity
+            var rarity = DecodeRarity(splitLine[2]);
+            if (rarity == "Unknown")
+            {
+                Console.WriteLine("{0} is not a regcognized rarity in Hearthstone.", splitLine[2]);
+                return null;
+            }
+
+            newCard.Rarity = rarity;
+
+            //try to parse Manacost
+            int manaCost;
+            if (!int.TryParse(splitLine[3].Trim(), out manaCost))
+            {
+                Console.WriteLine("{0} is not convertable to a number for manacost.", splitLine[3]);
+                return null;
+            }
+
+            //split up attack and health, then try to parse them
+            var AttackHealth = splitLine[4].Trim().Split('/');
+
+            int attack;
+            if (!int.TryParse(AttackHealth[0], out attack))
+            {
+                Console.WriteLine("{0} is not convertable to a number for attack.", AttackHealth[0]);
+                return null;
+            }
+
+            int health;
+            if (!int.TryParse(AttackHealth[1], out health))
+            {
+                Console.WriteLine("{0} is not convertable to a number for attack.", AttackHealth[1]);
+                return null;
+            }
+
+            //assign all the numbers at once, why not
+            newCard.Cost = manaCost;
+            newCard.Attack = attack;
+            newCard.Durability = health;
+
+            var cardText = DecodeText(splitLine[6]);
+
+            newCard.Text = cardText;
+
+            return newCard;
         }
 
         private string DecodeText(string cardText)
