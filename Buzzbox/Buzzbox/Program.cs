@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.IO;
 using Buzzbox_Common;
 using CommandLine;
@@ -19,7 +18,7 @@ namespace Buzzbox
             public string InputFile { get; set; }
 
             [Option('o', "output",
-                HelpText = "Output file path. Defaults to output.txt",
+                HelpText = "Output file path.",
                 DefaultValue = "output.txt")]
             public string OutputFile { get; set; }
 
@@ -87,7 +86,7 @@ namespace Buzzbox
                 }
                 catch (Exception)
                 {
-                    Console.WriteLine("Could parse '{0}'.",inPath);
+                    Console.WriteLine("Could not parse '{0}'.",inPath);
                     return;
                 }
 
