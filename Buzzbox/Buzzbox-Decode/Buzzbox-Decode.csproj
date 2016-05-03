@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Decode.cs" />
     <Compile Include="Decoders\IDecoderInterface.cs" />
     <Compile Include="Decoders\scfdivineFormatDecoder.cs" />
     <Compile Include="Program.cs" />

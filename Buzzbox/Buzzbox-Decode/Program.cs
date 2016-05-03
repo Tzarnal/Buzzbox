@@ -44,6 +44,7 @@ namespace Buzzbox_Decode
         {
             var options = new Options();
             var commandLineResults = Parser.Default.ParseArguments(args, options);
+            var decode = new Decode(options.Verbose);
 
             if (commandLineResults)
             {
@@ -89,6 +90,34 @@ namespace Buzzbox_Decode
                 catch (Exception e)
                 {
                     Console.WriteLine("Error while trying to read from '{0}' : {1}", inPath, e.Message);
+                    return;
+                }
+
+                var cardCollection = new CardCollection();
+
+                try
+                {
+                    cardCollection = decode.DecodeString(inputData, options.EncodingFormat);
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Error while trying to decode '{0}'", inPath);
+                    return;
+                }
+
+                if (cardCollection.Cards.Count == 0)
+                {
+                    Console.WriteLine("Did not find any card to save to file");
+                    return;
+                }
+
+                try
+                {
+                    cardCollection.Save(outPath);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Could not write to file '{0}': {1}", outPath, e.Message );
                 }
             }
         }
