@@ -110,7 +110,49 @@ namespace Buzzbox_Decode.Decoders
 
         private Card DecodeSpell(string[] splitLine)
         {
-            return new Card();
+            var newCard = new Card { Type = "SPELL" };
+
+            //Assign Card name
+            var nameClass = splitLine[0].Split('@');
+            newCard.Name = nameClass[0].Trim();
+
+            //Check for card class and assign, or fail out if not a real class.
+            var className = DecodeClass(nameClass[1]);
+            if (className != null && className == "Unknown")
+            {
+                Console.WriteLine("{0} is not a regcognized Class in Hearthstone.", nameClass[1]);
+                return null;
+            }
+
+            newCard.PlayerClass = className;
+
+
+            //Assign Rarity
+            var rarity = DecodeRarity(splitLine[2]);
+            if (rarity == "Unknown")
+            {
+                Console.WriteLine("{0} is not a regcognized rarity in Hearthstone.", splitLine[3]);
+                return null;
+            }
+
+            newCard.Rarity = rarity;
+
+            //try to parse Manacost
+            int manaCost;
+            if (!int.TryParse(splitLine[3].Trim(), out manaCost))
+            {
+                Console.WriteLine("{0} is not convertable to a number for manacost.", splitLine[4]);
+                return null;
+            }
+
+            //assign all the numbers at once, why not
+            newCard.Cost = manaCost;
+
+            var cardText = DecodeText(splitLine[5]);
+
+            newCard.Text = cardText;
+
+            return newCard;
         }
 
         private Card DecodeWeapon(string[] splitLine)
