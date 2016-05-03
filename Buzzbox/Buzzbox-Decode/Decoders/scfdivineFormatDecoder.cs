@@ -131,7 +131,7 @@ namespace Buzzbox_Decode.Decoders
             var rarity = DecodeRarity(splitLine[2]);
             if (rarity == "Unknown")
             {
-                Console.WriteLine("{0} is not a regcognized rarity in Hearthstone.", splitLine[3]);
+                Console.WriteLine("{0} is not a regcognized rarity in Hearthstone.", splitLine[2]);
                 return null;
             }
 
@@ -141,7 +141,7 @@ namespace Buzzbox_Decode.Decoders
             int manaCost;
             if (!int.TryParse(splitLine[3].Trim(), out manaCost))
             {
-                Console.WriteLine("{0} is not convertable to a number for manacost.", splitLine[4]);
+                Console.WriteLine("{0} is not convertable to a number for manacost.", splitLine[3]);
                 return null;
             }
 
