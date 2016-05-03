@@ -1,15 +1,96 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
+using Buzzbox_Common;
+using CommandLine;
+using CommandLine.Text;
 
 namespace Buzzbox_Decode
 {
     class Program
     {
-        static void Main(string[] args)
+        //Command line options through CommandLine: http://commandline.codeplex.com/
+        class Options
         {
+            [Option('i', "input",
+                Required = true,
+                HelpText = "Path to input file to be Decoded.")]
+            public string InputFile { get; set; }
+
+            [Option('o', "output",
+                HelpText = "Output file path.",
+                DefaultValue = "output.json")]
+            public string OutputFile { get; set; }
+
+            [Option('e', "encoding",
+                HelpText = "Which format to decode from.",
+                DefaultValue = EncodingFormats.scfdivineFormat)]
+            public EncodingFormats EncodingFormat { get; set; }
+
+            [Option("verbose",
+                HelpText = "Wether to display attempts to parse cards while parsing.",
+                DefaultValue = true)]
+            public bool Verbose { get; set; }
+
+            [HelpOption]
+            public string GetUsage()
+            {
+                return "Decodes mtg-rnn output. Into a hearthstone api json file. \n\n" +
+                    HelpText.AutoBuild(this,
+                  (current) => HelpText.DefaultParsingErrorsHandler(this, current));
+            }
+        }
+
+        private static void Main(string[] args)
+        {
+            var options = new Options();
+            var commandLineResults = Parser.Default.ParseArguments(args, options);
+
+            if (commandLineResults)
+            {
+                string outPath;
+                string inPath;
+
+                //Use Path to get proper filesystem path for input
+                try
+                {
+                    inPath = Path.GetFullPath(options.InputFile);
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Invalid Path to input file: {0}", options.InputFile);
+                    return;
+                }
+
+                //Check if input file is real.
+                if (!File.Exists(inPath))
+                {
+                    Console.WriteLine("File does not exist: {0}", options.InputFile);
+                    return;
+                }
+
+                //Use Path to get proper filesystem path for output
+                try
+                {
+                    outPath = Path.GetFullPath(options.OutputFile);
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Invalid Path to output file: {0}", options.OutputFile);
+                    return;
+                }
+
+                string inputData;
+
+                //Read input file
+                try
+                {
+                    inputData = File.ReadAllText(inPath);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error while trying to read from '{0}' : {1}", inPath, e.Message);
+                }
+            }
         }
     }
 }
