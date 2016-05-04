@@ -7,7 +7,7 @@ namespace Buzzbox_Common
         public static Dictionary<string, string> KeywordReplacements = new Dictionary<string, string>
         {
             {"Battlecry and Deathrattle", "$BD$"},
-            { "Battlecry", "$B$"},
+            {"Battlecry", "$B$"},
             {"Charge", "$CH$"},
             {"Choose One", "$CO$"},
             {"Combo", "$C$"},
@@ -21,7 +21,7 @@ namespace Buzzbox_Common
             {"Inspire", "$IN$"},            
             {"Overload", "$O$"},
             {"Secret", "$SA$"},
-            {"Secret", "$S$"},
+            {"Secrets", "$S$"},
             {"Silence", "$SI$"},
             {"Stealth", "$ST$"},
             {"Spell Damage", "$SD$"},            
