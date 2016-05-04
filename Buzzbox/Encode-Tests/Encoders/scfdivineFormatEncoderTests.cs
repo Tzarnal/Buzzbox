@@ -47,7 +47,7 @@ namespace Buzzbox.Encoders.Tests
 
             var output = encoder.EncodeCard(testMinion);
             var expectedOutput =
-                "Tirion Fordring @ Paladin |  | Minion | L | 8 | 6/6 || $DV$. $T$. $DR$ Equip a 5/3 Ashbringer. &";
+                "Tirion Fordring @ Paladin |  | Minion | L | 8 | 6/6 || $DV$. $T$. $DR$: Equip a 5/3 Ashbringer. &";
 
             Assert.AreEqual(expectedOutput, output);
         }
@@ -72,7 +72,7 @@ namespace Buzzbox.Encoders.Tests
 
             var output = encoder.EncodeCard(testWeapon);
             var expectedOutput =
-                "Death's Bite @ Warrior | Weapon | C | 4 | 4/2 || $DR$ Deal 1 damage to all minions. &";
+                "Death's Bite @ Warrior | Weapon | C | 4 | 4/2 || $DR$: Deal 1 damage to all minions. &";
 
             Assert.AreEqual(expectedOutput, output);
         }

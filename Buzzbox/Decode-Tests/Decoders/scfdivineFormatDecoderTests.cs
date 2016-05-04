@@ -15,7 +15,7 @@ namespace Buzzbox_Decode.Decoders.Tests
             Cost = 8,
             Attack = 6,
             Health = 6,
-            Text = "<b>Divine Shield</b>. <b>Taunt</b>. <b>Deathrattle:</b> Equip a 5/3 Ashbringer."
+            Text = "<b>Divine Shield</b>. <b>Taunt</b>. <b>Deathrattle</b>: Equip a 5/3 Ashbringer."
         };
 
         private Card testSpell = new Card
@@ -37,7 +37,7 @@ namespace Buzzbox_Decode.Decoders.Tests
             Cost = 4,
             Attack = 4,
             Durability = 2,
-            Text = "<b>Deathrattle:</b> Deal 1 damage to all minions."
+            Text = "<b>Deathrattle</b>: Deal 1 damage to all minions."
         };
 
         [TestMethod()]
@@ -45,7 +45,7 @@ namespace Buzzbox_Decode.Decoders.Tests
         {
             var decoder = new scfdivineFormatDecoder();
             var input =
-                "Tirion Fordring @ Paladin |  | Minion | L | 8 | 6/6 || $DV$. $T$. $DR$ Equip a 5/3 Ashbringer. &";
+                "Tirion Fordring @ Paladin |  | Minion | L | 8 | 6/6 || $DV$. $T$. $DR$: Equip a 5/3 Ashbringer. &";
 
             var output = decoder.DecodeCard(input);
 
@@ -80,7 +80,7 @@ namespace Buzzbox_Decode.Decoders.Tests
         public void DecodeWeaponCardTest()
         {
             var decoder = new scfdivineFormatDecoder();
-            var input = "Death's Bite @ Warrior | Weapon | C | 4 | 4/2 || $DR$ Deal 1 damage to all minions. &";
+            var input = "Death's Bite @ Warrior | Weapon | C | 4 | 4/2 || $DR$: Deal 1 damage to all minions. &";
 
             var output = decoder.DecodeCard(input);
 
