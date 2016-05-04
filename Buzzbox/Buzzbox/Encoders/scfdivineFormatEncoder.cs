@@ -108,7 +108,7 @@ namespace Buzzbox.Encoders
             var output = cardText.RemoveMarkup();
 
             //Also strip newlines.
-            output = Regex.Replace(output, @"\r\n?|\n", "");
+            output = Regex.Replace(output, @"\r\n?|\n", " ");
 
             
             //Replace keywords with shorter symbols.
