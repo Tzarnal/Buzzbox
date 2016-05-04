@@ -5,8 +5,9 @@ namespace Buzzbox_Common
     public class Collections
     {
         public static Dictionary<string, string> KeywordReplacements = new Dictionary<string, string>
-        {            
-            {"Battlecry", "$B$"},
+        {
+            {"Battlecry and Deathrattle", "$BD$"},
+            { "Battlecry", "$B$"},
             {"Charge", "$CH$"},
             {"Choose One", "$CO$"},
             {"Combo", "$C$"},
@@ -30,6 +31,7 @@ namespace Buzzbox_Common
 
         public static Dictionary<string, string> ReverseKeywordReplacements = new Dictionary<string, string>
         {
+            {"$BD$","<b>Battlecry and Deathrattle:</b>"},
             {"$B$","<b>Battlecry:</b>"},
             {"$CH$","<b>Charge</b>"},
             {"$CO$","<b>Choose One</b>"},
