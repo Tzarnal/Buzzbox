@@ -50,6 +50,11 @@ namespace Buzzbox_Decode
                     {
                         SetAdditionalData(card);
                         cardCollection.Cards.Add(card);
+
+                        if (Verbal)
+                        {
+                            Console.WriteLine(card.ToString() + Environment.NewLine);
+                        }
                     }
                     else
                     {
