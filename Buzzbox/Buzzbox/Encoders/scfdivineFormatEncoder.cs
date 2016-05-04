@@ -110,9 +110,7 @@ namespace Buzzbox.Encoders
             //Also strip newlines.
             output = Regex.Replace(output, @"\r\n?|\n", "");
 
-            //Get rid of : as well, it'll be put back in ( for 90 of cases ) at decode when keywords are put back in
-            output = output.Replace(":", string.Empty);
-
+            
             //Replace keywords with shorter symbols.
             foreach (KeyValuePair<string, string> replacement in Collections.KeywordReplacements)
             {
