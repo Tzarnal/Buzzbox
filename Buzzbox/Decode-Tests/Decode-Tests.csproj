@@ -55,6 +55,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Decoders\scfdivineFormatDecoderTests.cs" />
+    <Compile Include="DecodeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

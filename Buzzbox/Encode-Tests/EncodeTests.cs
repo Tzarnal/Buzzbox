@@ -1,10 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Buzzbox;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Buzzbox_Common;
 
 namespace Buzzbox.Tests
@@ -47,7 +41,7 @@ namespace Buzzbox.Tests
         };
         
         [TestMethod()]
-        public void EncodeCardCollectionTest()
+        public void EncodeCardCollectionscfdivineFormatTest()
         {
             var collection = new CardCollection();
             collection.Cards.Add(testMinion);
