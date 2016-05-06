@@ -79,7 +79,17 @@ namespace Buzzbox.Encoders
 
         private string EncodeWeapon(Card card)
         {
-            throw new NotImplementedException();
+            var encodedCard = string.Format("|3{2}|4{1}|6{3}|7{4}|8{5}|9{6}|2{7}|1{0}|",
+                card.Name.ToLower(),
+                (card.PlayerClass ?? "neutral").ToLower(),
+                card.Type.ToLower(),
+                EncodeCardRarity(card.Rarity),
+                EncodeNumbers(card.Cost),
+                EncodeNumbers(card.Attack),
+                EncodeNumbers(card.Durability),
+                EncodeCardText(card.Text));
+
+            return encodedCard;
         }
 
         private string EncodeSpell(Card card)
