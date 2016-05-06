@@ -107,9 +107,9 @@ namespace Buzzbox.Encoders
             return input;
         }
 
-        private string EncodeNumbers(int input)
+        private string EncodeNumbers(int? input)
         {
-            return "&" + new string('^', input);
+            return "&" + new string('^', input ?? 0);
         }
 
         private string EncodeCardRarity(string rarity)
