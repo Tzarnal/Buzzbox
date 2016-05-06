@@ -43,7 +43,7 @@ namespace Buzzbox.Encoders.Tests
         [TestMethod()]
         public void EncodeMinionCardTest()
         {
-            var encoder = new scfdivineFormatEncoder();
+            var encoder = new MtgEncodeFormatEncoder();
 
             var output = encoder.EncodeCard(testMinion);
             var expectedOutput =
@@ -54,7 +54,7 @@ namespace Buzzbox.Encoders.Tests
         [TestMethod()]
         public void EncodeSpellCardTest()
         {
-            var encoder = new scfdivineFormatEncoder();
+            var encoder = new MtgEncodeFormatEncoder();
 
             var output = encoder.EncodeCard(testSpell);
             var expectedOutput =
@@ -67,7 +67,7 @@ namespace Buzzbox.Encoders.Tests
         [TestMethod()]
         public void EncodeWeaponCardTest()
         {
-            var encoder = new scfdivineFormatEncoder();
+            var encoder = new MtgEncodeFormatEncoder();
 
             var output = encoder.EncodeCard(testWeapon);
             var expectedOutput =
