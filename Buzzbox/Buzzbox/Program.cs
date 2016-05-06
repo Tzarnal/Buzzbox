@@ -24,7 +24,7 @@ namespace Buzzbox
 
             [Option('e', "encoding",
                 HelpText = "Which encoding format to use.",
-                DefaultValue = EncodingFormats.scfdivineFormat)]
+                DefaultValue = EncodingFormats.MtgFormat)]
             public EncodingFormats EncodingFormat { get; set; }
 
             [HelpOption]
