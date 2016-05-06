@@ -47,7 +47,7 @@ namespace Buzzbox.Encoders.Tests
 
             var output = encoder.EncodeCard(testMinion);
             var expectedOutput =
-                "|3minion|4paladin|5none|6legendary|7&^^^^^^^^|8&^^^^^^|9&^^^^^^|2$DV$. $T$. $DR$: equip a &^^^^^/&^^ ashbringer.|1tirion fordring|";
+                "|3minion|4paladin|5none|6legendary|7&^^^^^^^^|8&^^^^^^|9&^^^^^^|2$DV$. $T$. $DR$: equip a &^^^^^/&^^^ ashbringer.|1tirion fordring|";
             Assert.AreEqual(expectedOutput, output);
         }
 
