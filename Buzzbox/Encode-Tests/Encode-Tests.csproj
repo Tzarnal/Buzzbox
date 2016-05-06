@@ -54,6 +54,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Encoders\MtgEncodeFormatEncoderTests.cs" />
     <Compile Include="Encoders\scfdivineFormatEncoderTests.cs" />
     <Compile Include="EncodeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
