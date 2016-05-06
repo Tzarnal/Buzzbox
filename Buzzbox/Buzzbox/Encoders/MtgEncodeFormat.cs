@@ -91,10 +91,18 @@ namespace Buzzbox.Encoders
 
             return encodedCard;
         }
-
+        
         private string EncodeSpell(Card card)
         {
-            throw new NotImplementedException();
+            var encodedCard = string.Format("|3{2}|4{1}|6{3}|7{4}|2{5}|1{0}|",
+                card.Name.ToLower(),
+                (card.PlayerClass ?? "neutral").ToLower(),
+                card.Type.ToLower(),
+                EncodeCardRarity(card.Rarity),
+                EncodeNumbers(card.Cost),   
+                EncodeCardText(card.Text));
+
+            return encodedCard;
         }
 
         //Processes a string replacing all numbers with encoded number markup like &^^^
@@ -117,11 +125,13 @@ namespace Buzzbox.Encoders
             return input;
         }
 
+        //returns a string with encoded number markup for a given number
         private string EncodeNumbers(int? input)
         {
             return "&" + new string('^', input ?? 0);
         }
 
+        //encode card rarity, mostly replace free with common.
         private string EncodeCardRarity(string rarity)
         {
             if (string.IsNullOrWhiteSpace(rarity))
