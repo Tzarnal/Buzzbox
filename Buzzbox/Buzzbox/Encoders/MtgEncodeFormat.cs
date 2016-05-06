@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Buzzbox_Common;
 
-namespace Buzzbox.Encoders 
+namespace Buzzbox.Encoders
 {
     public class MtgEncodeFormatEncoder : IEncoderInterface
     {
@@ -30,6 +30,47 @@ namespace Buzzbox.Encoders
         */
 
         public string EncodeCard(Card card)
+        {
+            if (card == null)
+            {
+                return string.Empty;
+            }
+
+            string output;
+
+            switch (card.Type)
+            {
+                case "SPELL":
+                    output = EncodeSpell(card);
+                    break;
+
+                case "WEAPON":
+                    output = EncodeWeapon(card);
+                    break;
+
+                case "MINION":
+                    output = EncodeMinion(card);
+                    break;
+
+                default:
+                    output = EncodeSpell(card);
+                    break;
+            }
+
+            return output;
+        }
+
+        private string EncodeMinion(Card card)
+        {
+            throw new NotImplementedException();
+        }
+
+        private string EncodeWeapon(Card card)
+        {
+            throw new NotImplementedException();
+        }
+
+        private string EncodeSpell(Card card)
         {
             throw new NotImplementedException();
         }
