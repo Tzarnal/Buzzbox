@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using Buzzbox_Common;
 
 namespace Buzzbox.Encoders
@@ -16,11 +14,13 @@ namespace Buzzbox.Encoders
          * 1: Name
          * 2: Text
          * 3: Type ( Minion/Spell/Weapon )
-         * 4: Class / Neutral
-         * 5: Rarity
-         * 6: Mana Cost
-         * 7: Attack
-         * 8: Health/Durability
+         * 4: Race/Tribe or None
+         * 5: Class or Neutral
+         * 6: Rarity
+         * 7: Mana Cost
+         * 8: Attack
+         * 9: Health/Durability
+         * 
          * 
          * all text in lowercase, type/class/rarity not abreviated
          * numbers replaced with &^^^ format. amount of ^ indicates number
@@ -62,7 +62,18 @@ namespace Buzzbox.Encoders
 
         private string EncodeMinion(Card card)
         {
-            throw new NotImplementedException();
+            var encodedCard = string.Format("",
+                card.Name,
+                card.PlayerClass,
+                card.Race,
+                card.Type,
+                card.Rarity,
+                card.Cost,
+                card.Attack,
+                card.Health,
+                card.Text);
+
+            return encodedCard;
         }
 
         private string EncodeWeapon(Card card)

@@ -47,7 +47,7 @@ namespace Buzzbox.Encoders.Tests
 
             var output = encoder.EncodeCard(testMinion);
             var expectedOutput =
-                "|3minion|4paladin|5legendary|6&^^^^^^^^|7&^^^^^^|8&^^^^^^|2$DV$. $T$. $DR$: equip a &^^^^^/&^^ ashbringer.|1tirion fordring|";
+                "|3minion|4paladin|5none|6legendary|7&^^^^^^^^|8&^^^^^^|9&^^^^^^|2$DV$. $T$. $DR$: equip a &^^^^^/&^^ ashbringer.|1tirion fordring|";
             Assert.AreEqual(expectedOutput, output);
         }
 
@@ -58,7 +58,7 @@ namespace Buzzbox.Encoders.Tests
 
             var output = encoder.EncodeCard(testSpell);
             var expectedOutput =
-                "|3spell|4mage|5common|6&^^^^|2deal $6 damage.|1fireball|";            
+                "|3spell|4mage|6common|7&^^^^|2deal $6 damage.|1fireball|";            
 
             Assert.AreEqual(expectedOutput, output);
         }
@@ -71,7 +71,7 @@ namespace Buzzbox.Encoders.Tests
 
             var output = encoder.EncodeCard(testWeapon);
             var expectedOutput =
-                "|3weapon|4warrior|5common|6&^^^^|7&^^^^|8&^^|2$DR$: deal 1 damage to all minions|1death's bite|";            
+                "|3weapon|4warrior|6common|7&^^^^|8&^^^^|9&^^|2$DR$: deal 1 damage to all minions|1death's bite|";            
 
             Assert.AreEqual(expectedOutput, output);
         }

@@ -68,7 +68,7 @@ namespace Buzzbox.Tests
             var result = encoder.EncodeCardCollection(collection, EncodingFormats.scfdivineFormat);
 
             var expected =
-                "|3minion|4paladin|5legendary|6&^^^^^^^^|7&^^^^^^|8&^^^^^^|2$DV$. $T$. $DR$: equip a &^^^^^/&^^ ashbringer.|1tirion fordring|\n\n|3spell|4mage|5common|6&^^^^|2deal $6 damage.|1fireball|\n\n|3weapon|4warrior|5common|6&^^^^|7&^^^^|8&^^|2$DR$: deal 1 damage to all minions|1death's bite|\n\n";
+                "|3minion|4paladin|5none|6legendary|7&^^^^^^^^|8&^^^^^^|9&^^^^^^|2$DV$. $T$. $DR$: equip a &^^^^^/&^^ ashbringer.|1tirion fordring|\n\n|3spell|4mage|6common|7&^^^^|2deal $6 damage.|1fireball|\n\n|3weapon|4warrior|6common|7&^^^^|8&^^^^|9&^^|2$DR$: deal 1 damage to all minions|1death's bite|\n\n";
 
             Assert.AreEqual(expected, result);
         }
