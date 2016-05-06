@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Text.RegularExpressions;
 using Buzzbox_Common;
 
@@ -62,16 +63,16 @@ namespace Buzzbox.Encoders
 
         private string EncodeMinion(Card card)
         {
-            var encodedCard = string.Format("",
-                card.Name,
-                card.PlayerClass,
-                card.Race,
-                card.Type,
-                card.Rarity,
-                card.Cost,
-                card.Attack,
-                card.Health,
-                card.Text);
+            var encodedCard = string.Format("|3{3}|4{1}|5{2}|6{4}|7{5}|8{6}|9{7}|2{8}|1{0}|",
+                card.Name.ToLower(),
+                card.PlayerClass.ToLower(),
+                (card.Race ?? "None").ToLower(),
+                card.Type.ToLower(),
+                EncodeCardRarity(card.Rarity),
+                EncodeNumbers(card.Cost),
+                EncodeNumbers(card.Attack),
+                EncodeNumbers(card.Health),
+                EncodeCardText(card.Text));
 
             return encodedCard;
         }
@@ -84,6 +85,65 @@ namespace Buzzbox.Encoders
         private string EncodeSpell(Card card)
         {
             throw new NotImplementedException();
+        }
+
+        //Processes a string replacing all numbers with encoded number markup like &^^^
+        private string EncodeNumbers(string input)
+        {
+            var numberMatches = Regex.Matches(input, @"\b[0-9]+\b");
+
+            foreach (Match numberMatch in numberMatches)
+            {
+                var numberString = numberMatch.Value;
+                int number;
+
+                if (int.TryParse(numberString, out number))
+                {
+                    var replacement = EncodeNumbers(number);
+                    input = input.Replace(numberString, replacement);
+                }
+            }
+
+            return input;
+        }
+
+        private string EncodeNumbers(int input)
+        {
+            return "&" + new string('^', input);
+        }
+
+        private string EncodeCardRarity(string rarity)
+        {
+            if (string.IsNullOrWhiteSpace(rarity))
+                return "";
+
+            if (rarity == "FREE")
+            {
+                rarity = "COMMON";
+            }
+
+            return rarity.ToLower();
+        }
+
+        private string EncodeCardText(string cardText)
+        {
+            if (string.IsNullOrWhiteSpace(cardText))
+            {
+                return "";
+            }
+
+            var output = cardText.RemoveMarkup().ToLower();
+
+            //Also strip newlines.
+            output = Regex.Replace(output, @"\r\n?|\n", " ");
+
+            //Replace keywords with shorter symbols.
+            foreach (KeyValuePair<string, string> replacement in Collections.KeywordReplacements)
+            {
+                output = output.Replace(replacement.Key.ToLower(), replacement.Value);
+            }
+            
+            return EncodeNumbers(output);
         }
     }
 }
