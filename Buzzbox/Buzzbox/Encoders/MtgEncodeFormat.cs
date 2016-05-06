@@ -65,8 +65,8 @@ namespace Buzzbox.Encoders
         {
             var encodedCard = string.Format("|3{3}|4{1}|5{2}|6{4}|7{5}|8{6}|9{7}|2{8}|1{0}|",
                 card.Name.ToLower(),
-                card.PlayerClass.ToLower(),
-                (card.Race ?? "None").ToLower(),
+                (card.PlayerClass ?? "neutral").ToLower(),
+                (card.Race ?? "none").ToLower(),
                 card.Type.ToLower(),
                 EncodeCardRarity(card.Rarity),
                 EncodeNumbers(card.Cost),
