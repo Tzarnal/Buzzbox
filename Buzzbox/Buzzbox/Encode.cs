@@ -33,8 +33,10 @@ namespace Buzzbox
             {
                 case EncodingFormats.scfdivineFormat:
                     return new scfdivineFormatEncoder();
+
+                case EncodingFormats.MtgFormat:
                 default:
-                    return new scfdivineFormatEncoder();
+                    return new MtgEncodeFormatEncoder();
             }
         }
     }

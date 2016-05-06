@@ -2,7 +2,8 @@
 {
     public enum EncodingFormats
     {
-        scfdivineFormat
+        scfdivineFormat,
+        MtgFormat
     }
 
 }
