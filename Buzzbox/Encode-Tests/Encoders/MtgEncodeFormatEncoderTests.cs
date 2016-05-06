@@ -58,7 +58,7 @@ namespace Buzzbox.Encoders.Tests
 
             var output = encoder.EncodeCard(testSpell);
             var expectedOutput =
-                "|3spell|4mage|6common|7&^^^^|2deal $6 damage.|1fireball|";            
+                "|3spell|4mage|6common|7&^^^^|2deal $&^^^^^^ damage.|1fireball|";            
 
             Assert.AreEqual(expectedOutput, output);
         }
