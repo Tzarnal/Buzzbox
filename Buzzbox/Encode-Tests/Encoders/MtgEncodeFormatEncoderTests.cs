@@ -71,7 +71,7 @@ namespace Buzzbox.Encoders.Tests
 
             var output = encoder.EncodeCard(testWeapon);
             var expectedOutput =
-                "|3weapon|4warrior|6common|7&^^^^|8&^^^^|9&^^|2$DR$: deal 1 damage to all minions|1death's bite|";            
+                "|3weapon|4warrior|6common|7&^^^^|8&^^^^|9&^^|2$DR$: deal &^ damage to all minions.|1death's bite|";            
 
             Assert.AreEqual(expectedOutput, output);
         }
