@@ -148,14 +148,113 @@ namespace Buzzbox_Decode.Decoders
             return newCard;
         }
 
-        private Card DecodeSpell(string splitLine)
+        private Card DecodeSpell(string cardLine)
         {
-            throw new NotImplementedException();
+            var newCard = new Card { Type = "SPELL" };
+
+            //Assign card class
+            var cardClass = DecodeClass(cardLine);
+            if (cardClass == "Unknown")
+            {
+                return null;
+            }
+            newCard.PlayerClass = cardClass;
+
+            //Assign card rarity
+            var cardRarity = DecodeRarity(cardLine);
+            if (cardClass == "Unknown")
+            {
+                return null;
+            }
+            newCard.Rarity = cardRarity;
+
+            //Assign card name
+            var cardName = DecodeName(cardLine);
+            if (cardName == "Unknown")
+            {
+                return null;
+            }
+            newCard.Name = cardName;
+
+            var cardCost = DecodeNumberField(cardLine, 7);
+            if (cardCost == null)
+            {
+                Console.WriteLine("Could not convert Cost field to a number.");
+                return null;
+            }
+            newCard.Cost = (int)cardCost;
+
+            var cardText = DecodeText(cardLine);
+            if (cardClass == "Unknown")
+            {
+                return null;
+            }
+            newCard.Text = cardText;
+
+            return newCard;
         }
         
-        private Card DecodeWeapon(string splitLine)
+        private Card DecodeWeapon(string cardLine)
         {
-            throw new NotImplementedException();
+            var newCard = new Card { Type = "WEAPON" };
+
+            //Assign card class
+            var cardClass = DecodeClass(cardLine);
+            if (cardClass == "Unknown")
+            {
+                return null;
+            }
+            newCard.PlayerClass = cardClass;
+
+            //Assign card rarity
+            var cardRarity = DecodeRarity(cardLine);
+            if (cardClass == "Unknown")
+            {
+                return null;
+            }
+            newCard.Rarity = cardRarity;
+
+
+            //Assign card name
+            var cardName = DecodeName(cardLine);
+            if (cardName == "Unknown")
+            {
+                return null;
+            }
+            newCard.Name = cardName;
+
+            var cardCost = DecodeNumberField(cardLine, 7);
+            if (cardCost == null)
+            {
+                Console.WriteLine("Could not convert Cost field to a number.");
+                return null;
+            }
+            newCard.Cost = (int)cardCost;
+
+            var cardAttack = DecodeNumberField(cardLine, 8);
+            if (cardAttack == null)
+            {
+                Console.WriteLine("Could not convert Attack field to a number.");
+                return null;
+            }
+            newCard.Attack = (int)cardAttack;
+
+            var cardHealth = DecodeNumberField(cardLine, 9);
+            if (cardHealth == null)
+            {
+                Console.WriteLine("Could not convert Health field to a number.");
+                return null;
+            }
+            newCard.Durability = (int)cardHealth;
+
+            var cardText = DecodeText(cardLine);
+            if (cardClass == "Unknown")
+            {
+                return null;
+            }
+            newCard.Text = cardText;
+
+            return newCard;
         }
 
         private string DecodeText(string cardLine)
