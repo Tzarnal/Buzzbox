@@ -31,7 +31,7 @@ namespace Buzzbox_Decode.Tests
             var decoder = new Decode();
             var result = decoder.DecodeString("|3minion|4paladin|5none|6legendary|7&^^^^^^^^|8&^^^^^^|9&^^^^^^|2$DV$. $T$. $DR$: equip a &^^^^^/&^^^ ashbringer.|1tirion fordring|\n\n|3spell|4mage|6common|7&^^^^|2deal $&^^^^^^ damage.|1fireball|\n\n|3weapon|4warrior|6common|7&^^^^|8&^^^^|9&^^|2$DR$: deal &^ damage to all minions.|1death's bite|\n\n", EncodingFormats.MtgFormat);
 
-            var expected = "Paladin Neutral Minion: Tirion Fordring - 6/6 for 8 - Divine Shield. Taunt. Deathrattle Equip a 5/3 Ashbringer.\r\nMage Spell: Fireball - 4 mana - Deal $6 damage.\r\nWarrior Weapon: Death's Bite - 4/2 for 4 - Deathrattle Deal 1 damage to all minions.\r\n";
+            var expected = "Paladin Neutral Minion: Tirion Fordring - 6/6 for 8 - Divine Shield. Taunt. Deathrattle: Equip a 5/3 ashbringer.\r\nMage Spell: Fireball - 4 mana - Deal $6 damage.\r\nWarrior Weapon: Death's Bite - 4/2 for 4 - Deathrattle: Deal 1 damage to all minions.\r\n";
 
             var resultString = "";
             foreach (var card in result.Cards)
