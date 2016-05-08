@@ -278,7 +278,7 @@ namespace Buzzbox_Decode.Decoders
 
             cardText = Paragraph.ToSentenceCase(cardText);
             cardText = DecodeNumbers(cardText);
-
+            
             //Replace keywords symbols with markup text
             foreach (KeyValuePair<string, string> replacement in Collections.ReverseKeywordReplacements)
             {
@@ -371,12 +371,24 @@ namespace Buzzbox_Decode.Decoders
         {
             var symbolMatches = Regex.Matches(input, @"&(\^*)");
 
+            var numberSymbolsToReplace = new Dictionary<string, int>();
+
             foreach (Match symbolMatch in symbolMatches)
             {
                 var symbolString = symbolMatch.Value;
                 var count = symbolString.Length - 1;
 
-                input = input.Replace(symbolString, count.ToString());
+                if(!numberSymbolsToReplace.ContainsKey(symbolString))
+                    numberSymbolsToReplace.Add(symbolString, count);                    
+            }
+
+            //order by the longest first, this should avoid dangeling ^^^'s
+            var sortedSymbols = from entry in numberSymbolsToReplace orderby entry.Value descending select entry;
+
+            foreach (var entry in sortedSymbols)
+            {
+                
+                input = input.Replace(entry.Key,  entry.Value.ToString() );
             }
 
             return input;
