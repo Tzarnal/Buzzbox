@@ -260,7 +260,7 @@ namespace Buzzbox_Decode.Decoders
         private string DecodeText(string cardLine)
         {
             var cardText = FindField(cardLine, 2);
-            if (string.IsNullOrWhiteSpace(cardText))
+            if (cardText == null)
             {
                 Console.WriteLine("Could not find a field for card text.");
                 return "Unknown";
