@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Text;
 using Buzzbox_Decode.Decoders;
 using Buzzbox_Common;
 
@@ -89,8 +88,10 @@ namespace Buzzbox_Decode
             {
                 case EncodingFormats.scfdivineFormat:
                     return new scfdivineFormatDecoder();
+
+                case EncodingFormats.MtgFormat:
                 default:
-                    return new scfdivineFormatDecoder();
+                    return new MtgEncodeFormatDecoder();
             }
         }
     }
