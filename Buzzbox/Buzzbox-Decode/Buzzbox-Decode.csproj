@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="Decode.cs" />
     <Compile Include="Decoders\IDecoderInterface.cs" />
+    <Compile Include="Decoders\MtgEncodeFormatDecoder.cs" />
     <Compile Include="Decoders\scfdivineFormatDecoder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
