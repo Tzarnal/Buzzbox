@@ -15,5 +15,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Enums.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LowercaseJsonSerializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Paragraph.cs" />
   </ItemGroup>
 </Project>
