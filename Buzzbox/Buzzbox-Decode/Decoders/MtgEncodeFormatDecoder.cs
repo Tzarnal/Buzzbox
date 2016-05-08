@@ -50,7 +50,7 @@ namespace Buzzbox_Decode.Decoders
 
             if (string.IsNullOrWhiteSpace(cardType))
             {
-                Console.WriteLine("Could not find the card type");
+                Console.WriteLine("Could not find the card type.");
             }
 
             switch (cardType)
@@ -68,7 +68,6 @@ namespace Buzzbox_Decode.Decoders
                     break;
 
                 default:
-                    Console.WriteLine("Could not recognize card type.");
                     return null;
             }
 
@@ -89,7 +88,7 @@ namespace Buzzbox_Decode.Decoders
 
             //Assign card rarity
             var cardRarity = DecodeRarity(cardLine);
-            if (cardClass == "Unknown")
+            if (cardRarity == "Unknown")
             {
                 return null;
             }
@@ -100,6 +99,7 @@ namespace Buzzbox_Decode.Decoders
             if (string.IsNullOrWhiteSpace(cardRace))
             {
                 Console.WriteLine("Could not find a field for Race/Tribe.");
+                return null;
             }
             if (cardRace != "none")
             {
@@ -162,7 +162,7 @@ namespace Buzzbox_Decode.Decoders
 
             //Assign card rarity
             var cardRarity = DecodeRarity(cardLine);
-            if (cardClass == "Unknown")
+            if (cardRarity == "Unknown")
             {
                 return null;
             }
@@ -185,7 +185,7 @@ namespace Buzzbox_Decode.Decoders
             newCard.Cost = (int)cardCost;
 
             var cardText = DecodeText(cardLine);
-            if (cardClass == "Unknown")
+            if (cardText == "Unknown")
             {
                 return null;
             }
@@ -208,7 +208,7 @@ namespace Buzzbox_Decode.Decoders
 
             //Assign card rarity
             var cardRarity = DecodeRarity(cardLine);
-            if (cardClass == "Unknown")
+            if (cardRarity == "Unknown")
             {
                 return null;
             }
@@ -248,7 +248,7 @@ namespace Buzzbox_Decode.Decoders
             newCard.Durability = (int)cardHealth;
 
             var cardText = DecodeText(cardLine);
-            if (cardClass == "Unknown")
+            if (cardText == "Unknown")
             {
                 return null;
             }
@@ -385,6 +385,11 @@ namespace Buzzbox_Decode.Decoders
         private int? DecodeNumberField(string cardLine, int fieldNumber)
         {
             var numberField = FindField(cardLine, fieldNumber);
+            if (string.IsNullOrWhiteSpace(numberField))
+            {
+                return null;
+            }
+
             numberField = DecodeNumbers(numberField);
 
             int number;
@@ -404,13 +409,8 @@ namespace Buzzbox_Decode.Decoders
 
             if (matches.Count == 0)
             {
-                Console.WriteLine("Could not find Field labeled {0}", fieldNumber);
+                //Console.WriteLine("Could not find Field labeled {0}", fieldNumber);
                 return null;
-            }
-
-            if (matches.Count > 1)
-            {
-                Console.WriteLine("Found {0} fields labeled {1}. Using the first.",matches.Count, fieldNumber);
             }
 
             return matches[0].Groups[1].Value;
