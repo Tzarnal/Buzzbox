@@ -51,7 +51,7 @@ namespace Buzzbox_Common
             var text = Text.RemoveMarkup();
             text = Regex.Replace(text, @"\r\n?|\n", " ");
 
-            return $"{(PlayerClass ?? "Neutral").CapitalizeOnlyFirstLetter()} {(Race ?? "Neutral").CapitalizeOnlyFirstLetter()} Minion: {Name} - {Attack}/{Health} for {Cost} - {text}";
+            return $"{(PlayerClass ?? "Neutral").CapitalizeOnlyFirstLetter()} {(Race ?? "-").CapitalizeOnlyFirstLetter()} Minion: {Name} - {Attack}/{Health} for {Cost} - {text}";
         }
 
         private string DisplaySpell()
