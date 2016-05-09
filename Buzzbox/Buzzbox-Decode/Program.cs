@@ -26,11 +26,6 @@ namespace Buzzbox_Decode
                 DefaultValue = EncodingFormats.MtgFormat)]
             public EncodingFormats EncodingFormat { get; set; }
 
-            [Option("verbose",
-                HelpText = "Wether to display attempts to parse cards while parsing.",
-                DefaultValue = true)]
-            public bool Verbose { get; set; }
-
             [Option("set",
                 HelpText = "The Set ( CORE, BRM, OG, etc) this card belongs too.",
                 DefaultValue = "HS-RNN")]
@@ -55,7 +50,7 @@ namespace Buzzbox_Decode
         {
             var options = new Options();
             var commandLineResults = Parser.Default.ParseArguments(args, options);
-            var decode = new Decode(options.Verbose, options.Set, options.Source);
+            var decode = new Decode(options.Set, options.Source);
 
             if (commandLineResults)
             {

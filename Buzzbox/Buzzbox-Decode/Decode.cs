@@ -7,15 +7,12 @@ namespace Buzzbox_Decode
 {
     public class Decode
     {
-        public bool Verbal;
         public string Set;
         public string Source;
-
         private Random rnd;
 
-        public Decode(bool verbal = true, string set = "RNN", string source = "hs-rnn")
+        public Decode(string set = "RNN", string source = "hs-rnn")
         {
-            Verbal = verbal;
             Set = set;
             Source = source;
             rnd = new Random();
@@ -50,10 +47,7 @@ namespace Buzzbox_Decode
                         SetAdditionalData(card);
                         cardCollection.Cards.Add(card);
 
-                        if (Verbal)
-                        {
-                            Console.WriteLine(card.ToString() + Environment.NewLine);
-                        }
+                        Console.WriteLine(card.ToString() + Environment.NewLine);
                     }
                     else
                     {
