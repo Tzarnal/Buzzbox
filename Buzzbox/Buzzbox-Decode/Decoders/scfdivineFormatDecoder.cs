@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Buzzbox_Common;
 
 namespace Buzzbox_Decode.Decoders
@@ -245,6 +246,9 @@ namespace Buzzbox_Decode.Decoders
             {
                 cardText = cardText.Replace(replacement.Key, replacement.Value);
             }
+
+            //Italicise things between () that is not a single character. Mostly (wherever it is).
+            cardText = Regex.Replace(cardText, @"\((..+?)\)", "(<i>$1</i>)");
 
             return cardText;
         }

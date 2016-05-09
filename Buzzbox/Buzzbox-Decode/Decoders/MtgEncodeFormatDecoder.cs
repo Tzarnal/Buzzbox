@@ -276,6 +276,7 @@ namespace Buzzbox_Decode.Decoders
             //Ensure at least one space between keyword symbols
             cardText = cardText.Replace("$$", "$ $");
 
+            //Recase into a sentence.
             cardText = Paragraph.ToSentenceCase(cardText);
             cardText = DecodeNumbers(cardText);
             
@@ -285,6 +286,9 @@ namespace Buzzbox_Decode.Decoders
                 cardText = cardText.Replace(replacement.Key, replacement.Value);
             }
 
+            //Italicise things between () that is not a single character. Mostly (wherever it is).
+            cardText = Regex.Replace(cardText, @"\((..+?)\)","(<i>$1</i>)");
+            
             return cardText;
         }
 
