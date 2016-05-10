@@ -59,7 +59,7 @@ namespace Buzzbox
                 case EncodingFormats.scfdivineFormat:
                     return new scfdivineFormatEncoder();
 
-                case EncodingFormats.MtgFormat:
+                case EncodingFormats.MtgEncoderFormat:
                 default:
                     return new MtgEncodeFormatEncoder();
             }

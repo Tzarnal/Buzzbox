@@ -65,7 +65,7 @@ namespace Buzzbox.Tests
             collection.Cards.Add(testWeapon);
 
             var encoder = new Encode();
-            var result = encoder.EncodeCardCollection(collection, EncodingFormats.MtgFormat);
+            var result = encoder.EncodeCardCollection(collection, EncodingFormats.MtgEncoderFormat);
 
             var expected =
                 "|3minion|4paladin|5none|6legendary|7&^^^^^^^^|8&^^^^^^|9&^^^^^^|2$DV$. $T$. $DR$: equip a &^^^^^/&^^^ ashbringer.|1tirion fordring|\n\n|3spell|4mage|6common|7&^^^^|2deal $&^^^^^^ damage.|1fireball|\n\n|3weapon|4warrior|6common|7&^^^^|8&^^^^|9&^^|2$DR$: deal &^ damage to all minions.|1death's bite|\n\n";

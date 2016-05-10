@@ -23,7 +23,7 @@ namespace Buzzbox_Decode
 
             [Option('e', "encoding",
                 HelpText = "Which format to decode from.",
-                DefaultValue = EncodingFormats.MtgFormat)]
+                DefaultValue = EncodingFormats.MtgEncoderFormat)]
             public EncodingFormats EncodingFormat { get; set; }
 
             [Option("set",

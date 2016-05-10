@@ -24,7 +24,7 @@ namespace Buzzbox
 
             [Option('e', "encoding",
                 HelpText = "Which encoding format to use.",
-                DefaultValue = EncodingFormats.MtgFormat)]
+                DefaultValue = EncodingFormats.MtgEncoderFormat)]
             public EncodingFormats EncodingFormat { get; set; }
 
             [Option("shuffle-fields", DefaultValue = false,
