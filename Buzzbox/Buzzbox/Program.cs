@@ -27,6 +27,10 @@ namespace Buzzbox
                 DefaultValue = EncodingFormats.MtgFormat)]
             public EncodingFormats EncodingFormat { get; set; }
 
+            [Option("shuffle-fields", DefaultValue = false,
+                HelpText = "Shuffles the fields of the output in supported Encoding Formats")]
+            public bool ShuffleFields { get; set; }
+
             [HelpOption]
             public string GetUsage()
             {
@@ -41,8 +45,12 @@ namespace Buzzbox
             //Parse Commandline options
             var options = new Options();
             var commandLineResults = Parser.Default.ParseArguments(args, options);
-            var encode = new Encode();
+            var encode = new Encode
+            {
+                ShuffleFields = options.ShuffleFields
+            };
 
+            
             //Only continue if commandline options fullfilled. CommandLine will handle helptext if something was off.
             if (commandLineResults)
             {
