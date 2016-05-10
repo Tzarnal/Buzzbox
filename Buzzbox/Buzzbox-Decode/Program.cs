@@ -22,7 +22,7 @@ namespace Buzzbox_Decode
             public string OutputFile { get; set; }
 
             [Option('e', "encoding",
-                HelpText = "Which format to decode from.",
+                HelpText = "Which format to decode from. Supported formats are scfdivineFormat and MtgEncoderFormat.",
                 DefaultValue = EncodingFormats.MtgEncoderFormat)]
             public EncodingFormats EncodingFormat { get; set; }
 

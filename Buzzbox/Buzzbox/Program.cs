@@ -23,18 +23,18 @@ namespace Buzzbox
             public string OutputFile { get; set; }
 
             [Option('e', "encoding",
-                HelpText = "Which encoding format to use.",
+                HelpText = "Which encoding format to use. Supported formats are scfdivineFormat and MtgEncoderFormat.",
                 DefaultValue = EncodingFormats.MtgEncoderFormat)]
             public EncodingFormats EncodingFormat { get; set; }
 
             [Option("shuffle-fields", DefaultValue = false,
-                HelpText = "Shuffles the fields of the output in supported Encoding Formats")]
+                HelpText = "Shuffles the fields of the output in supported Encoding Formats.")]
             public bool ShuffleFields { get; set; }
 
             [Option("shuffle-cards", DefaultValue = false,
                 HelpText = "Shuffles the the cards, randomizing the order of output.")]
             public bool ShuffleCards { get; set; }
-
+            
             [HelpOption]
             public string GetUsage()
             {
@@ -54,7 +54,6 @@ namespace Buzzbox
                 ShuffleFields = options.ShuffleFields
             };
 
-            
             //Only continue if commandline options fullfilled. CommandLine will handle helptext if something was off.
             if (commandLineResults)
             {
