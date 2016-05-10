@@ -31,6 +31,10 @@ namespace Buzzbox
                 HelpText = "Shuffles the fields of the output in supported Encoding Formats")]
             public bool ShuffleFields { get; set; }
 
+            [Option("shuffle-cards", DefaultValue = false,
+                HelpText = "Shuffles the the cards, randomizing the order of output.")]
+            public bool ShuffleCards { get; set; }
+
             [HelpOption]
             public string GetUsage()
             {
@@ -96,6 +100,12 @@ namespace Buzzbox
                 {
                     Console.WriteLine("Could not parse '{0}'.",inPath);
                     return;
+                }
+
+                //Shuffle the cards, if that option is set
+                if (options.ShuffleCards)
+                {
+                    cardCollection.Cards.Shuffle();
                 }
 
                 //Actually encode.
