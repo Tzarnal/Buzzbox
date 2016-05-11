@@ -12,7 +12,6 @@ namespace Buzzbox_Decode
         class Options
         {
             [Option('i', "input",
-                Required = true,
                 HelpText = "Path to input file to be Decoded.")]
             public string InputFile { get; set; }
 
@@ -55,12 +54,44 @@ namespace Buzzbox_Decode
         {
             var options = new Options();
             var commandLineResults = Parser.Default.ParseArguments(args, options);
-            var decode = new Decode(options.Set, options.Source);
+            var decode = new Decode(options.Set, options.Source, options.Texture);
 
             if (commandLineResults)
             {
                 string outPath;
                 string inPath;
+
+                string inputData = "";
+
+                //Use Path to get proper filesystem path for output
+                try
+                {
+                    outPath = Path.GetFullPath(options.OutputFile);
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Invalid Path to output file: {0}", options.OutputFile);
+                    return;
+                }
+
+                if (Console.IsInputRedirected)
+                {
+                    //read from stdin
+                    while (Console.In.Peek() != -1)
+                    {
+                        inputData += Console.ReadLine() + "\n\n";
+                    }
+
+                    //decode and abort early.
+                    DecodeString(inputData, outPath, decode, options);
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(options.InputFile))
+                {
+                    Console.WriteLine("No input file or input stream supplied.");
+                    return;
+                }
 
                 //Use Path to get proper filesystem path for input
                 try
@@ -80,19 +111,6 @@ namespace Buzzbox_Decode
                     return;
                 }
 
-                //Use Path to get proper filesystem path for output
-                try
-                {
-                    outPath = Path.GetFullPath(options.OutputFile);
-                }
-                catch (Exception)
-                {
-                    Console.WriteLine("Invalid Path to output file: {0}", options.OutputFile);
-                    return;
-                }
-
-                string inputData;
-
                 //Read input file
                 try
                 {
@@ -104,36 +122,49 @@ namespace Buzzbox_Decode
                     return;
                 }
 
-                var cardCollection = new CardCollection();
+                if (!string.IsNullOrWhiteSpace(inputData))
+                {
+                    DecodeString(inputData, outPath, decode, options);
+                }
+                else
+                {
+                    Console.WriteLine("Input file was empty.");
+                }
+            }            
+        }
 
-                //actually decode the text
-                try
-                {
-                    cardCollection = decode.DecodeString(inputData, options.EncodingFormat);
-                }
-                catch (Exception)
-                {
-                    Console.WriteLine("Error while trying to decode '{0}'", inPath);
-                    return;
-                }
+        private static void DecodeString(string inputData, string outPath, Decode decode, Options options)
+        {
+            
+            var cardCollection = new CardCollection();
 
-                //fail out if no cards are found
-                if (cardCollection.Cards.Count == 0)
-                {
-                    Console.WriteLine("Did not find any card to save to file");
-                    return;
-                }
+            //actually decode the text
+            try
+            {
+                cardCollection = decode.DecodeString(inputData, options.EncodingFormat);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Error while trying to decode input.");
+                return;
+            }
 
-                //write output cards to file, report on the amount found.
-                try
-                {
-                    Console.WriteLine("Found {0} cards in '{1}'.", cardCollection.Cards.Count, inPath);
-                    cardCollection.Save(outPath);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Could not write to file '{0}': {1}", outPath, e.Message );
-                }
+            //fail out if no cards are found
+            if (cardCollection.Cards.Count == 0)
+            {
+                Console.WriteLine("Did not find any card to save to file");
+                return;
+            }
+
+            //write output cards to file, report on the amount found.
+            try
+            {
+                Console.WriteLine("Found {0} cards.", cardCollection.Cards.Count);
+                cardCollection.Save(outPath);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Could not write to file '{0}': {1}", outPath, e.Message);
             }
         }
     }
