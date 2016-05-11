@@ -57,7 +57,7 @@ namespace Buzzbox_Decode.Decoders.Tests
         {
             var decoder = new MtgEncodeFormatDecoder();
             var input =
-                "|3minion|4paladin|5none|6legendary|7&^^^^^^^^|8&^^^^^^|9&^^^^^^|1tirion fordring|";
+                "|3minion|4paladin|5none|6legendary|7&^^^^^^^^|8&^^^^^^|9&^^^^^^|2|1tirion fordring|";
 
             var output = decoder.DecodeCard(input);
 
