@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Buzzbox_Common;
 
-namespace Buzzbox.Encoders
+namespace Buzzbox_Common.Encoders
 {
     public class MtgEncodeFormatEncoder : IEncoderInterface
     {

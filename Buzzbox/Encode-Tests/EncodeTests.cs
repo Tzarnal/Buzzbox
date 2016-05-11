@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Buzzbox_Common;
+using Buzzbox_Common.Encoders;
 
 namespace Buzzbox.Tests
 {

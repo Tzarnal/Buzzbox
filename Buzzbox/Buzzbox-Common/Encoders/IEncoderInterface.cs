@@ -1,6 +1,6 @@
 ﻿using Buzzbox_Common;
 
-namespace Buzzbox.Encoders
+namespace Buzzbox_Common.Encoders
 {
     public interface IEncoderInterface
     {

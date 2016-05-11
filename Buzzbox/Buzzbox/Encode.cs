@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Buzzbox.Encoders;
 using Buzzbox_Common;
+using Buzzbox_Common.Encoders;
 
 namespace Buzzbox
 {

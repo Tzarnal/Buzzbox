@@ -67,9 +67,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Encode.cs" />
-    <Compile Include="Encoders\IEncoderInterface.cs" />
-    <Compile Include="Encoders\MtgEncodeFormatEncoder.cs" />
-    <Compile Include="Encoders\scfdivineFormatEncoder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
