@@ -9,12 +9,14 @@ namespace Buzzbox_Decode
     {
         public string Set;
         public string Source;
+        public string Texture;
         private Random rnd;
 
-        public Decode(string set = "RNN", string source = "hs-rnn")
+        public Decode(string set = "RNN", string source = "hs-rnn", string texture = "Default")
         {
             Set = set;
             Source = source;
+            Texture = texture;
             rnd = new Random();
         }
 
@@ -63,7 +65,7 @@ namespace Buzzbox_Decode
         {
             card.Set = Set;
             card.Source = Source;
-            card.Texture = Set;
+            card.Texture = Texture;
             card.Id = RandomCardId();
         }
 

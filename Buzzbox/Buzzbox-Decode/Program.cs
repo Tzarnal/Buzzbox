@@ -36,6 +36,11 @@ namespace Buzzbox_Decode
                 DefaultValue = "hs-rnn")]
             public string Source { get; set; }
 
+            [Option("image",
+                HelpText = "What image gets put on the card.",
+                DefaultValue = "Default")]
+            public string Texture { get; set; }
+
 
             [HelpOption]
             public string GetUsage()
