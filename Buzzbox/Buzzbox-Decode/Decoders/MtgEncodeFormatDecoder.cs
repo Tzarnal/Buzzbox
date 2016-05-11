@@ -139,7 +139,7 @@ namespace Buzzbox_Decode.Decoders
             newCard.Health = (int)cardHealth;
 
             var cardText = DecodeText(cardLine);
-            if (cardClass == "Unknown")
+            if (cardText == "Unknown")
             {
                 return null;
             }
