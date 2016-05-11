@@ -18,6 +18,18 @@ namespace Buzzbox_Decode.Decoders.Tests
             Text = "<b>Divine Shield</b>. <b>Taunt</b>. <b>Deathrattle</b>: Equip a 5/3 Ashbringer."
         };
 
+        private Card testBlankMinion = new Card
+        {
+            Name = "Tirion Fordring",
+            Type = "MINION",
+            PlayerClass = "PALADIN",
+            Rarity = "LEGENDARY",
+            Cost = 8,
+            Attack = 6,
+            Health = 6,
+            Text = ""
+        };
+
         private Card testSpell = new Card
         {
             Name = "Fireball",
@@ -39,6 +51,26 @@ namespace Buzzbox_Decode.Decoders.Tests
             Durability = 2,
             Text = "<b>Deathrattle</b>: Deal 1 damage to all minions."
         };
+
+        [TestMethod()]
+        public void DecodeBlankMinionCardTest()
+        {
+            var decoder = new MtgEncodeFormatDecoder();
+            var input =
+                "|3minion|4paladin|5none|6legendary|7&^^^^^^^^|8&^^^^^^|9&^^^^^^|1tirion fordring|";
+
+            var output = decoder.DecodeCard(input);
+
+            Assert.AreEqual(testBlankMinion.Name, output.Name);
+            Assert.AreEqual(testBlankMinion.Type, output.Type);
+            Assert.AreEqual(testBlankMinion.PlayerClass, output.PlayerClass);
+            Assert.AreEqual(testBlankMinion.Rarity, output.Rarity);
+            Assert.AreEqual(testBlankMinion.Cost, output.Cost);
+            Assert.AreEqual(testBlankMinion.Attack, output.Attack);
+            Assert.AreEqual(testBlankMinion.Health, output.Health);
+            Assert.AreEqual(testBlankMinion.Text, output.Text); //Exception for Ashbringer because detecting Proper Nouns is rather hard.
+
+        }
 
         [TestMethod()]
         public void DecodeMinionCardTest()
