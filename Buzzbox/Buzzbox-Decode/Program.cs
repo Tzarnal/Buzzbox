@@ -68,7 +68,7 @@ namespace Buzzbox_Decode
 
                 //Use Path to get proper filesystem path for output
                 try
-                {
+                {                    
                     outPath = Path.GetFullPath(options.OutputFile);
                 }
                 catch (Exception)
@@ -129,6 +129,7 @@ namespace Buzzbox_Decode
                 if (!string.IsNullOrWhiteSpace(inputData))
                 {
                     DecodeString(inputData, outPath, decode, options);
+                    Console.WriteLine("Found {0} cards out of a potential {1}.",  decode.ActualCards, decode.PotentialCards);
                 }
                 else
                 {
@@ -191,9 +192,7 @@ namespace Buzzbox_Decode
                 {
                     Console.WriteLine("Could not write to file '{0}': {1}", outPath, e.Message);
                 }
-            }
-
-            Console.WriteLine("Found {0} cards.", cardCollection.Cards.Count);
+            }            
         }
     }
 }

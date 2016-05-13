@@ -12,6 +12,9 @@ namespace Buzzbox_Decode
         public string Texture;
         private Random rnd;
 
+        public int PotentialCards;
+        public int ActualCards;
+
         public Decode(string set = "RNN", string source = "hs-rnn", string texture = "Default")
         {
             Set = set;
@@ -23,6 +26,9 @@ namespace Buzzbox_Decode
         //Dispatch lines to be decoded to a decoder selected by decodingFormat
         public CardCollection DecodeString(string inputData, EncodingFormats decodingFormat)
         {
+            PotentialCards = 0;
+            ActualCards = 0;
+
             var cardCollection = new CardCollection();
             var decoder = InstanciateDecoder(decodingFormat);
 
@@ -36,16 +42,18 @@ namespace Buzzbox_Decode
             {
                 string line;
                 while ((line = reader.ReadLine()) != null)
-                {
+                {                    
                     if (string.IsNullOrWhiteSpace(line))
                     {
                         continue;
                     }
 
+                    PotentialCards++;
                     var card = decoder.DecodeCard(line);
 
                     if (card != null)
                     {
+                        ActualCards++;
                         SetAdditionalData(card);
                         cardCollection.Cards.Add(card);
 
