@@ -51,7 +51,7 @@ namespace Buzzbox_Common
             var text = Text.RemoveMarkup();
             text = Regex.Replace(text, @"\r\n?|\n", " ");
 
-            return $"{(PlayerClass ?? "Neutral").CapitalizeOnlyFirstLetter()} {(Race ?? "-").CapitalizeOnlyFirstLetter()} Minion: {Name} - {Attack}/{Health} for {Cost} - {text}";
+            return $"[{Rarity.CapitalizeOnlyFirstLetter()}] {(PlayerClass ?? "Neutral").CapitalizeOnlyFirstLetter()} {(Race ?? "-").CapitalizeOnlyFirstLetter()} Minion: {Name} - {Attack}/{Health} for {Cost} - {text}";
         }
 
         private string DisplaySpell()
@@ -59,7 +59,7 @@ namespace Buzzbox_Common
             var text = Text.RemoveMarkup();
             text = Regex.Replace(text, @"\r\n?|\n", " ");
 
-            return $"{(PlayerClass ?? "Neutral").CapitalizeOnlyFirstLetter()} Spell: {Name} - {Cost} mana - {text}";
+            return $"[{Rarity.CapitalizeOnlyFirstLetter()}] {(PlayerClass ?? "Neutral").CapitalizeOnlyFirstLetter()} Spell: {Name} - {Cost} mana - {text}";
         }
 
         private string DisplayWeapon()
@@ -67,7 +67,7 @@ namespace Buzzbox_Common
             var text = Text.RemoveMarkup();
             text = Regex.Replace(text, @"\r\n?|\n", " ");
 
-            return $"{(PlayerClass ?? "Neutral").CapitalizeOnlyFirstLetter()} Weapon: {Name} - {Attack}/{Durability} for {Cost} - {text}";
+            return $"[{Rarity.CapitalizeOnlyFirstLetter()}] {(PlayerClass ?? "Neutral").CapitalizeOnlyFirstLetter()} Weapon: {Name} - {Attack}/{Durability} for {Cost} - {text}";
         }
     }
     
