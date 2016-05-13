@@ -40,6 +40,9 @@ namespace Buzzbox_Decode
                 DefaultValue = "Default")]
             public string Texture { get; set; }
 
+            [Option("simple-output", DefaultValue = false,
+               HelpText = "Instead of json data the output file will be simple text details.")]
+            public bool SimpleOutput { get; set; }
 
             [HelpOption]
             public string GetUsage()
@@ -157,16 +160,40 @@ namespace Buzzbox_Decode
                 return;
             }
 
-            //write output cards to file, report on the amount found.
-            try
+            if (options.SimpleOutput)
             {
-                Console.WriteLine("Found {0} cards.", cardCollection.Cards.Count);
-                cardCollection.Save(outPath);
+                StreamWriter file;
+                
+                //write output as simple .tostring data.
+                try
+                {
+                    file = new StreamWriter(outPath);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Could not write to file '{0}': {1}", outPath, e.Message);
+                    return;
+                }
+
+                foreach (var card in cardCollection.Cards)
+                {
+                    file.WriteLine(card.ToString());
+                }
             }
-            catch (Exception e)
+            else
             {
-                Console.WriteLine("Could not write to file '{0}': {1}", outPath, e.Message);
+                //write output cards to file as json data, report on the amount found.
+                try
+                {                    
+                    cardCollection.Save(outPath);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Could not write to file '{0}': {1}", outPath, e.Message);
+                }
             }
+
+            Console.WriteLine("Found {0} cards.", cardCollection.Cards.Count);
         }
     }
 }
