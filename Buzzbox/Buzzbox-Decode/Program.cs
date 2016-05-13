@@ -7,7 +7,7 @@ using CommandLine.Text;
 namespace Buzzbox_Decode
 {
     class Program
-    {
+    {                
         //Command line options through CommandLine: http://commandline.codeplex.com/
         class Options
         {
@@ -44,6 +44,16 @@ namespace Buzzbox_Decode
                HelpText = "Instead of json data the output file will be simple text details.")]
             public bool SimpleOutput { get; set; }
 
+            [Option("verbose", DefaultValue = false,
+               MutuallyExclusiveSet = "Verbosity",
+               HelpText = "Output additional information while decoding.")]
+            public bool Verbose { get; set; }
+
+            [Option("silent", DefaultValue = false,
+               MutuallyExclusiveSet = "Verbosity",
+               HelpText = "Never output anything but error messages.")]
+            public bool Silent { get; set; }
+
             [HelpOption]
             public string GetUsage()
             {
@@ -54,7 +64,7 @@ namespace Buzzbox_Decode
         }
 
         private static void Main(string[] args)
-        {
+        {            
             var options = new Options();
             var commandLineResults = Parser.Default.ParseArguments(args, options);
             var decode = new Decode(options.Set, options.Source, options.Texture);
@@ -65,6 +75,10 @@ namespace Buzzbox_Decode
                 string inPath;
 
                 string inputData = "";
+
+                var _ConsoleLog = ConsoleLog.Instance;
+                _ConsoleLog.Verbose = options.Verbose;
+                _ConsoleLog.Silent = options.Silent;
 
                 //Use Path to get proper filesystem path for output
                 try
@@ -92,8 +106,7 @@ namespace Buzzbox_Decode
 
                 if (string.IsNullOrWhiteSpace(options.InputFile))
                 {
-                    Console.WriteLine("No input file or input stream supplied. One or the other is required. ");
-                    Console.Write(options.GetUsage());
+                    Console.WriteLine("No input file or input stream supplied. One or the other is required. ");                    
                     return;
                 }
 
@@ -139,7 +152,7 @@ namespace Buzzbox_Decode
 
         private static void DecodeString(string inputData, string outPath, Decode decode, Options options)
         {
-            
+            var _ConsoleLog = ConsoleLog.Instance;
             var cardCollection = new CardCollection();
 
             //actually decode the text
@@ -193,8 +206,8 @@ namespace Buzzbox_Decode
                 }
             }
 
-            Console.WriteLine("Found {0} cards out of a potential {1}.", decode.ActualCards, decode.PotentialCards);
-            Console.WriteLine(cardCollection.CollectionStats());
+            _ConsoleLog.WriteLine($"Found {decode.ActualCards} cards out of a potential {decode.PotentialCards}.");
+            _ConsoleLog.WriteLine(cardCollection.CollectionStats());
         }
     }
 }

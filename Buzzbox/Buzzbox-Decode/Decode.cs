@@ -10,7 +10,9 @@ namespace Buzzbox_Decode
         public string Set;
         public string Source;
         public string Texture;
+
         private Random rnd;
+        private ConsoleLog _ConsoleLog;
 
         public int PotentialCards;
         public int ActualCards;
@@ -21,6 +23,8 @@ namespace Buzzbox_Decode
             Source = source;
             Texture = texture;
             rnd = new Random();
+
+            _ConsoleLog = ConsoleLog.Instance;
         }
 
         //Dispatch lines to be decoded to a decoder selected by decodingFormat
@@ -57,11 +61,11 @@ namespace Buzzbox_Decode
                         SetAdditionalData(card);
                         cardCollection.Cards.Add(card);
 
-                        Console.WriteLine(card.ToString() + Environment.NewLine);
+                        _ConsoleLog.VerboseWriteLine(card + Environment.NewLine);
                     }
                     else
                     {
-                        Console.WriteLine("Dud: '{0}'\n",line);
+                        _ConsoleLog.VerboseWriteLine($"Dud: '{line}'" + Environment.NewLine);
                     }
                 }
             }
