@@ -70,9 +70,21 @@ namespace Buzzbox_Stream
 
                 foreach (var fd in options.FdsList)
                 {
-                    //Console.WriteLine(fd);
-                    var fileLoc = "/proc/self/fd/" + fd;
-                    //var fileLoc = "file" + fd + ".txt";
+                    OperatingSystem os = Environment.OSVersion;
+                    PlatformID pid = os.Platform;
+
+                    string fileLoc = "";
+
+                    //on linux/unix platforms
+                    if (pid == PlatformID.Unix)
+                    {
+                        fileLoc = "/proc/self/fd/" + fd;
+                    }//not linux
+                    else
+                    {
+                        fileLoc = "file" + fd + ".txt";    
+                    }
+
                     var stream = new StreamWriter(fileLoc);
 
                     //Load card collection to encode
