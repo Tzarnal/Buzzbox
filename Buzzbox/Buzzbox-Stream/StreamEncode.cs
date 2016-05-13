@@ -1,5 +1,4 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -16,8 +15,6 @@ namespace Buzzbox_Stream
         private MtgEncodeFormatEncoder _encoder;        
         private CardCollection _cardCollection;
         private StreamWriter _stream;
-
-
 
         public StreamEncode(CardCollection cardCollection, StreamWriter stream)
         {
@@ -51,8 +48,7 @@ namespace Buzzbox_Stream
                     {
                         //fd was probably closed or otherwise no longer available
                         return;
-                    }
-                    
+                    }                    
                 }
                
             } while (LoopForever);
