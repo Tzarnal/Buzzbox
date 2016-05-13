@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace Buzzbox_Common
@@ -25,7 +26,7 @@ namespace Buzzbox_Common
             }
             catch (Exception e)
             {
-                Console.WriteLine("Could not load File: '{0}' due to {1}", path,  e.Message);
+                Console.WriteLine("Could not load File: '{0}' due to {1}", path, e.Message);
                 throw;
             }
 
@@ -55,10 +56,40 @@ namespace Buzzbox_Common
             }
             catch (Exception e)
             {
-                Console.WriteLine("Failed to save to '{0}' due to {1}", path, e.Message );
+                Console.WriteLine("Failed to save to '{0}' due to {1}", path, e.Message);
                 throw;
             }
 
+        }
+
+        public string CollectionStats()
+        {
+            int spells = Cards.Count(card => card.Type == "SPELL");
+            int weapons = Cards.Count(card => card.Type == "WEAPON");
+            int minions = Cards.Count(card => card.Type == "MINION");
+
+            var classes = new Dictionary<string,int>();
+
+            foreach (var card in Cards)
+            {
+                if (classes.ContainsKey(card.PlayerClass ?? "NEUTRAL"))
+                {
+                    classes[card.PlayerClass ?? "NEUTRAL"]++;
+                }
+                else
+                {
+                    classes.Add(card.PlayerClass ?? "NEUTRAL",1);
+                }
+            }
+
+            var output = $"{spells} Spells, {weapons} Weapons and {minions} Minions.";
+
+            foreach (KeyValuePair<string,int> entry in classes)
+            {
+                output += $"\n   {entry.Key.CapitalizeOnlyFirstLetter()}: \t{entry.Value}";
+            }
+
+            return output;
         }
     }
 }

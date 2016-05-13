@@ -129,7 +129,6 @@ namespace Buzzbox_Decode
                 if (!string.IsNullOrWhiteSpace(inputData))
                 {
                     DecodeString(inputData, outPath, decode, options);
-                    Console.WriteLine("Found {0} cards out of a potential {1}.",  decode.ActualCards, decode.PotentialCards);
                 }
                 else
                 {
@@ -183,7 +182,7 @@ namespace Buzzbox_Decode
             }
             else
             {
-                //write output cards to file as json data, report on the amount found.
+                //write output cards to file as json data
                 try
                 {                    
                     cardCollection.Save(outPath);
@@ -192,7 +191,10 @@ namespace Buzzbox_Decode
                 {
                     Console.WriteLine("Could not write to file '{0}': {1}", outPath, e.Message);
                 }
-            }            
+            }
+
+            Console.WriteLine("Found {0} cards out of a potential {1}.", decode.ActualCards, decode.PotentialCards);
+            Console.WriteLine(cardCollection.CollectionStats());
         }
     }
 }
