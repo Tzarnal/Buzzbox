@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.CodeDom;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Buzzbox_Common;
@@ -40,8 +42,17 @@ namespace Buzzbox_Stream
                         outputLine = ShuffleCardFields(outputLine);
                     }
 
-                    //actually output
-                    _stream.Write(outputLine);
+                    //actually try to output
+                    try
+                    {
+                        _stream.Write(outputLine);
+                    }
+                    catch (Exception)
+                    {
+                        //fd was probably closed or otherwise no longer available
+                        return;
+                    }
+                    
                 }
                
             } while (LoopForever);
