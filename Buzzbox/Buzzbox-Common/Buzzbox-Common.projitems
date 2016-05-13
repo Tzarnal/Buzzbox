@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Card.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CardCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConsoleLog.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Encoders\IEncoderInterface.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Encoders\MtgEncodeFormatEncoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Encoders\scfdivineFormatEncoder.cs" />
