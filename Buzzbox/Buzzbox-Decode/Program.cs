@@ -89,7 +89,8 @@ namespace Buzzbox_Decode
 
                 if (string.IsNullOrWhiteSpace(options.InputFile))
                 {
-                    Console.WriteLine("No input file or input stream supplied.");
+                    Console.WriteLine("No input file or input stream supplied. One or the other is required. ");
+                    Console.Write(options.GetUsage());
                     return;
                 }
 
