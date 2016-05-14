@@ -13,11 +13,17 @@ namespace Buzzbox_Stream
     {
         private class Options
         {
-            [Option('i', "input",
-                Required = true,
-                HelpText = "Path to input file to be Encoded, must be in hearthstonejson format or a simple text file.")
+            [Option('i', "input",                
+                MutuallyExclusiveSet = "input",
+                HelpText = "Path to input file to be Encoded, must be in hearthstonejson format or a simple text file. Exclusive with input-directory.")
             ]
             public string InputFile { get; set; }
+
+            [Option('d', "input-directory",                
+                MutuallyExclusiveSet = "input",
+                HelpText = "Path to input file to be Encoded, must be in hearthstonejson format or a simple text file. Exclusive with file input.")
+            ]
+            public string InputDirectory { get; set; }
 
             [ValueList(typeof (List<string>))]
             public IList<string> FdsList { get; set; }
@@ -43,10 +49,192 @@ namespace Buzzbox_Stream
             [HelpOption]
             public string GetUsage()
             {
-                return "Streams encoded card lines to torch-rss" +
+                return "Streams encoded card lines to torch-rss.\n\n" +
                        HelpText.AutoBuild(this,
                            (current) => HelpText.DefaultParsingErrorsHandler(this, current));
             }
+        }
+
+        private static void Main(string[] args)
+        {
+            var options = new Options();
+            var commandLineResults = Parser.Default.ParseArguments(args, options);
+
+            if (commandLineResults)
+            {
+                var consoleLog = ConsoleLog.Instance;
+                consoleLog.Verbose = options.Verbose;
+                consoleLog.Silent = options.Silent;
+
+                if (!string.IsNullOrWhiteSpace(options.InputFile))
+                {
+                    SingleFileInput(options);
+                }
+                else if (!string.IsNullOrWhiteSpace(options.InputDirectory))
+                {
+                    DirectoryInput(options);
+                }
+                else
+                {
+                    Console.WriteLine("One of --input or --input-directory is required.");
+                    Console.Write(options.GetUsage());
+                }                                
+            }
+        }
+
+        private static void DirectoryInput(Options options)
+        {           
+            string inPath;
+
+            //Use Path to get proper filesystem path for input
+            try
+            {
+                inPath = Path.GetFullPath(options.InputDirectory);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Invalid Path to input directory: {0}", options.InputFile);
+                return;
+            }
+
+            if (!Directory.Exists(inPath))
+            {
+                Console.WriteLine("Directory '{0}' does not exists.", inPath);
+                return;
+            }
+
+            var jsonFiles = Directory.GetFiles(inPath, "*.json");
+            var txtFiles = Directory.GetFiles(inPath, "*.txt");
+            var allFiles = jsonFiles.Concat(txtFiles).ToArray();
+                         
+            if (!allFiles.Any())
+            {
+                Console.WriteLine("Found no .json or .txt files in '{0}'", inPath);
+                return;
+            }
+
+            DispatchStreams(options, allFiles);            
+        }
+
+        private static void SingleFileInput(Options options)
+        {
+            string inPath;
+            
+            //Use Path to get proper filesystem path for input
+            try
+            {
+                inPath = Path.GetFullPath(options.InputFile);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Invalid Path to input file: {0}", options.InputFile);
+                return;
+            }
+
+            //Check if input file is real.
+            if (!File.Exists(inPath))
+            {
+                Console.WriteLine("File does not exist: {0}", options.InputFile);
+                return;
+            }
+
+            var fileExtension = Path.GetExtension(inPath);
+
+            //Check its an input file we understand
+            if (fileExtension != ".json" && fileExtension != ".txt")
+            {
+                Console.WriteLine("Buzzbox-Stream only supports hearthstoneapi json and simple txt files.");
+                Console.WriteLine(Path.GetExtension(inPath));
+                return;
+            }
+
+            DispatchStreams(options, new[] {inPath});
+        }
+
+        private static void DispatchStreams(Options options, string[] files)
+        {
+            var countdownEvent = new CountdownEvent(options.FdsList.Count);
+            var consoleLog = ConsoleLog.Instance;
+
+            OperatingSystem os = Environment.OSVersion;
+            PlatformID pid = os.Platform;
+            int fileIndex = 0;
+
+            if (options.FdsList.Count == 0)
+            {
+                Console.WriteLine("No filestream id's to write too. Closing.");
+                return;
+            }
+
+            foreach (var fd in options.FdsList)
+            {
+                string streamPath;
+
+                //on linux/unix platforms
+                if (pid == PlatformID.Unix)
+                {
+                    streamPath = "/proc/self/fd/" + fd;
+                } //not linux
+                else
+                {
+                    streamPath = "file" + fd + ".txt";
+                }
+
+                var stream = new StreamWriter(streamPath);
+
+                var filePath = files[fileIndex];
+                var fileExtension = Path.GetExtension(filePath);
+
+                if (fileExtension == ".json")
+                {
+                    var cardCollection = ReadCardCollection(filePath);
+
+                    if (cardCollection == null)
+                    {
+                        return;
+                    }
+
+                    var streamEncoder = new StreamEncode(cardCollection, stream)
+                    {
+                        LoopForever = options.LoopForever,
+                        ShuffleFields = options.ShuffleFields
+                    };
+
+                    new Thread(delegate ()
+                    {
+                        consoleLog.VerboseWriteLine($"Streaming '{filePath}' to '{streamPath}'.");
+                        streamEncoder.ThreadEntry();
+                        consoleLog.VerboseWriteLine($"Stream to '{streamPath}' ended.");
+                        countdownEvent.Signal();
+                    }).Start();
+                }
+                else //Spawn a StreamText instead. 
+                {
+                    var text = ReadTextFile(filePath);
+
+                    var streamText = new StreamText(text, stream)
+                    {
+                        LoopForever = options.LoopForever
+                    };
+
+                    new Thread(delegate ()
+                    {
+                        consoleLog.VerboseWriteLine($"Streaming '{filePath}' to '{streamPath}'.");
+                        streamText.ThreadEntry();
+                        consoleLog.VerboseWriteLine($"Stream to '{streamPath}' ended.");
+                        countdownEvent.Signal();
+                    }).Start();
+                }
+
+                fileIndex++;
+                if (fileIndex >= files.Length)
+                {
+                    fileIndex = 0;
+                }
+            }
+
+            countdownEvent.Wait();
+            Console.WriteLine("Final thread closed. Buzzbox-Stream exiting.");
         }
 
         private static CardCollection ReadCardCollection(string filePath)
@@ -83,119 +271,5 @@ namespace Buzzbox_Stream
 
             return fileLines;
         }
-
-        private static void Main(string[] args)
-        {
-            var options = new Options();
-            var commandLineResults = Parser.Default.ParseArguments(args, options);
-
-
-            if (commandLineResults)
-            {
-                var countdownEvent = new CountdownEvent(options.FdsList.Count);
-                string inPath;
-
-                var _ConsoleLog = ConsoleLog.Instance;
-                _ConsoleLog.Verbose = options.Verbose;
-                _ConsoleLog.Silent = options.Silent;
-
-                //Use Path to get proper filesystem path for input
-                try
-                {
-                    inPath = Path.GetFullPath(options.InputFile);
-                }
-                catch (Exception)
-                {
-                    Console.WriteLine("Invalid Path to input file: {0}", options.InputFile);
-                    return;
-                }
-
-                //Check if input file is real.
-                if (!File.Exists(inPath))
-                {
-                    Console.WriteLine("File does not exist: {0}", options.InputFile);
-                    return;
-                }
-
-                var fileExtension = Path.GetExtension(inPath);
-
-                //Check its an input file we understand
-                if (fileExtension != ".json" && fileExtension != ".txt")
-                {
-                    Console.WriteLine("Buzzbox-Stream currently only supports hearthstoneapi json and simple txt files.");
-                    Console.WriteLine(Path.GetExtension(inPath));
-                    return;
-                }
-
-                if (options.FdsList.Count == 0)
-                {
-                    Console.WriteLine("No filestream id's to write too. Closing.");
-                    return;
-                }
-
-                foreach (var fd in options.FdsList)
-                {
-                    OperatingSystem os = Environment.OSVersion;
-                    PlatformID pid = os.Platform;
-
-                    string fileLoc = "";
-
-                    //on linux/unix platforms
-                    if (pid == PlatformID.Unix)
-                    {
-                        fileLoc = "/proc/self/fd/" + fd;
-                    } //not linux
-                    else
-                    {
-                        fileLoc = "file" + fd + ".txt";
-                    }
-
-                    var stream = new StreamWriter(fileLoc);
-                    //Spawn a StreamText or SteamEncode
-                    if (fileExtension == ".json")
-                    {
-                        var cardCollection = ReadCardCollection(inPath);
-
-                        if (cardCollection == null)
-                        {
-                            return;
-                        }
-
-                        var streamEncoder = new StreamEncode(cardCollection, stream)
-                        {
-                            LoopForever = options.LoopForever,
-                            ShuffleFields = options.ShuffleFields
-                        };
-
-                        new Thread(delegate()
-                        {
-                            streamEncoder.ThreadEntry();
-                            countdownEvent.Signal();
-                        }).Start();
-                    }
-                    else //Spawn a StreamText instead. 
-                    {
-                        var text = ReadTextFile(inPath);
-
-                        var streamText = new StreamText(text, stream)
-                        {
-                            LoopForever = options.LoopForever
-                        };
-
-                        new Thread(delegate ()
-                        {
-                            streamText.ThreadEntry();
-                            countdownEvent.Signal();
-                        }).Start();
-                    }
-
-                }
-
-                countdownEvent.Wait();
-                Console.WriteLine("Final thread finished writing. Buzzbox-Stream exiting.");
-            }
-
-        }
-
     }
 }
