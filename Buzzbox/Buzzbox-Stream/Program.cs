@@ -28,6 +28,16 @@ namespace Buzzbox_Stream
                 HelpText = "Shuffles the fields of the output.")]
             public bool ShuffleFields { get; set; }
 
+            [Option("verbose", DefaultValue = false,
+               MutuallyExclusiveSet = "Verbosity",
+               HelpText = "Output additional information. Exclusive with the --silent option.")]
+            public bool Verbose { get; set; }
+
+            [Option("silent", DefaultValue = false,
+               MutuallyExclusiveSet = "Verbosity",
+               HelpText = "Never output anything but error messages. Exclusive with the --verbose option.")]
+            public bool Silent { get; set; }
+
             [HelpOption]
             public string GetUsage()
             {
@@ -49,6 +59,10 @@ namespace Buzzbox_Stream
                 List<StreamWriter> streams = new List<StreamWriter>();
                 var countdownEvent = new CountdownEvent(options.FdsList.Count);
                 string inPath;
+
+                var _ConsoleLog = ConsoleLog.Instance;
+                _ConsoleLog.Verbose = options.Verbose;
+                _ConsoleLog.Silent = options.Silent;
 
                 //Use Path to get proper filesystem path for input
                 try

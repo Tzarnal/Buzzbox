@@ -46,12 +46,12 @@ namespace Buzzbox_Decode
 
             [Option("verbose", DefaultValue = false,
                MutuallyExclusiveSet = "Verbosity",
-               HelpText = "Output additional information while decoding.")]
+               HelpText = "Output additional information. Exclusive with the --silent option.")]
             public bool Verbose { get; set; }
 
             [Option("silent", DefaultValue = false,
                MutuallyExclusiveSet = "Verbosity",
-               HelpText = "Never output anything but error messages.")]
+               HelpText = "Never output anything but error messages. Exclusive with the --verbose option.")]
             public bool Silent { get; set; }
 
             [HelpOption]

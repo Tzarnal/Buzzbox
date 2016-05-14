@@ -34,7 +34,17 @@ namespace Buzzbox
             [Option("shuffle-cards", DefaultValue = false,
                 HelpText = "Shuffles the the cards, randomizing the order of output.")]
             public bool ShuffleCards { get; set; }
-            
+
+            [Option("verbose", DefaultValue = false,
+               MutuallyExclusiveSet = "Verbosity",
+               HelpText = "Output additional information. Exclusive with the --silent option.")]
+            public bool Verbose { get; set; }
+
+            [Option("silent", DefaultValue = false,
+               MutuallyExclusiveSet = "Verbosity",
+               HelpText = "Never output anything but error messages. Exclusive with the --verbose option.")]
+            public bool Silent { get; set; }
+
             [HelpOption]
             public string GetUsage()
             {
@@ -59,6 +69,10 @@ namespace Buzzbox
             {
                 string outPath;
                 string inPath;
+
+                var _ConsoleLog = ConsoleLog.Instance;
+                _ConsoleLog.Verbose = options.Verbose;
+                _ConsoleLog.Silent = options.Silent;
 
                 //Use Path to get proper filesystem path for input
                 try
