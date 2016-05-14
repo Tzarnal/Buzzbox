@@ -17,7 +17,6 @@ namespace Buzzbox_Stream
         private StreamWriter _stream;
         private ConsoleLog _consoleLog;
 
-
         public StreamEncode(CardCollection cardCollection, StreamWriter stream)
         {
             _encoder = new MtgEncodeFormatEncoder();
@@ -50,7 +49,7 @@ namespace Buzzbox_Stream
                     catch (Exception)
                     {
                         //fd was probably closed or otherwise no longer available
-                        _consoleLog.WriteLine("Closing Thread, stream no longer available.");
+                        _consoleLog.WriteLine("Closing StreamEncode Thread, stream no longer available.");
                         return;
                     }                    
                 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using Buzzbox_Common;
 using CommandLine;
@@ -8,16 +9,17 @@ using CommandLine.Text;
 
 namespace Buzzbox_Stream
 {
-    class Program
+    internal class Program
     {
         private class Options
         {
             [Option('i', "input",
                 Required = true,
-                HelpText = "Path to input file to be Encoded, must be in hearthstonejson format.")]
+                HelpText = "Path to input file to be Encoded, must be in hearthstonejson format or a simple text file.")
+            ]
             public string InputFile { get; set; }
 
-            [ValueList(typeof(List<string>))]
+            [ValueList(typeof (List<string>))]
             public IList<string> FdsList { get; set; }
 
             [Option("loop-forever", DefaultValue = false,
@@ -29,34 +31,67 @@ namespace Buzzbox_Stream
             public bool ShuffleFields { get; set; }
 
             [Option("verbose", DefaultValue = false,
-               MutuallyExclusiveSet = "Verbosity",
-               HelpText = "Output additional information. Exclusive with the --silent option.")]
+                MutuallyExclusiveSet = "Verbosity",
+                HelpText = "Output additional information. Exclusive with the --silent option.")]
             public bool Verbose { get; set; }
 
             [Option("silent", DefaultValue = false,
-               MutuallyExclusiveSet = "Verbosity",
-               HelpText = "Never output anything but error messages. Exclusive with the --verbose option.")]
+                MutuallyExclusiveSet = "Verbosity",
+                HelpText = "Never output anything but error messages. Exclusive with the --verbose option.")]
             public bool Silent { get; set; }
 
             [HelpOption]
             public string GetUsage()
             {
                 return "Streams encoded card lines to torch-rss" +
-                    HelpText.AutoBuild(this,
-                  (current) => HelpText.DefaultParsingErrorsHandler(this, current));
+                       HelpText.AutoBuild(this,
+                           (current) => HelpText.DefaultParsingErrorsHandler(this, current));
             }
         }
 
+        private static CardCollection ReadCardCollection(string filePath)
+        {
+            //Load card collection to encode
+            CardCollection cardCollection;
+            try
+            {
+                cardCollection = CardCollection.Load(filePath);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Could not parse '{0}'.", filePath);
+                return null;
+            }
+
+            return cardCollection;
+        }
+
+        private static List<string> ReadTextFile(string filePath)
+        {
+            List<string> fileLines;
+
+            try
+            {
+                fileLines = File.ReadAllLines(filePath).ToList();
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Could not read '{0}'.", filePath);
+
+                return null;
+            }
+
+            return fileLines;
+        }
 
         private static void Main(string[] args)
         {
             var options = new Options();
             var commandLineResults = Parser.Default.ParseArguments(args, options);
-            
+
 
             if (commandLineResults)
             {
-                List<StreamWriter> streams = new List<StreamWriter>();
                 var countdownEvent = new CountdownEvent(options.FdsList.Count);
                 string inPath;
 
@@ -74,11 +109,27 @@ namespace Buzzbox_Stream
                     Console.WriteLine("Invalid Path to input file: {0}", options.InputFile);
                     return;
                 }
-                
+
                 //Check if input file is real.
                 if (!File.Exists(inPath))
                 {
                     Console.WriteLine("File does not exist: {0}", options.InputFile);
+                    return;
+                }
+
+                var fileExtension = Path.GetExtension(inPath);
+
+                //Check its an input file we understand
+                if (fileExtension != ".json" && fileExtension != ".txt")
+                {
+                    Console.WriteLine("Buzzbox-Stream currently only supports hearthstoneapi json and simple txt files.");
+                    Console.WriteLine(Path.GetExtension(inPath));
+                    return;
+                }
+
+                if (options.FdsList.Count == 0)
+                {
+                    Console.WriteLine("No filestream id's to write too. Closing.");
                     return;
                 }
 
@@ -93,42 +144,58 @@ namespace Buzzbox_Stream
                     if (pid == PlatformID.Unix)
                     {
                         fileLoc = "/proc/self/fd/" + fd;
-                    }//not linux
+                    } //not linux
                     else
                     {
-                        fileLoc = "file" + fd + ".txt";    
+                        fileLoc = "file" + fd + ".txt";
                     }
 
                     var stream = new StreamWriter(fileLoc);
-
-                    //Load card collection to encode
-                    CardCollection cardCollection;
-                    try
+                    //Spawn a StreamText or SteamEncode
+                    if (fileExtension == ".json")
                     {
-                        cardCollection = CardCollection.Load(inPath);
+                        var cardCollection = ReadCardCollection(inPath);
+
+                        if (cardCollection == null)
+                        {
+                            return;
+                        }
+
+                        var streamEncoder = new StreamEncode(cardCollection, stream)
+                        {
+                            LoopForever = options.LoopForever,
+                            ShuffleFields = options.ShuffleFields
+                        };
+
+                        new Thread(delegate()
+                        {
+                            streamEncoder.ThreadEntry();
+                            countdownEvent.Signal();
+                        }).Start();
                     }
-                    catch (Exception)
+                    else //Spawn a StreamText instead. 
                     {
-                        Console.WriteLine("Could not parse '{0}'.", inPath);
-                        return;
+                        var text = ReadTextFile(inPath);
+
+                        var streamText = new StreamText(text, stream)
+                        {
+                            LoopForever = options.LoopForever
+                        };
+
+                        new Thread(delegate ()
+                        {
+                            streamText.ThreadEntry();
+                            countdownEvent.Signal();
+                        }).Start();
                     }
 
-                    var streamEncoder = new StreamEncode(cardCollection,stream)
-                    {
-                        LoopForever = options.LoopForever,
-                        ShuffleFields = options.ShuffleFields
-                    };
-
-                    new Thread(delegate ()
-                    {
-                        streamEncoder.ThreadEntry();
-                        countdownEvent.Signal();
-                    }).Start();
                 }
 
                 countdownEvent.Wait();
                 Console.WriteLine("Final thread finished writing. Buzzbox-Stream exiting.");
             }
+
         }
+
     }
 }
