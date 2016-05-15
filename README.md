@@ -57,7 +57,7 @@ Encoding         | Description
 -----------------|------------
 MtgEncoderFormat | Format: `|3type|4class|5race/tribe|6rarity|7manacost|8attack|9health/durablity|2text|1name|`
                  | Example: `|3minion|4paladin|5none|6legendary|7&^^^^^^^^|8&^^^^^^|9&^^^^^^|2$DV$. $T$. $DR$: equip a &^^^^^/&^^^ ashbringer.|1tirion fordring|`
-scfdivineFormat  | Format: Name @ Class `| Race/Tribe | Type | Rarity | ManaCost | Attack/Health || Text &`
+scfdivineFormat  | Format: `Name @ Class | Race/Tribe | Type | Rarity | ManaCost | Attack/Health || Text &`
                  | Example: `Tirion Fordring @ Paladin |  | Minion | L | 8 | 6/6 || $DV$. $T$. $DR$: Equip a 5/3 Ashbringer. &`
                  
 With --shuffle-fields the MtgEncoderFormat will randomize the order of fields for every single card.
