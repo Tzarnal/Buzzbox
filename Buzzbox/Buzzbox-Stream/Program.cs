@@ -28,13 +28,19 @@ namespace Buzzbox_Stream
             [ValueList(typeof (List<string>))]
             public IList<string> FdsList { get; set; }
 
-            [Option("loop-forever", DefaultValue = false,
-                HelpText = "When the end of a card set is reached, shuffle it and start again.")]
+            [Option("loop-data", DefaultValue = false,
+                HelpText = "Keep streaming data untill the stream is closed by torch-rnn.")]
             public bool LoopForever { get; set; }
 
-            [Option("shuffle-fields", DefaultValue = false,
-                HelpText = "Shuffles the fields of the output.")]
+            [Option("shuffle", DefaultValue = false,
+                MutuallyExclusiveSet = "shuffle",
+                HelpText = "Shuffles the fields of the output if the input is json data. Exclusive with the --alternate-shuffling option.")]
             public bool ShuffleFields { get; set; }
+
+            [Option("alternate-shuffling", DefaultValue = false,
+                MutuallyExclusiveSet = "shuffle",
+                HelpText = "Streams two copies of all input, if they are json data only one of the copies will be shuffled. Exclusive with the --shuffle option.")]
+            public bool AlternateShuffleFields { get; set; }
 
             [Option("verbose", DefaultValue = false,
                 MutuallyExclusiveSet = "Verbosity",
@@ -160,6 +166,13 @@ namespace Buzzbox_Stream
             PlatformID pid = os.Platform;
             int fileIndex = 0;
 
+            //double the array and then sort it, this will make --alternate-sorting easier.
+            if (options.AlternateShuffleFields)
+            {
+                files = files.Concat(files).ToArray();
+                Array.Sort(files);
+            }
+            
             if (options.FdsList.Count == 0)
             {
                 Console.WriteLine("No filestream id's to write too. Closing.");
@@ -194,15 +207,27 @@ namespace Buzzbox_Stream
                         return;
                     }
 
+                    bool shuffleFields;
+                    if (options.AlternateShuffleFields)
+                    {
+                        //when alternate shuffling is on there are two copies of each file
+                        //in the array, shuffle one, do not shuffle the other.
+                        shuffleFields = (fileIndex%2 == 1);
+                    }
+                    else //not alternating shuffeling, just copy the option value then
+                    {
+                        shuffleFields = options.ShuffleFields;
+                    }
+
                     var streamEncoder = new StreamEncode(cardCollection, stream)
                     {
                         LoopForever = options.LoopForever,
-                        ShuffleFields = options.ShuffleFields
+                        ShuffleFields = shuffleFields,
                     };
 
                     new Thread(delegate ()
                     {
-                        consoleLog.VerboseWriteLine($"Streaming '{filePath}' to '{streamPath}'.");
+                        consoleLog.VerboseWriteLine($"Streaming '{filePath}' to '{streamPath}'. Shuffeled = {shuffleFields}.");
                         streamEncoder.ThreadEntry();
                         consoleLog.VerboseWriteLine($"Stream to '{streamPath}' ended.");
                         countdownEvent.Signal();
