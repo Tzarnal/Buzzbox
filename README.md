@@ -154,7 +154,7 @@ If you wanted to convert that output back to json data you'd run:
 
 If instead you wanted to convert encoded.cards.txt to human readable text you'd run: 
 
-`./Buzzbox-Decode.exe -i "encoded.cards.txt" -o "decoded.cards.json --simple-output"`
+`./Buzzbox-Decode.exe -i "encoded.cards.txt" -o "decoded.cards.json" --simple-output`
 
 Tutorial
 =============
