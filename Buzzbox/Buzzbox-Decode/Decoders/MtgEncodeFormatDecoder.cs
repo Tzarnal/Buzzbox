@@ -32,10 +32,12 @@ namespace Buzzbox_Decode.Decoders
          */
 
         private TextInfo _textInfo;
+        private ConsoleLog _ConsoleLog;
 
         public MtgEncodeFormatDecoder()
         {
             _textInfo = new CultureInfo("en-US", false).TextInfo;
+            _ConsoleLog = ConsoleLog.Instance;
         }
 
         public Card DecodeCard(string cardLine)
@@ -50,7 +52,7 @@ namespace Buzzbox_Decode.Decoders
 
             if (string.IsNullOrWhiteSpace(cardType))
             {
-                Console.WriteLine("Could not find the card type.");
+                _ConsoleLog.VerboseWriteLine("Could not find the card type.");
             }
 
             switch (cardType)
@@ -98,7 +100,7 @@ namespace Buzzbox_Decode.Decoders
             var cardRace = FindField(cardLine, 5);
             if (string.IsNullOrWhiteSpace(cardRace))
             {
-                Console.WriteLine("Could not find a field for Race/Tribe.");
+                _ConsoleLog.VerboseWriteLine("Could not find a field for Race/Tribe.");
                 return null;
             }
             if (cardRace != "none")
@@ -117,7 +119,7 @@ namespace Buzzbox_Decode.Decoders
             var cardCost = DecodeNumberField(cardLine, 7);
             if (cardCost == null)
             {
-                Console.WriteLine("Could not convert Cost field to a number.");
+                _ConsoleLog.VerboseWriteLine("Could not convert Cost field to a number.");
                 return null;
             }
             newCard.Cost = (int) cardCost;
@@ -125,7 +127,7 @@ namespace Buzzbox_Decode.Decoders
             var cardAttack = DecodeNumberField(cardLine, 8);
             if (cardAttack == null)
             {
-                Console.WriteLine("Could not convert Attack field to a number.");
+                _ConsoleLog.VerboseWriteLine("Could not convert Attack field to a number.");
                 return null;
             }
             newCard.Attack = (int)cardAttack;
@@ -133,7 +135,7 @@ namespace Buzzbox_Decode.Decoders
             var cardHealth = DecodeNumberField(cardLine, 9);
             if (cardHealth == null)
             {
-                Console.WriteLine("Could not convert Health field to a number.");
+                _ConsoleLog.VerboseWriteLine("Could not convert Health field to a number.");
                 return null;
             }
             newCard.Health = (int)cardHealth;
@@ -179,7 +181,7 @@ namespace Buzzbox_Decode.Decoders
             var cardCost = DecodeNumberField(cardLine, 7);
             if (cardCost == null)
             {
-                Console.WriteLine("Could not convert Cost field to a number.");
+                _ConsoleLog.VerboseWriteLine("Could not convert Cost field to a number.");
                 return null;
             }
             newCard.Cost = (int)cardCost;
@@ -226,7 +228,7 @@ namespace Buzzbox_Decode.Decoders
             var cardCost = DecodeNumberField(cardLine, 7);
             if (cardCost == null)
             {
-                Console.WriteLine("Could not convert Cost field to a number.");
+                _ConsoleLog.VerboseWriteLine("Could not convert Cost field to a number.");
                 return null;
             }
             newCard.Cost = (int)cardCost;
@@ -234,7 +236,7 @@ namespace Buzzbox_Decode.Decoders
             var cardAttack = DecodeNumberField(cardLine, 8);
             if (cardAttack == null)
             {
-                Console.WriteLine("Could not convert Attack field to a number.");
+                _ConsoleLog.VerboseWriteLine("Could not convert Attack field to a number.");
                 return null;
             }
             newCard.Attack = (int)cardAttack;
@@ -242,7 +244,7 @@ namespace Buzzbox_Decode.Decoders
             var cardHealth = DecodeNumberField(cardLine, 9);
             if (cardHealth == null)
             {
-                Console.WriteLine("Could not convert Health field to a number.");
+                _ConsoleLog.VerboseWriteLine("Could not convert Health field to a number.");
                 return null;
             }
             newCard.Durability = (int)cardHealth;
@@ -262,7 +264,7 @@ namespace Buzzbox_Decode.Decoders
             var cardText = FindField(cardLine, 2);
             if (cardText == null)
             {
-                Console.WriteLine("Could not find a field for card text.");
+                _ConsoleLog.VerboseWriteLine("Could not find a field for card text.");
                 return "Unknown";
             }
 
@@ -297,7 +299,7 @@ namespace Buzzbox_Decode.Decoders
             var cardName = FindField(cardLine, 1);
             if (string.IsNullOrWhiteSpace(cardName))
             {
-                Console.WriteLine("Could not find a field for name.");
+                _ConsoleLog.VerboseWriteLine("Could not find a field for name.");
                 return "Unknown";
             }
 
@@ -309,7 +311,7 @@ namespace Buzzbox_Decode.Decoders
             var cardRarity = FindField(cardLine, 6);
             if (string.IsNullOrWhiteSpace(cardRarity))
             {
-                Console.WriteLine("Could not find a field for rarity.");
+                _ConsoleLog.VerboseWriteLine("Could not find a field for rarity.");
                 return "Unknown";
             }
 
@@ -336,7 +338,7 @@ namespace Buzzbox_Decode.Decoders
             var cardClass = FindField(cardLine, 4);
             if (string.IsNullOrWhiteSpace(cardClass))
             {
-                Console.WriteLine("Could not find a field for class.");
+                _ConsoleLog.VerboseWriteLine("Could not find a field for class.");
                 return "Unknown";
             }
 
@@ -363,7 +365,7 @@ namespace Buzzbox_Decode.Decoders
 
             if (!legalClasses.Contains(cardClass))
             {
-                Console.WriteLine("{0} is not a recognized class in Hearthstone.", cardClass);
+                _ConsoleLog.VerboseWriteLine($"{cardClass} is not a recognized class in Hearthstone.");
                 return "Unknown";
             }
 

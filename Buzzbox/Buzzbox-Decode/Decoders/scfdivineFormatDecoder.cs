@@ -8,6 +8,13 @@ namespace Buzzbox_Decode.Decoders
 {
     public class scfdivineFormatDecoder : IDecoderInterface
     {
+        private ConsoleLog _ConsoleLog;
+
+        public scfdivineFormatDecoder()
+        {
+            _ConsoleLog = ConsoleLog.Instance;
+        }
+
         public Card DecodeCard(string cardLine)
         {
             if (string.IsNullOrWhiteSpace(cardLine))
@@ -35,7 +42,7 @@ namespace Buzzbox_Decode.Decoders
                     break;
 
                 default:
-                    Console.WriteLine("Could not recognize card type.");
+                    _ConsoleLog.VerboseWriteLine("Could not recognize card type.");
                     return null;
             }
 
@@ -54,7 +61,7 @@ namespace Buzzbox_Decode.Decoders
             var className = DecodeClass(nameClass[1]);
             if (className != null && className == "Unknown")
             {
-                Console.WriteLine("{0} is not a recognized Class in Hearthstone.", nameClass[1]);
+                _ConsoleLog.VerboseWriteLine("${nameClass[1]} is not a recognized Class in Hearthstone.");
                 return null;
             }
 
@@ -71,7 +78,7 @@ namespace Buzzbox_Decode.Decoders
             var rarity = DecodeRarity(splitLine[3]);
             if (rarity == "Unknown")
             {
-                Console.WriteLine("{0} is not a recognized rarity in Hearthstone.", splitLine[3]);
+                _ConsoleLog.VerboseWriteLine($"{splitLine[3]} is not a recognized rarity in Hearthstone.");
                 return null;
             }
 
@@ -81,7 +88,7 @@ namespace Buzzbox_Decode.Decoders
             int manaCost;
             if (!int.TryParse(splitLine[4].Trim(), out manaCost))
             {
-                Console.WriteLine("{0} is not convertable to a number for manacost.", splitLine[4]);
+                _ConsoleLog.VerboseWriteLine($"{splitLine[4]} is not convertable to a number for manacost.");
                 return null;
             }
 
@@ -91,14 +98,14 @@ namespace Buzzbox_Decode.Decoders
             int attack;
             if (!int.TryParse(AttackHealth[0], out attack))
             {
-                Console.WriteLine("{0} is not convertable to a number for attack.", AttackHealth[0]);
+                _ConsoleLog.VerboseWriteLine($"{AttackHealth[0]} is not convertable to a number for attack.");
                 return null;
             }
 
             int health;
             if (!int.TryParse(AttackHealth[1], out health))
             {
-                Console.WriteLine("{0} is not convertable to a number for attack.", AttackHealth[1]);
+                _ConsoleLog.VerboseWriteLine($"{AttackHealth[1]} is not convertable to a number for attack.");
                 return null;
             }
 
@@ -126,7 +133,7 @@ namespace Buzzbox_Decode.Decoders
             var className = DecodeClass(nameClass[1]);
             if (className != null && className == "Unknown")
             {
-                Console.WriteLine("{0} is not a regcognized Class in Hearthstone.", nameClass[1]);
+               _ConsoleLog.VerboseWriteLine($"{nameClass[1]} is not a regcognized Class in Hearthstone.");
                 return null;
             }
 
@@ -137,7 +144,7 @@ namespace Buzzbox_Decode.Decoders
             var rarity = DecodeRarity(splitLine[2]);
             if (rarity == "Unknown")
             {
-                Console.WriteLine("{0} is not a regcognized rarity in Hearthstone.", splitLine[2]);
+               _ConsoleLog.VerboseWriteLine($"{splitLine[2]} is not a regcognized rarity in Hearthstone.");
                 return null;
             }
 
@@ -147,7 +154,7 @@ namespace Buzzbox_Decode.Decoders
             int manaCost;
             if (!int.TryParse(splitLine[3].Trim(), out manaCost))
             {
-                Console.WriteLine("{0} is not convertable to a number for manacost.", splitLine[3]);
+               _ConsoleLog.VerboseWriteLine($"{splitLine[3]} is not convertable to a number for manacost.");
                 return null;
             }
 
@@ -173,7 +180,7 @@ namespace Buzzbox_Decode.Decoders
             var className = DecodeClass(nameClass[1]);
             if (className != null && className == "Unknown")
             {
-                Console.WriteLine("{0} is not a regcognized Class in Hearthstone.", nameClass[1]);
+               _ConsoleLog.VerboseWriteLine($"{nameClass[1]} is not a regcognized Class in Hearthstone.");
                 return null;
             }
 
@@ -183,7 +190,7 @@ namespace Buzzbox_Decode.Decoders
             var rarity = DecodeRarity(splitLine[2]);
             if (rarity == "Unknown")
             {
-                Console.WriteLine("{0} is not a regcognized rarity in Hearthstone.", splitLine[2]);
+               _ConsoleLog.VerboseWriteLine($"{splitLine[2]} is not a regcognized rarity in Hearthstone.");
                 return null;
             }
 
@@ -193,7 +200,7 @@ namespace Buzzbox_Decode.Decoders
             int manaCost;
             if (!int.TryParse(splitLine[3].Trim(), out manaCost))
             {
-                Console.WriteLine("{0} is not convertable to a number for manacost.", splitLine[3]);
+               _ConsoleLog.VerboseWriteLine($"{splitLine[3]} is not convertable to a number for manacost.");
                 return null;
             }
 
@@ -203,14 +210,14 @@ namespace Buzzbox_Decode.Decoders
             int attack;
             if (!int.TryParse(AttackHealth[0], out attack))
             {
-                Console.WriteLine("{0} is not convertable to a number for attack.", AttackHealth[0]);
+               _ConsoleLog.VerboseWriteLine($"{AttackHealth[0]} is not convertable to a number for attack.");
                 return null;
             }
 
             int health;
             if (!int.TryParse(AttackHealth[1], out health))
             {
-                Console.WriteLine("{0} is not convertable to a number for attack.", AttackHealth[1]);
+               _ConsoleLog.VerboseWriteLine($"{AttackHealth[1]} is not convertable to a number for attack.");
                 return null;
             }
 
