@@ -6,6 +6,7 @@ namespace Buzzbox_Common
     {
         public static Dictionary<string, string> KeywordReplacements = new Dictionary<string, string>
         {
+            {"Adapt", "$AD$" },
             {"Battlecry and Deathrattle", "$BD$"},
             {"Battlecry", "$B$"},
             {"Charge", "$CH$"},
@@ -18,8 +19,11 @@ namespace Buzzbox_Common
             {"Enrage", "$E$"},
             {"Freeze", "$F$"},
             {"Immune", "$I$"},
-            {"Inspire", "$IN$"},            
+            {"Inspire", "$IN$"},
+            {"Jade Golem", "$JG$"},
             {"Overload", "$O$"},
+            {"Poisonous", "$PO$"},
+            {"Quest", "$QU$"},
             {"Secrets", "$SS$"},
             {"Secret", "$S$"},
             {"Silence", "$SI$"},
@@ -32,6 +36,7 @@ namespace Buzzbox_Common
 
         public static Dictionary<string, string> ReverseKeywordReplacements = new Dictionary<string, string>
         {
+            {"$AD$" ,"<b>Adapt</b>"},
             {"$BD$","<b>Battlecry and Deathrattle</b>"},
             {"$B$","<b>Battlecry</b>"},
             {"$CH$","<b>Charge</b>"},
@@ -45,7 +50,10 @@ namespace Buzzbox_Common
             {"$F$","<b>Freeze</b>"},
             {"$I$","<b>Immune</b>"},
             {"$IN$","<b>Inspire</b>"},
+            {"$JG$", "<b>Jade Golem</b>"},
             {"$O$","<b>Overload</b>"},
+            {"$PO$", "<b>Poisonous</b>"},
+            {"$QU$", "<b>Quest</b>"},
             {"$SS$","<b>Secrets</b>"},
             {"$S$","<b>Secret</b>"},
             {"$SI$","<b>Silence</b>"},
