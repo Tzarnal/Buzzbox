@@ -33,7 +33,8 @@ namespace Buzzbox_Common
         {
             var output = Regex.Replace(str, @"</?.>", "");
             output = Regex.Replace(output, @"\[.\]", "");
-            
+            output = Regex.Replace(output, @"\{.*?}", "");
+
             return output;
         }
     }
