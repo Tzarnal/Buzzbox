@@ -28,33 +28,33 @@ namespace Buzzbox_Stream
 
         public void ThreadEntry()
         {
-            do
+
+            try
             {
-                _cardCollection.Cards.Shuffle();
-
-                foreach (var card in _cardCollection.Cards)
+                do
                 {
-                    var outputLine = _encoder.EncodeCard(card) + "\n\n";
+                    _cardCollection.Cards.Shuffle();
 
-                    if (ShuffleFields)
+                    foreach (var card in _cardCollection.Cards)
                     {
-                        outputLine = ShuffleCardFields(outputLine);
-                    }
+                        var outputLine = _encoder.EncodeCard(card) + "\n\n";
 
-                    //actually try to output
-                    try
-                    {
+                        if (ShuffleFields)
+                        {
+                            outputLine = ShuffleCardFields(outputLine);
+                        }
+
                         _stream.Write(outputLine);
+                
                     }
-                    catch (Exception)
-                    {
-                        //fd was probably closed or otherwise no longer available
-                        _consoleLog.WriteLine("Closing StreamEncode Thread, stream no longer available.");
-                        return;
-                    }                    
-                }
                
-            } while (LoopForever);
+                } while (LoopForever);
+            }
+            catch (Exception)
+            {
+                _consoleLog.WriteLine("Closing StreamText Thread, stream no longer available.");
+                return;
+            }
 
             _stream.Close();
         }

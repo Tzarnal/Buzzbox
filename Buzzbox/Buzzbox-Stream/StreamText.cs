@@ -22,27 +22,27 @@ namespace Buzzbox_Stream
 
         public void ThreadEntry()
         {
-            do
+            try
             {
-                _text.Shuffle();
-
-                foreach (var line in _text)
+                do
                 {
-                    //actually try to output
-                    try
+                    _text.Shuffle();
+
+                    foreach (var line in _text)
                     {
+                        //actually try to output
                         if(!string.IsNullOrWhiteSpace(line))
                             _stream.Write(line + "\n\n");
-                    }
-                    catch (Exception)
-                    {
-                        //fd was probably closed or otherwise no longer available
-                        _consoleLog.WriteLine("Closing StreamText Thread, stream no longer available.");
-                        return;
-                    }
-                }
 
-            } while (LoopForever);
+                    }
+
+                } while (LoopForever);
+            }
+            catch (Exception e)
+            {
+                _consoleLog.WriteLine("Closing StreamText Thread, stream no longer available.");
+                return;
+            }
 
             _stream.Close();
         }
