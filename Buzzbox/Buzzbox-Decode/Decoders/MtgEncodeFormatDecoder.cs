@@ -22,6 +22,7 @@ namespace Buzzbox_Decode.Decoders
          * 7: Mana Cost
          * 8: Attack
          * 9: Health/Durability
+         * 10: Flavourtext. Optional.
          * 
          * 
          * all text in lowercase, type/class/rarity not abreviated
@@ -140,12 +141,18 @@ namespace Buzzbox_Decode.Decoders
             }
             newCard.Health = (int)cardHealth;
 
-            var cardText = DecodeText(cardLine);
+            var cardText = DecodeCardText(cardLine);
             if (cardText == "Unknown")
             {
                 return null;
             }
             newCard.Text = cardText;
+            
+            var cardFlavor = FindField(cardLine, 10);
+            if (!string.IsNullOrWhiteSpace(cardFlavor))
+            {
+                newCard.Flavor = DecodeText(cardFlavor);
+            }
 
             return newCard;
         }
@@ -186,12 +193,18 @@ namespace Buzzbox_Decode.Decoders
             }
             newCard.Cost = (int)cardCost;
 
-            var cardText = DecodeText(cardLine);
+            var cardText = DecodeCardText(cardLine);
             if (cardText == "Unknown")
             {
                 return null;
             }
             newCard.Text = cardText;
+
+            var cardFlavor = FindField(cardLine, 10);
+            if (!string.IsNullOrWhiteSpace(cardFlavor))
+            {
+                newCard.Flavor = DecodeText(cardFlavor);
+            }
 
             return newCard;
         }
@@ -249,17 +262,51 @@ namespace Buzzbox_Decode.Decoders
             }
             newCard.Durability = (int)cardHealth;
 
-            var cardText = DecodeText(cardLine);
+            var cardText = DecodeCardText(cardLine);
             if (cardText == "Unknown")
             {
                 return null;
             }
             newCard.Text = cardText;
 
+            var cardFlavor = FindField(cardLine, 10);
+            if (!string.IsNullOrWhiteSpace(cardFlavor))
+            {
+                newCard.Flavor = DecodeText(cardFlavor);
+            }
+
             return newCard;
         }
 
-        private string DecodeText(string cardLine)
+        private string DecodeText(string text)
+        {
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                return "";
+            }
+
+            text = text.Trim();
+
+            //Ensure at least one space between keyword symbols
+            text = text.Replace("$$", "$ $");
+
+            //Recase into a sentence.
+            text = Paragraph.ToSentenceCase(text);
+            text = DecodeNumbers(text);
+
+            //Replace keywords symbols with markup text
+            foreach (KeyValuePair<string, string> replacement in Collections.ReverseKeywordReplacements)
+            {
+                text = text.Replace(replacement.Key, replacement.Value);
+            }
+
+            //Italicise things between () that is not a single character. Mostly (wherever it is).
+            text = Regex.Replace(text, @"\((..+?)\)", "(<i>$1</i>)");
+
+            return text;
+        }
+
+        private string DecodeCardText(string cardLine)
         {
             var cardText = FindField(cardLine, 2);
             if (cardText == null)
@@ -268,30 +315,8 @@ namespace Buzzbox_Decode.Decoders
                 return "Unknown";
             }
 
-            if (string.IsNullOrWhiteSpace(cardText))
-            {
-                return "";
-            }
+            return DecodeText(cardText);
 
-            cardText = cardText.Trim();
-
-            //Ensure at least one space between keyword symbols
-            cardText = cardText.Replace("$$", "$ $");
-
-            //Recase into a sentence.
-            cardText = Paragraph.ToSentenceCase(cardText);
-            cardText = DecodeNumbers(cardText);
-            
-            //Replace keywords symbols with markup text
-            foreach (KeyValuePair<string, string> replacement in Collections.ReverseKeywordReplacements)
-            {
-                cardText = cardText.Replace(replacement.Key, replacement.Value);
-            }
-
-            //Italicise things between () that is not a single character. Mostly (wherever it is).
-            cardText = Regex.Replace(cardText, @"\((..+?)\)","(<i>$1</i>)");
-            
-            return cardText;
         }
 
         private string DecodeName(string cardLine)
@@ -427,7 +452,7 @@ namespace Buzzbox_Decode.Decoders
 
             if (matches.Count == 0)
             {
-                //Console.WriteLine("Could not find Field labeled {0}", fieldNumber);
+                //Console.WriteLine("Could not find Field labeled {0} -- {1}", fieldNumber,cardLine);
                 return null;
             }
 

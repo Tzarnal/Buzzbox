@@ -11,6 +11,7 @@ namespace Buzzbox_Stream
     {
         public bool LoopForever;
         public bool ShuffleFields;
+        public bool IncludeFlavorText;
 
         private MtgEncodeFormatEncoder _encoder;        
         private CardCollection _cardCollection;
@@ -20,6 +21,8 @@ namespace Buzzbox_Stream
         public StreamEncode(CardCollection cardCollection, StreamWriter stream)
         {
             _encoder = new MtgEncodeFormatEncoder();
+            
+
             _consoleLog = ConsoleLog.Instance;
 
             _cardCollection = cardCollection;
@@ -28,6 +31,7 @@ namespace Buzzbox_Stream
 
         public void ThreadEntry()
         {
+            _encoder.IncludeFlavorText = IncludeFlavorText;
 
             try
             {

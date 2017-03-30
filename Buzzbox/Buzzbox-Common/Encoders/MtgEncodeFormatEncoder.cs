@@ -19,6 +19,7 @@ namespace Buzzbox_Common.Encoders
          * 7: Mana Cost
          * 8: Attack
          * 9: Health/Durability
+         * 10: Flavourtext
          * 
          * 
          * all text in lowercase, type/class/rarity not abreviated
@@ -27,6 +28,8 @@ namespace Buzzbox_Common.Encoders
          * no additional spaces
          * keywords replaced by $KW$ tokens. tokens remain in upper case.
         */
+
+        public bool IncludeFlavorText;
 
         public string EncodeCard(Card card)
         {
@@ -72,6 +75,11 @@ namespace Buzzbox_Common.Encoders
                 EncodeNumbers(card.Health),
                 EncodeCardText(card.Text));
 
+            if (IncludeFlavorText)
+            {
+                encodedCard += $"10{EncodeCardText(card.Flavor)}|";
+            }
+
             return encodedCard;
         }
 
@@ -87,6 +95,11 @@ namespace Buzzbox_Common.Encoders
                 EncodeNumbers(card.Durability),
                 EncodeCardText(card.Text));
 
+            if (IncludeFlavorText)
+            {
+                encodedCard += $"10{EncodeCardText(card.Flavor)}|";
+            }
+
             return encodedCard;
         }
         
@@ -99,6 +112,11 @@ namespace Buzzbox_Common.Encoders
                 EncodeCardRarity(card.Rarity),
                 EncodeNumbers(card.Cost),   
                 EncodeCardText(card.Text));
+
+            if (IncludeFlavorText)
+            {
+                encodedCard += $"10{EncodeCardText(card.Flavor)}|";
+            }
 
             return encodedCard;
         }

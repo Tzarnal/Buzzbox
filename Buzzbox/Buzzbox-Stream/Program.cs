@@ -42,6 +42,10 @@ namespace Buzzbox_Stream
                 HelpText = "Streams two copies of all input, if they are json data only one of the copies will be shuffled. Exclusive with the --shuffle option.")]
             public bool AlternateShuffleFields { get; set; }
 
+            [Option("flavor-text", DefaultValue = false,
+                HelpText = "Include flavortext field.")]
+            public bool FlavorText { get; set; }
+
             [Option("verbose", DefaultValue = false,
                 MutuallyExclusiveSet = "Verbosity",
                 HelpText = "Output additional information. Exclusive with the --silent option.")]
@@ -223,6 +227,7 @@ namespace Buzzbox_Stream
                     {
                         LoopForever = options.LoopForever,
                         ShuffleFields = shuffleFields,
+                        IncludeFlavorText = options.FlavorText
                     };
 
                     new Thread(delegate ()

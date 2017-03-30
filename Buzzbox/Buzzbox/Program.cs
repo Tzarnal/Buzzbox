@@ -35,6 +35,10 @@ namespace Buzzbox
                 HelpText = "Shuffles the the cards, randomizing the order of output.")]
             public bool ShuffleCards { get; set; }
 
+            [Option("flavor-text", DefaultValue = false,
+                HelpText = "Include flavortext field.")]
+            public bool FlavorText { get; set; }
+
             [Option("verbose", DefaultValue = false,
                MutuallyExclusiveSet = "Verbosity",
                HelpText = "Output additional information. Exclusive with the --silent option.")]
@@ -61,7 +65,8 @@ namespace Buzzbox
             var commandLineResults = Parser.Default.ParseArguments(args, options);
             var encode = new Encode
             {
-                ShuffleFields = options.ShuffleFields
+                ShuffleFields = options.ShuffleFields,
+                IncludeFlavorText = options.FlavorText
             };
 
             //Only continue if commandline options fullfilled. CommandLine will handle helptext if something was off.

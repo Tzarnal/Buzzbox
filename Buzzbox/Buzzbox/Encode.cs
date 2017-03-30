@@ -10,6 +10,7 @@ namespace Buzzbox
     public class Encode
     {
         public bool ShuffleFields;
+        public bool IncludeFlavorText;
 
         public Encode()
         {
@@ -26,6 +27,16 @@ namespace Buzzbox
             {
                 Console.WriteLine("This format cannot be shuffled");
                 ShuffleFields = false;
+            }
+
+            if (IncludeFlavorText && encodingFormat == EncodingFormats.scfdivineFormat)
+            {
+                Console.WriteLine("This format cannot be include flavortext");
+                IncludeFlavorText = false;
+            }
+            else
+            {
+                ((MtgEncodeFormatEncoder) encoder).IncludeFlavorText = IncludeFlavorText;
             }
 
             foreach (var card in cardCollection.Cards)
