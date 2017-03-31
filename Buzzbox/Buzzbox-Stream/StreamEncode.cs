@@ -13,6 +13,9 @@ namespace Buzzbox_Stream
         public bool ShuffleFields;
         public bool IncludeFlavorText;
 
+        public bool NameReplacement;
+        public NameCollection NameCollection;
+
         private MtgEncodeFormatEncoder _encoder;        
         private CardCollection _cardCollection;
         private StreamWriter _stream;
@@ -41,6 +44,12 @@ namespace Buzzbox_Stream
 
                     foreach (var card in _cardCollection.Cards)
                     {
+                        //See if names should be replaced, roll dice, replace name.
+                        if (NameReplacement && NameCollection.ReplaceName())
+                        {
+                            card.Name = NameCollection.RandomName(card.PlayerClass, card.Type);
+                        }
+
                         var outputLine = _encoder.EncodeCard(card) + "\n\n";
 
                         if (ShuffleFields)

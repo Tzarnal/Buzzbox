@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Policy;
 using System.Threading;
 using Buzzbox_Common;
 using CommandLine;
@@ -45,6 +46,14 @@ namespace Buzzbox_Stream
             [Option("flavor-text", DefaultValue = false,
                 HelpText = "Include flavortext field.")]
             public bool FlavorText { get; set; }
+
+            [Option("name-replacement",
+                HelpText = "Replace some cardnames with different ones from a file.")]
+            public string NameReplacement { get; set; }
+
+            [Option("name-replacement-chance", DefaultValue = 50,
+                HelpText = "Chance name replacement will occur, out of a hundred.")]
+            public int NameReplacementChance { get; set; }
 
             [Option("verbose", DefaultValue = false,
                 MutuallyExclusiveSet = "Verbosity",
@@ -165,10 +174,32 @@ namespace Buzzbox_Stream
         {
             var countdownEvent = new CountdownEvent(options.FdsList.Count);
             var consoleLog = ConsoleLog.Instance;
+            var nameReplacement = false;
+            NameCollection nameCollection;
 
             OperatingSystem os = Environment.OSVersion;
             PlatformID pid = os.Platform;
             int fileIndex = 0;
+
+            //Check Name Replacement details
+            if (!string.IsNullOrWhiteSpace(options.NameReplacement))
+            {
+                nameCollection = ReadNameCollection(options.NameReplacement);
+
+                if (nameCollection == null)
+                {
+                    Console.WriteLine("Running without Mame Replacement.");                    
+                }
+                else
+                {
+                    nameReplacement = true;
+                    nameCollection.ReplacementChance = options.NameReplacementChance;
+                }
+            }
+            else
+            {
+                nameCollection = null;
+            }
 
             //double the array and then sort it, this will make --alternate-sorting easier.
             if (options.AlternateShuffleFields)
@@ -227,7 +258,9 @@ namespace Buzzbox_Stream
                     {
                         LoopForever = options.LoopForever,
                         ShuffleFields = shuffleFields,
-                        IncludeFlavorText = options.FlavorText
+                        IncludeFlavorText = options.FlavorText,
+                        NameReplacement = nameReplacement,
+                        NameCollection =  nameCollection,
                     };
 
                     new Thread(delegate ()
@@ -265,6 +298,48 @@ namespace Buzzbox_Stream
 
             countdownEvent.Wait();
             Console.WriteLine("Final thread closed. Buzzbox-Stream exiting.");
+        }
+
+        private static NameCollection ReadNameCollection(string filePath)
+        {
+            //Use Path to get proper filesystem path for input
+            try
+            {
+                filePath = Path.GetFullPath(filePath);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Invalid Path to input file: {0}", filePath);
+                return null;
+            }
+
+            //Check if input file is real.
+            if (!File.Exists(filePath))
+            {
+                Console.WriteLine("File does not exist: {0}", filePath);
+                return null;
+            }
+
+            var fileExtension = Path.GetExtension(filePath);
+
+            //Check its an input file we understand
+            if (fileExtension != ".json")
+            {
+                Console.WriteLine("Name replacement file not json.");                                
+            }
+
+            var nameCollection = new NameCollection();
+            try
+            {
+                nameCollection = NameCollection.Load(filePath);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Could not parse '{0}'.", filePath);
+                return null;
+            }
+
+            return nameCollection;
         }
 
         private static CardCollection ReadCardCollection(string filePath)

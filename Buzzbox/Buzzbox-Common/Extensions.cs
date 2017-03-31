@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -24,6 +25,13 @@ namespace Buzzbox_Common
             }
         }
 
+        //Grab a random string from list<string>
+        public static string RandomItem(this IList<string> list)
+        {
+            list.Shuffle();
+            return list.FirstOrDefault();
+        }
+
         public static string CapitalizeOnlyFirstLetter(this string str)
         {
             return char.ToUpper(str[0]) + str.Substring(1).ToLower();
@@ -37,5 +45,7 @@ namespace Buzzbox_Common
 
             return output;
         }
+
+        
     }
 }
