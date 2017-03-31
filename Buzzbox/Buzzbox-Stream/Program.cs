@@ -15,13 +15,13 @@ namespace Buzzbox_Stream
         {
             [Option('i', "input",                
                 MutuallyExclusiveSet = "input",
-                HelpText = "Path to input file to be Encoded, must be in hearthstonejson format or a simple text file. Exclusive with input-directory.")
+                HelpText = "Path to input file to be streamed, must be in hearthstonejson format or a simple text file. Exclusive with input-directory.")
             ]
             public string InputFile { get; set; }
 
             [Option('d', "input-directory",                
                 MutuallyExclusiveSet = "input",
-                HelpText = "Path to input file to be Encoded, must be in hearthstonejson format or a simple text file. Exclusive with file input.")
+                HelpText = "Path to director of files ot be streamed, must be in hearthstonejson format or a simple text file. Exclusive with file input.")
             ]
             public string InputDirectory { get; set; }
 
