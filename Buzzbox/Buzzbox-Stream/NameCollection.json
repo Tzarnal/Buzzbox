@@ -1,0 +1,112 @@
+{
+  "names": {
+    "neutral": {
+      "minion": [
+        "Neutral Minion"
+      ],
+      "spell": [
+        "Neutral Spell"
+      ],
+      "weapon": [
+        "Neutral Weapon"
+      ]
+    },
+    "druid": {
+      "minion": [
+        "Druid Minion"
+      ],
+      "spell": [
+        "Druid Spell"
+      ],
+      "weapon": [
+        "Druid Weapon"
+      ]
+    },
+    "hunter": {
+      "minion": [
+        "Hunter Minion"
+      ],
+      "spell": [
+        "Hunter Spell"
+      ],
+      "weapon": [
+        "Hunter Weapon"
+      ]
+    },
+    "mage": {
+      "minion": [
+        "Mage Minion"
+      ],
+      "spell": [
+        "Mage Spell"
+      ],
+      "weapon": [
+        "Mage Weapon"
+      ]
+    },
+    "paladin": {
+      "minion": [
+        "Paladin Minion"
+      ],
+      "spell": [
+        "Paladin Spell"
+      ],
+      "weapon": [
+        "Paladin Weapon"
+      ]
+    },
+    "priest": {
+      "minion": [
+        "Priest Minion"
+      ],
+      "spell": [
+        "Priest Spell"
+      ],
+      "weapon": [
+        "Priest Weapon"
+      ]
+    },
+    "rogue": {
+      "minion": [
+        "Rogue Minion"
+      ],
+      "spell": [
+        "Rogue Spell"
+      ],
+      "weapon": [
+        "Rogue Weapon"
+      ]
+    },
+    "shaman": {"minion": [
+        "Shaman Minion"
+      ],
+      "spell": [
+        "Shaman Spell"
+      ],
+      "weapon": [
+        "Shaman Weapon"
+      ]},
+    "warlock": {
+      "minion": [
+        "Warlock Minion"
+      ],
+      "spell": [
+        "Warlock Spell"
+      ],
+      "weapon": [
+        "Warlock Weapon"
+      ]
+    },
+    "warrior": {
+      "minion": [
+        "Warrior Minion"
+      ],
+      "spell": [
+        "Warrior Spell"
+      ],
+      "weapon": [
+        "Warrior Weapon"
+      ]
+    }
+  }
+}
