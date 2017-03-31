@@ -45,7 +45,7 @@ namespace Buzzbox_Stream
                     foreach (var card in _cardCollection.Cards)
                     {
                         //See if names should be replaced, roll dice, replace name.
-                        if (NameReplacement && NameCollection.ReplaceName())
+                        if (card.Type != "HERO" && NameReplacement && NameCollection.ReplaceName())
                         {
                             card.Name = NameCollection.RandomName(card.PlayerClass, card.Type);
                         }
