@@ -188,7 +188,7 @@ namespace Buzzbox_Stream
 
                 if (nameCollection == null)
                 {
-                    Console.WriteLine("Running without Mame Replacement.");                    
+                    Console.WriteLine("Running without Name Replacement.");                    
                 }
                 else
                 {
@@ -278,6 +278,7 @@ namespace Buzzbox_Stream
                     var streamText = new StreamText(text, stream)
                     {
                         LoopForever = options.LoopForever
+                        
                     };
 
                     new Thread(delegate ()
