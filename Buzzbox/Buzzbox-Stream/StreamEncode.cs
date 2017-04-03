@@ -35,39 +35,52 @@ namespace Buzzbox_Stream
         public void ThreadEntry()
         {
             _encoder.IncludeFlavorText = IncludeFlavorText;
-
-            try
+ 
+            do
             {
-                do
+                _cardCollection.Cards.Shuffle();
+
+                foreach (var card in _cardCollection.Cards)
                 {
-                    _cardCollection.Cards.Shuffle();
-
-                    foreach (var card in _cardCollection.Cards)
+                    if (!(card.Type == "MINION" || card.Type == "SPELL" || card.Type == "WEAPON"))
                     {
-                        //See if names should be replaced, roll dice, replace name.
-                        if (card.Type != "HERO" && NameReplacement && NameCollection.ReplaceName())
-                        {
-                            card.Name = NameCollection.RandomName(card.PlayerClass, card.Type);
-                        }
-
-                        var outputLine = _encoder.EncodeCard(card) + "\n\n";
-
-                        if (ShuffleFields)
-                        {
-                            outputLine = ShuffleCardFields(outputLine);
-                        }
-
-                        _stream.Write(outputLine);
-                
+                        //Console.WriteLine(card.Type);
+                        continue;
                     }
+
+                    //See if names should be replaced, roll dice, replace name.
+                    if (card.Type != "HERO" && NameReplacement && NameCollection.ReplaceName())
+                    {
+                    string newName;
+                    try
+                    {
+                        newName = NameCollection.RandomName(card.PlayerClass, card.Type);
+                    }
+                    catch (Exception e)
+                    {
+                        _consoleLog.VerboseWriteLine($"Error trying to find a new card name for {card.Name}[{card.PlayerClass}-{card.Type}]: {e.Message}");
+                        newName = "None";
+                    }
+
+                    if (newName != "None")
+                    {
+                        card.Name = newName;
+                    }                        
+                    }
+
+                    var outputLine = _encoder.EncodeCard(card) + "\n\n";
+
+                    if (ShuffleFields)
+                    {
+                        outputLine = ShuffleCardFields(outputLine);
+                    }
+
+                    _stream.Write(outputLine);
+                
+                }
                
-                } while (LoopForever);
-            }
-            catch (Exception)
-            {
-                _consoleLog.WriteLine("Closing StreamText Thread, stream no longer available.");
-                return;
-            }
+            } while (LoopForever);
+   
 
             _stream.Close();
         }

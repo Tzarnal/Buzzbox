@@ -16,10 +16,12 @@ namespace Buzzbox_Stream
         public int ReplacementChance;
 
         private static readonly Random Rng = new Random();
+        private ConsoleLog _consoleLog;
 
         public NameCollection()
         {            
             Names = new Dictionary<string, Dictionary<string, List<string>>>();
+            _consoleLog = ConsoleLog.Instance;
         }
 
         public bool ReplaceName()
@@ -33,14 +35,24 @@ namespace Buzzbox_Stream
             type = type.ToLower();
             List<string> nameList;
 
+            if (string.IsNullOrWhiteSpace(type))
+            {
+                type = "MINION";
+            }
+
+            if (string.IsNullOrWhiteSpace(cardclass))
+            {
+                type = "NEUTRAL";
+            }
+
             try
             {
                 nameList = Names[cardclass][type];
             }
             catch (KeyNotFoundException e)
             {
-                Console.WriteLine($"Could not find names for {cardclass}:{type}");
-                return $"No Valid Item In Namecollection for {cardclass}:{type}";
+                _consoleLog.VerboseWriteLine($"Could not find names for {cardclass}:{type}");                
+                return $"None";
             }
 
             if (nameList.Count > 0)
@@ -48,7 +60,7 @@ namespace Buzzbox_Stream
                 return nameList.RandomItem();
             }
             
-            return $"No Valid Item In Namecollection for {cardclass}:{type}";                        
+            return $"None";                        
         }
 
         //Load a namecollection from json file
