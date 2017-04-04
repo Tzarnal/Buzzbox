@@ -11,7 +11,7 @@ Much like mtgencode the purpose of this project is to wrangle text between tools
 
 Requirements
 =============
-This is a C# project, to run .net executables on linux you will need to [Install Mono](http://www.mono-project.com/docs/getting-started/install/linux/), you should probably install mono-complete. You will need a hearthstoneJSON file of collectable cards. You can get the most recent english copy from here:
+This is a C# project, to run .net executables on linux you will need to [Install Mono](http://www.mono-project.com/docs/getting-started/install/linux/) or [.net Core](https://www.microsoft.com/net/core#linuxubuntu_). My current setup uses Mono Complete, I suspect .net core works but have not tested it. You will need a hearthstoneJSON file of collectable cards. You can get the most recent english copy from here:
 
 [https://api.hearthstonejson.com/v1/latest/enUS/cards.collectible.json](https://api.hearthstonejson.com/v1/latest/enUS/cards.collectible.json)
 
@@ -138,7 +138,47 @@ Found 877 cards out of a potential 891.
 
 ### Buzzbox-Stream.exe
 
-Currently the functionality of Buzzbox-Stream is in flux as the torch-rnn fork it works in tandem with is still experimental.
+Streams cards from hearthstone json files, or streams plain txt files to posix file handles provided through command line arguments. Buzzbox-Stream is intended to be used with Billzorns torch-rnn fork streaming option. On windows it will simply write to plaintext files in the current directory. 
+
+````
+  -i, --input                  Path to input file to be streamed, must be in
+                               hearthstonejson format or a simple text file.
+                               Exclusive with input-directory.
+
+  -d, --input-directory        Path to director of files ot be streamed, must
+                               be in hearthstonejson format or a simple text
+                               file. Exclusive with file input.
+
+  --loop-data                  (Default: False) Keep streaming data untill the
+                               stream is closed by torch-rnn.
+
+  --shuffle                    (Default: False) Shuffles the fields of the
+                               output if the input is json data. Exclusive with
+                               the --alternate-shuffling option.
+
+  --alternate-shuffling        (Default: False) Streams two copies of all
+                               input, if they are json data only one of the
+                               copies will be shuffled. Exclusive with the
+                               --shuffle option.
+
+  --flavor-text                (Default: False) Include flavortext field.
+
+  --name-replacement           Replace some cardnames with different ones from
+                               a file.
+
+  --name-replacement-chance    (Default: 50) Chance name replacement will
+                               occur, out of a hundred.
+
+  --verbose                    (Default: False) Output additional information.
+                               Exclusive with the --silent option.
+
+  --silent                     (Default: False) Never output anything but error
+                               messages. Exclusive with the --verbose option.
+
+  --help                       Display this help screen.
+  ````
+
+The --name-replacement option was intended too improve the amount of names the RNN would learn but lack of stable patterns mostly seemed to confuse it a lot. I had better results just making a larger hearthstonejson file with duplicates of cards that had different names.
 
 ### Examples
 
@@ -190,9 +230,12 @@ Fields are surrounded and seperated by | and identified with a number :
 * 7: Mana Cost
 * 8: Attack
 * 9: Health/Durability
+* 10: Flavortext
 
 All decimal numbers are in represented in unary, numbers over 20 are not special cased. All text is lowercased except for keyword tokens, those are all uppercase. 
 
+The flavortext field is optional. 
+
 ### Common elements
 
-Individual cards are separated by two newlines because that is the seperator mtg-rnn expects. Markup like `[x]`, `<b></b>` and `<i></i>` is removed, at best it does nothing at worst it confuses the network. Newlines are replaced by spaces. Hearthstone cards are simple enough they don't need newlines to clarify how to read them, however blizzard likes to insert newlines manually at times to make the text flower nicer. Keywords like Battlecry and Deathrattle are replaced by token strings like $DR$, this makes the network better at using them and makes it easier to reinsert markup like `<b></b>`. 
+Individual cards are separated by two newlines because that is the seperator mtg-rnn expects. Markup like `[x]`, `<b></b>` and `<i></i>` is removed, at best it does nothing at worst it confuses the network. Newlines are replaced by spaces. Hearthstone cards are simple enough they don't need newlines to clarify how to read them, however blizzard likes to insert newlines manually at times to make the text flowe nicer. Keywords like Battlecry and Deathrattle are replaced by token strings like $DR$, this makes the network better at using them and makes it easier to reinsert markup like `<b></b>`. 
