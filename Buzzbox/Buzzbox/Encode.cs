@@ -29,16 +29,12 @@ namespace Buzzbox
                 ShuffleFields = false;
             }
 
-            if (IncludeFlavorText && encodingFormat == EncodingFormats.scfdivineFormat)
+            if (IncludeFlavorText && encodingFormat == EncodingFormats.MtgEncoderFormat)
             {
-                Console.WriteLine("This format cannot be include flavortext");
-                IncludeFlavorText = false;
+                ((MtgEncodeFormatEncoder)encoder).IncludeFlavorText = IncludeFlavorText;
+                
             }
-            else
-            {
-                ((MtgEncodeFormatEncoder) encoder).IncludeFlavorText = IncludeFlavorText;
-            }
-
+            
             foreach (var card in cardCollection.Cards)
             {
                 var cardOutput = encoder.EncodeCard(card);
