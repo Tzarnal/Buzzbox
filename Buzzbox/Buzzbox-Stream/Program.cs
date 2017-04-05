@@ -283,7 +283,7 @@ namespace Buzzbox_Stream
 
                     new Thread(delegate ()
                     {
-                        consoleLog.VerboseWriteLine($"Streaming '{filePath}' to '{streamPath}'.");
+                        consoleLog.VerboseWriteLine($"Streaming '{filePath}' to '{streamPath}'.");                    
                         streamText.ThreadEntry();
                         consoleLog.VerboseWriteLine($"Stream to '{streamPath}' ended.");
                         countdownEvent.Signal();

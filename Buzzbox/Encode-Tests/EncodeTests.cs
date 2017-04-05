@@ -40,8 +40,18 @@ namespace Buzzbox.Tests
             Durability = 2,
             Text = "<b>Deathrattle:</b> Deal 1 damage to all minions."
         };
-        
-        [TestMethod()]
+
+        Card testUngoro = new Card
+        {
+            Name = "Awaken the Makers",
+            Type = "SPELL",
+            PlayerClass = "PRIEST",
+            Rarity = "LEGENDARY",
+            Cost = 1,
+            Text = "<b>Quest:</b> Summon\\n7 <b>Deathrattle</b> minions.<b>\\nReward:</b> Amara, Warden of Hope."
+        };
+
+        [TestMethod]
         public void EncodeCardCollectionscfdivineFormatTest()
         {
             var collection = new CardCollection();
@@ -57,7 +67,7 @@ namespace Buzzbox.Tests
             Assert.AreEqual(expected,result);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void EncodeCardCollectionMtgEncodeFormatTest()
         {
             var collection = new CardCollection();
@@ -70,6 +80,20 @@ namespace Buzzbox.Tests
 
             var expected =
                 "|3minion|4paladin|5none|6legendary|7&^^^^^^^^|8&^^^^^^|9&^^^^^^|2$DV$. $T$. $DR$: equip a &^^^^^/&^^^ ashbringer.|1tirion fordring|\n\n|3spell|4mage|6common|7&^^^^|2deal $&^^^^^^ damage.|1fireball|\n\n|3weapon|4warrior|6common|7&^^^^|8&^^^^|9&^^|2$DR$: deal &^ damage to all minions.|1death's bite|\n\n";
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void EncodeUnGoroCard()
+        {
+            var collection = new CardCollection();
+            collection.Cards.Add(testUngoro);
+            
+            var encoder = new Encode();
+            var result = encoder.EncodeCardCollection(collection, EncodingFormats.MtgEncoderFormat);
+
+            var expected = "|3spell|4priest|6legendary|7&^|2$QU$: summon\\n7 $DR$ minions.\\nreward: amara, warden of hope.|1awaken the makers|\n\n";
 
             Assert.AreEqual(expected, result);
         }
