@@ -145,7 +145,7 @@ Streams cards from hearthstone json files, or streams plain txt files to posix f
                                hearthstonejson format or a simple text file.
                                Exclusive with input-directory.
 
-  -d, --input-directory        Path to director of files ot be streamed, must
+  -d, --input-directory        Path to directory of files to be streamed, must
                                be in hearthstonejson format or a simple text
                                file. Exclusive with file input.
 
@@ -164,7 +164,7 @@ Streams cards from hearthstone json files, or streams plain txt files to posix f
   --flavor-text                (Default: False) Include flavortext field.
 
   --name-replacement           Replace some cardnames with different ones from
-                               a file.
+                               a provided NameCollection.json file.
 
   --name-replacement-chance    (Default: 50) Chance name replacement will
                                occur, out of a hundred.
@@ -178,7 +178,9 @@ Streams cards from hearthstone json files, or streams plain txt files to posix f
   --help                       Display this help screen.
   ````
 
-The --name-replacement option was intended too improve the amount of names the RNN would learn but lack of stable patterns mostly seemed to confuse it a lot. I had better results just making a larger hearthstonejson file with duplicates of cards that had different names.
+The --name-replacement option was intended to improve the amount of names the RNN would learn but lack of stable patterns mostly seemed to confuse it a lot. I had better results just making a larger hearthstonejson file with duplicates of cards that had different names.
+
+At the moment the various streams crash with an exception when torch-rnn closes them. I have not yet figured out how to elegantly close these. 
 
 ### Examples
 
