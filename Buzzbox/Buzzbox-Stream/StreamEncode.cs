@@ -51,31 +51,36 @@ namespace Buzzbox_Stream
                     //See if names should be replaced, roll dice, replace name.
                     if (card.Type != "HERO" && NameReplacement && NameCollection.ReplaceName())
                     {
-                    string newName;
-                    try
-                    {
-                        newName = NameCollection.RandomName(card.PlayerClass, card.Type);
-                    }
-                    catch (Exception e)
-                    {
-                        _consoleLog.VerboseWriteLine($"Error trying to find a new card name for {card.Name}[{card.PlayerClass}-{card.Type}]: {e.Message}");
-                        newName = "None";
+                        string newName;
+                        try
+                        {
+                            newName = NameCollection.RandomName(card.PlayerClass, card.Type);
+                        }
+                        catch (Exception e)
+                        {
+                            _consoleLog.VerboseWriteLine($"Error trying to find a new card name for {card.Name}[{card.PlayerClass}-{card.Type}]: {e.Message}");
+                            newName = "None";
+                        }
+
+                        if (newName != "None")
+                        {
+                            card.Name = newName;
+                        }                        
                     }
 
-                    if (newName != "None")
-                    {
-                        card.Name = newName;
-                    }                        
-                    }
+                    var outputLine = _encoder.EncodeCard(card);
 
-                    var outputLine = _encoder.EncodeCard(card) + "\n\n";
+                    if (string.IsNullOrWhiteSpace(outputLine))
+                    {
+                        continue;
+                    }
 
                     if (ShuffleFields)
                     {
                         outputLine = ShuffleCardFields(outputLine);
                     }
 
-                    _stream.Write(outputLine);
+                    _stream.Write(outputLine + "\n\n");
                 
                 }
                
