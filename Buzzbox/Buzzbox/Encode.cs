@@ -39,6 +39,11 @@ namespace Buzzbox
             {
                 var cardOutput = encoder.EncodeCard(card);
 
+                if (string.IsNullOrWhiteSpace(cardOutput))
+                {
+                    continue;
+                }
+
                 if (ShuffleFields)
                 {
                     cardOutput = ShuffleCardFields(cardOutput);

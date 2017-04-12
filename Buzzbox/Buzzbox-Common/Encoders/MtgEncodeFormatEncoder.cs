@@ -55,8 +55,7 @@ namespace Buzzbox_Common.Encoders
                     break;
 
                 default:
-                    output = EncodeSpell(card);
-                    break;
+                    return string.Empty;                    
             }
 
             return output;
@@ -65,11 +64,11 @@ namespace Buzzbox_Common.Encoders
         private string EncodeMinion(Card card)
         {
             var encodedCard = string.Format("|3{3}|4{1}|5{2}|6{4}|7{5}|8{6}|9{7}|2{8}|1{0}|",
-                card.Name.ToLower(),
+                (card.Name ?? "unnamed").ToLower(),
                 (card.PlayerClass ?? "neutral").ToLower(),
                 (card.Race ?? "none").ToLower(),
                 card.Type.ToLower(),
-                EncodeCardRarity(card.Rarity),
+                EncodeCardRarity(card.Rarity ?? "common"),
                 EncodeNumbers(card.Cost),
                 EncodeNumbers(card.Attack),
                 EncodeNumbers(card.Health),
@@ -86,12 +85,12 @@ namespace Buzzbox_Common.Encoders
         private string EncodeWeapon(Card card)
         {
             var encodedCard = string.Format("|3{2}|4{1}|6{3}|7{4}|8{5}|9{6}|2{7}|1{0}|",
-                card.Name.ToLower(),
+                (card.Name ?? "unnamed").ToLower(),
                 (card.PlayerClass ?? "neutral").ToLower(),
                 card.Type.ToLower(),
-                EncodeCardRarity(card.Rarity),
+                EncodeCardRarity(card.Rarity ?? "common"),
                 EncodeNumbers(card.Cost),
-                EncodeNumbers(card.Attack),
+                EncodeNumbers(card.Attack ),
                 EncodeNumbers(card.Durability),
                 EncodeCardText(card.Text));
 
@@ -106,12 +105,12 @@ namespace Buzzbox_Common.Encoders
         private string EncodeSpell(Card card)
         {
             var encodedCard = string.Format("|3{2}|4{1}|6{3}|7{4}|2{5}|1{0}|",
-                card.Name.ToLower(),
+                (card.Name ?? "unnamed").ToLower(),
                 (card.PlayerClass ?? "neutral").ToLower(),
-                card.Type.ToLower(),
-                EncodeCardRarity(card.Rarity),
+                (card.Type ?? "spell").ToLower(),
+                EncodeCardRarity(card.Rarity ?? "common"),
                 EncodeNumbers(card.Cost),   
-                EncodeCardText(card.Text));
+                EncodeCardText(card.Text ?? ""));
 
             if (IncludeFlavorText)
             {

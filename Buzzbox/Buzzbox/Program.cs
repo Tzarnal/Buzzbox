@@ -128,9 +128,11 @@ namespace Buzzbox
 
                 //Actually encode.
                 string output;
+                output = encode.EncodeCardCollection(cardCollection, options.EncodingFormat);
+
                 try
                 {
-                    output = encode.EncodeCardCollection(cardCollection, options.EncodingFormat);
+                    
                 }
                 catch (Exception)
                 {
@@ -148,7 +150,7 @@ namespace Buzzbox
                 {
                     Console.WriteLine("Could not write output to {0}", outPath);
                 }
-
+                
             }
         }
     }
