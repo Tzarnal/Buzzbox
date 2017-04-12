@@ -447,7 +447,7 @@ namespace Buzzbox_Decode.Decoders
 
         private string FindField(string cardLine,int fieldNumber)
         {
-            var regex = @"\|" + fieldNumber + @"(.*?)\|";
+            var regex = @"\|" + fieldNumber + @"([a-zA-Z].*?)\|";
             var matches = Regex.Matches(cardLine, regex);
 
             if (matches.Count == 0)
