@@ -447,16 +447,28 @@ namespace Buzzbox_Decode.Decoders
 
         private string FindField(string cardLine,int fieldNumber)
         {
-            var regex = @"\|" + fieldNumber + @"([a-zA-Z].*?)\|";
+            var regex = @"\|" + fieldNumber + @"([\D].*?)\|";
             var matches = Regex.Matches(cardLine, regex);
-
+            
             if (matches.Count == 0)
             {
-                //Console.WriteLine("Could not find Field labeled {0} -- {1}", fieldNumber,cardLine);
+                //Console.WriteLine("Could not find Field labeled {0} -- {1}", fieldNumber,cardLine);               
+                if (cardLine.EndsWith($"{fieldNumber}|"))
+                {
+                    return "";
+                }
+
                 return null;
             }
 
-            return matches[0].Groups[1].Value;
+            var text = matches[0].Groups[1].Value;
+
+            if (text.StartsWith("|"))
+            {
+                return "";
+            }
+
+            return text;
         }
     }
 }
