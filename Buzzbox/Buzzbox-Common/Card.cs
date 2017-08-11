@@ -41,6 +41,9 @@ namespace Buzzbox_Common
                 case "WEAPON":
                     return DisplayWeapon();
 
+                case "HERO":
+                    return DisplayHero();
+
                 default:
                     return base.ToString();
             }            
@@ -52,6 +55,14 @@ namespace Buzzbox_Common
             text = Regex.Replace(text, @"\r\n?|\n", " ");
 
             return $"[{Rarity.CapitalizeOnlyFirstLetter()}] {(PlayerClass ?? "Neutral").CapitalizeOnlyFirstLetter()} {(Race ?? "-").CapitalizeOnlyFirstLetter()} Minion: {Name} - {Attack}/{Health} for {Cost} - {text}";
+        }
+
+        private string DisplayHero()
+        {
+            var text = Text.RemoveMarkup();
+            text = Regex.Replace(text, @"\r\n?|\n", " ");
+
+            return $"[{Rarity.CapitalizeOnlyFirstLetter()}] {(PlayerClass ?? "Neutral").CapitalizeOnlyFirstLetter()} Hero: {Name} - {Health} Armor for {Cost} - {text}";
         }
 
         private string DisplaySpell()
