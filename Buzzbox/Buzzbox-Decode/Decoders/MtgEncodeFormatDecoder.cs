@@ -70,6 +70,10 @@ namespace Buzzbox_Decode.Decoders
                     card = DecodeWeapon(cardLine);
                     break;
 
+                case "hero":
+                    card = DecodeHero(cardLine);
+                    break;
+
                 default:
                     return null;
             }
@@ -148,6 +152,66 @@ namespace Buzzbox_Decode.Decoders
             }
             newCard.Text = cardText;
             
+            var cardFlavor = FindField(cardLine, 10);
+            if (!string.IsNullOrWhiteSpace(cardFlavor))
+            {
+                newCard.Flavor = DecodeText(cardFlavor);
+            }
+
+            return newCard;
+        }
+
+        private Card DecodeHero(string cardLine)
+        {
+            var newCard = new Card { Type = "HERO" };
+
+            //Assign card class
+            var cardClass = DecodeClass(cardLine);
+            if (cardClass == "Unknown")
+            {
+                return null;
+            }
+            newCard.PlayerClass = cardClass;
+
+            //Assign card rarity
+            var cardRarity = DecodeRarity(cardLine);
+            if (cardRarity == "Unknown")
+            {
+                return null;
+            }
+            newCard.Rarity = cardRarity;
+
+            //Assign card name
+            var cardName = DecodeName(cardLine);
+            if (cardName == "Unknown")
+            {
+                return null;
+            }
+            newCard.Name = cardName;
+
+            var cardCost = DecodeNumberField(cardLine, 7);
+            if (cardCost == null)
+            {
+                _ConsoleLog.VerboseWriteLine("Could not convert Cost field to a number.");
+                return null;
+            }
+            newCard.Cost = (int)cardCost;
+
+            var cardHealth = DecodeNumberField(cardLine, 9);
+            if (cardHealth == null)
+            {
+                _ConsoleLog.VerboseWriteLine("Could not convert Health field to a number.");
+                return null;
+            }
+            newCard.Health = (int)cardHealth;
+
+            var cardText = DecodeCardText(cardLine);
+            if (cardText == "Unknown")
+            {
+                return null;
+            }
+            newCard.Text = cardText;
+
             var cardFlavor = FindField(cardLine, 10);
             if (!string.IsNullOrWhiteSpace(cardFlavor))
             {

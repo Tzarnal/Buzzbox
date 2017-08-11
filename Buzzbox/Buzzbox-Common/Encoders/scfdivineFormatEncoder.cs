@@ -30,6 +30,10 @@ namespace Buzzbox_Common.Encoders
                     output = EncodeMinion(card);
                     break;
 
+                case "HERO":
+                    output = EncodeHero(card);
+                    break;
+
                 default:
                     output = EncodeSpell(card);
                     break;
@@ -55,6 +59,33 @@ namespace Buzzbox_Common.Encoders
                 card.Cost,
                 card.Attack,
                 card.Health,
+                encodedText);
+
+            return encodedCard;
+        }
+
+        private string EncodeHero(Card card)
+        {
+            //We only want collectible Hero cards. 
+            if (card.Set == "CORE" || card.Set == "HERO_SKINS")
+                return "";
+
+            var encodedClass = EncodeCardClass(card.PlayerClass);            
+            var encodedType = EncodeCardType(card.Type);
+            var encodedRarity = EncodeCardRarity(card.Rarity);
+            var encodedText = EncodeCardText(card.Text);
+
+            //Technically all hero cards provide 30 max health, thats not a useful thing to encode right now
+            //All legendary hero cardsp provide 5 armor.
+            var exceptionCardHealth = 5;
+
+            var encodedCard = string.Format("{0} @ {1} | {2} | {3} | {4} | {5} || {6} &",
+                card.Name,
+                encodedClass,
+                encodedType,
+                encodedRarity,
+                card.Cost,
+                exceptionCardHealth,
                 encodedText);
 
             return encodedCard;

@@ -41,6 +41,10 @@ namespace Buzzbox_Decode.Decoders
                     card = DecodeWeapon(splitLine);
                     break;
 
+                case "Hero":
+                    card = DecodeHero(splitLine);
+                    break;
+
                 default:
                     _ConsoleLog.VerboseWriteLine("Could not recognize card type.");
                     return null;
@@ -118,6 +122,59 @@ namespace Buzzbox_Decode.Decoders
 
             newCard.Text = cardText;
 
+            return newCard;
+        }
+
+        private Card DecodeHero(string[] splitLine)
+        {            
+            var newCard = new Card { Type = "HERO" };
+
+            //Assign Card name
+            var nameClass = splitLine[0].Split('@');
+            newCard.Name = nameClass[0].Trim();
+
+            //Check for card class and assign, or fail out if not a real class.
+            var className = DecodeClass(nameClass[1]);
+            if (className != null && className == "Unknown")
+            {
+                _ConsoleLog.VerboseWriteLine("${nameClass[1]} is not a recognized Class in Hearthstone.");
+                return null;
+            }            
+            newCard.PlayerClass = className;
+            
+            //Assign Rarity
+            var rarity = DecodeRarity(splitLine[2]);
+            if (rarity == "Unknown")
+            {
+                _ConsoleLog.VerboseWriteLine($"{splitLine[2]} is not a recognized rarity in Hearthstone.");
+                return null;
+            }
+            
+            newCard.Rarity = rarity;
+
+            //try to parse Manacost
+            int manaCost;
+            if (!int.TryParse(splitLine[3].Trim(), out manaCost))
+            {
+                _ConsoleLog.VerboseWriteLine($"{splitLine[3]} is not convertable to a number for manacost.");
+                return null;
+            }            
+
+            int health;
+            if (!int.TryParse(splitLine[4].Trim(), out health))
+            {
+                _ConsoleLog.VerboseWriteLine($"{splitLine[4]} is not convertable to a number for attack.");
+                return null;
+            }            
+
+            //assign all the numbers at once, why not
+            newCard.Cost = manaCost;            
+            newCard.Health = health;
+
+            var cardText = DecodeText(splitLine[6]);
+
+            newCard.Text = cardText;
+            
             return newCard;
         }
 
@@ -313,7 +370,7 @@ namespace Buzzbox_Decode.Decoders
         }
 
         private string FindCardType(string[] splitLine)
-        {
+        {            
             if (splitLine.Count() == 8)
             {
                 if (splitLine[2].Trim() == "Minion")
@@ -328,6 +385,7 @@ namespace Buzzbox_Decode.Decoders
                 {
                     return "Spell";
                 }
+
             }
 
             if (splitLine.Count() == 7)
@@ -336,9 +394,14 @@ namespace Buzzbox_Decode.Decoders
                 {
                     return "Weapon";
                 }
+
+                if (splitLine[1].Trim() == "Hero")
+                {
+                    return "Hero";
+                }
             }
 
-            //No clue what it is
+            //No clue what it is            
             return "Unknown";
         }
     }
