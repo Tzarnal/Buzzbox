@@ -51,6 +51,17 @@ namespace Buzzbox.Tests
             Text = "<b>Quest:</b> Summon\\n7 <b>Deathrattle</b> minions.<b>\\nReward:</b> Amara, Warden of Hope."
         };
 
+        private Card testHero = new Card
+        {
+            Name = "Uther of the Ebon Blade",
+            Type = "HERO",
+            PlayerClass = "PALADIN",
+            Rarity = "LEGENDARY",
+            Cost = 9,
+            Health = 30,
+            Text = "<b>Battlecry</b>: Equip a 5/3 Lifesteal weapon."
+        };
+
         [TestMethod]
         public void EncodeCardCollectionscfdivineFormatTest()
         {
@@ -94,6 +105,36 @@ namespace Buzzbox.Tests
             var result = encoder.EncodeCardCollection(collection, EncodingFormats.MtgEncoderFormat);
 
             var expected = "|3spell|4priest|6legendary|7&^|2$QU$: summon\\n7 $DR$ minions.\\nreward: amara, warden of hope.|1awaken the makers|\n\n";
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void EncodescfdivineFormatHero()
+        {
+            var collection = new CardCollection();
+            collection.Cards.Add(testHero);
+
+            var encoder = new Encode();
+            var result = encoder.EncodeCardCollection(collection, EncodingFormats.scfdivineFormat);
+
+            var expected =
+                "Uther of the Ebon Blade @ Paladin | Hero | L | 9 | 5 || $B$: Equip a 5/3 $LS$ weapon. &\n\n";
+
+            Assert.AreEqual(expected, result);
+
+        }
+
+        [TestMethod]
+        public void EncodesMtgFormatHero()
+        {
+            var collection = new CardCollection();
+            collection.Cards.Add(testHero);
+
+            var encoder = new Encode();
+            var result = encoder.EncodeCardCollection(collection, EncodingFormats.MtgEncoderFormat);
+
+            var expected = "|3hero|4paladin|6legendary|7&^^^^^^^^^|9&^^^^^|2$B$: equip a &^^^^^/&^^^ $LS$ weapon.|1uther of the ebon blade|\n\n";
 
             Assert.AreEqual(expected, result);
         }

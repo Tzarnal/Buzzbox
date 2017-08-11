@@ -46,9 +46,48 @@ namespace Buzzbox_Decode.Tests
         public void DecodeStringUngoro()
         {
             var decoder = new Decode();
-            var result = decoder.DecodeString("|3spell|4priest|6legendary|7&^|2$QU$: summon\\n7 $DR$ minions.\\nreward: amara, warden of hope.|1awaken the makers|\n\n", EncodingFormats.MtgEncoderFormat);
+            var result =
+                decoder.DecodeString(
+                    "|3spell|4priest|6legendary|7&^|2$QU$: summon\\n7 $DR$ minions.\\nreward: amara, warden of hope.|1awaken the makers|\n\n",
+                    EncodingFormats.MtgEncoderFormat);
 
-            var expected = "[Legendary] Priest Spell: Awaken The Makers - 1 mana - Quest: Summon\\n7 Deathrattle minions.\\nreward: Amara, warden of hope.\r\n";
+            var expected =
+                "[Legendary] Priest Spell: Awaken The Makers - 1 mana - Quest: Summon\\n7 Deathrattle minions.\\nreward: Amara, warden of hope.\r\n";
+
+            var resultString = "";
+            foreach (var card in result.Cards)
+            {
+                resultString += card.ToString() + Environment.NewLine;
+            }
+
+            Assert.AreEqual(expected, resultString);
+        }
+
+
+        [TestMethod()]
+        public void DecodeStringscfdivineFormatHero()
+        {
+            var decoder = new Decode();
+            var result = decoder.DecodeString("Uther of the Ebon Blade @ Paladin | Hero | L | 9 | 5 || $B$: Equip a 5/3 Lifesteal weapon. &\n\n", EncodingFormats.scfdivineFormat);
+
+            var expected = "[Legendary] Paladin Hero: Uther of the Ebon Blade - 5 Armor for 9 - Battlecry: Equip a 5/3 Lifesteal weapon.\r\n";
+
+            var resultString = "";
+            foreach (var card in result.Cards)
+            {
+                resultString += card.ToString() + Environment.NewLine;
+            }
+
+            Assert.AreEqual(expected, resultString);
+        }
+
+        [TestMethod()]
+        public void DecodeStringMtFormatHero()
+        {
+            var decoder = new Decode();
+            var result = decoder.DecodeString("|3hero|4paladin|6legendary|7&^^^^^^^^^|9&^^^^^|2$B$: equip a &^^^^^/&^^^ lifesteal weapon.|1uther of the ebon blade|\n\n", EncodingFormats.MtgEncoderFormat);
+
+            var expected = "[Legendary] Paladin Hero: Uther Of The Ebon Blade - 5 Armor for 9 - Battlecry: Equip a 5/3 lifesteal weapon.\r\n";
 
             var resultString = "";
             foreach (var card in result.Cards)
