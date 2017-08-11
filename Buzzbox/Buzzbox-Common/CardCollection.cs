@@ -67,6 +67,7 @@ namespace Buzzbox_Common
             int spells = Cards.Count(card => card.Type == "SPELL");
             int weapons = Cards.Count(card => card.Type == "WEAPON");
             int minions = Cards.Count(card => card.Type == "MINION");
+            int heroes = Cards.Count(card => card.Type == "HERO");
 
             var classes = new Dictionary<string,int>();
 
@@ -82,7 +83,7 @@ namespace Buzzbox_Common
                 }
             }
 
-            var output = $"{spells} Spells, {weapons} Weapons and {minions} Minions.";
+            var output = $"{heroes} Heroes, {spells} Spells, {weapons} Weapons and {minions} Minions.";
 
             foreach (KeyValuePair<string,int> entry in classes)
             {
