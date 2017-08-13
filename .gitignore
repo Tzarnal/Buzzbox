@@ -13,6 +13,7 @@ Thumbs.db
 *.cache
 *.ilk
 *.log
+*.dll
 [Bb]in
 [Dd]ebug*/
 *.sbr
