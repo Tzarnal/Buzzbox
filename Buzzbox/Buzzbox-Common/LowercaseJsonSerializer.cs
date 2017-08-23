@@ -21,8 +21,8 @@ namespace Buzzbox_Common
         {
             protected override string ResolvePropertyName(string propertyName)
             {
-                if (propertyName == "PlayerClass")
-                    return "playerClass";
+                if (propertyName == "CardClass")
+                    return "cardClass";
 
                 return propertyName.ToLower();
             }

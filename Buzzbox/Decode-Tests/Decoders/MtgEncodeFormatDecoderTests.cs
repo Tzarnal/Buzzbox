@@ -10,7 +10,7 @@ namespace Buzzbox_Decode.Decoders.Tests
         {
             Name = "Tirion Fordring",
             Type = "MINION",
-            PlayerClass = "PALADIN",
+            CardClass = "PALADIN",
             Rarity = "LEGENDARY",
             Cost = 8,
             Attack = 6,
@@ -22,7 +22,7 @@ namespace Buzzbox_Decode.Decoders.Tests
         {
             Name = "Tirion Fordring",
             Type = "MINION",
-            PlayerClass = "PALADIN",
+            CardClass = "PALADIN",
             Rarity = "LEGENDARY",
             Cost = 8,
             Attack = 6,
@@ -34,7 +34,7 @@ namespace Buzzbox_Decode.Decoders.Tests
         {
             Name = "Fireball",
             Type = "SPELL",
-            PlayerClass = "MAGE",
+            CardClass = "MAGE",
             Rarity = "COMMON",
             Cost = 4,
             Text = "Deal $6 damage."
@@ -44,7 +44,7 @@ namespace Buzzbox_Decode.Decoders.Tests
         {
             Name = "Death's Bite",
             Type = "WEAPON",
-            PlayerClass = "WARRIOR",
+            CardClass = "WARRIOR",
             Rarity = "COMMON",
             Cost = 4,
             Attack = 4,
@@ -63,7 +63,7 @@ namespace Buzzbox_Decode.Decoders.Tests
 
             Assert.AreEqual(testBlankMinion.Name, output.Name);
             Assert.AreEqual(testBlankMinion.Type, output.Type);
-            Assert.AreEqual(testBlankMinion.PlayerClass, output.PlayerClass);
+            Assert.AreEqual(testBlankMinion.CardClass, output.CardClass);
             Assert.AreEqual(testBlankMinion.Rarity, output.Rarity);
             Assert.AreEqual(testBlankMinion.Cost, output.Cost);
             Assert.AreEqual(testBlankMinion.Attack, output.Attack);
@@ -83,7 +83,7 @@ namespace Buzzbox_Decode.Decoders.Tests
 
             Assert.AreEqual(testMinion.Name, output.Name);
             Assert.AreEqual(testMinion.Type, output.Type);
-            Assert.AreEqual(testMinion.PlayerClass, output.PlayerClass);
+            Assert.AreEqual(testMinion.CardClass, output.CardClass);
             Assert.AreEqual(testMinion.Rarity, output.Rarity);
             Assert.AreEqual(testMinion.Cost, output.Cost);
             Assert.AreEqual(testMinion.Attack, output.Attack);
@@ -102,7 +102,7 @@ namespace Buzzbox_Decode.Decoders.Tests
 
             Assert.AreEqual(testSpell.Name, output.Name);
             Assert.AreEqual(testSpell.Type, output.Type);
-            Assert.AreEqual(testSpell.PlayerClass, output.PlayerClass);
+            Assert.AreEqual(testSpell.CardClass, output.CardClass);
             Assert.AreEqual(testSpell.Rarity, output.Rarity);
             Assert.AreEqual(testSpell.Cost, output.Cost);
             Assert.AreEqual(testSpell.Text, output.Text);
@@ -118,7 +118,7 @@ namespace Buzzbox_Decode.Decoders.Tests
 
             Assert.AreEqual(testWeapon.Name, output.Name);
             Assert.AreEqual(testWeapon.Type, output.Type);
-            Assert.AreEqual(testWeapon.PlayerClass, output.PlayerClass);
+            Assert.AreEqual(testWeapon.CardClass, output.CardClass);
             Assert.AreEqual(testWeapon.Rarity, output.Rarity);
             Assert.AreEqual(testWeapon.Cost, output.Cost);
             Assert.AreEqual(testWeapon.Attack, output.Attack);

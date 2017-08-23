@@ -73,13 +73,13 @@ namespace Buzzbox_Common
 
             foreach (var card in Cards)
             {
-                if (classes.ContainsKey(card.PlayerClass ?? "NEUTRAL"))
+                if (classes.ContainsKey(card.CardClass ?? "NEUTRAL"))
                 {
-                    classes[card.PlayerClass ?? "NEUTRAL"]++;
+                    classes[card.CardClass ?? "NEUTRAL"]++;
                 }
                 else
                 {
-                    classes.Add(card.PlayerClass ?? "NEUTRAL",1);
+                    classes.Add(card.CardClass ?? "NEUTRAL",1);
                 }
             }
 

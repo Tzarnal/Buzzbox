@@ -54,11 +54,11 @@ namespace Buzzbox_Stream
                         string newName;
                         try
                         {
-                            newName = NameCollection.RandomName(card.PlayerClass, card.Type);
+                            newName = NameCollection.RandomName(card.CardClass, card.Type);
                         }
                         catch (Exception e)
                         {
-                            _consoleLog.VerboseWriteLine($"Error trying to find a new card name for {card.Name}[{card.PlayerClass}-{card.Type}]: {e.Message}");
+                            _consoleLog.VerboseWriteLine($"Error trying to find a new card name for {card.Name}[{card.CardClass}-{card.Type}]: {e.Message}");
                             newName = "None";
                         }
 
