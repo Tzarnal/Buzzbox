@@ -27,6 +27,7 @@ namespace Buzzbox_Common
         public string CardClass { get; set; }
         public int? Durability { get; set; }
         public string Source { get; set; }
+        public bool Elite { get; set; } = false;
 
         public override string ToString()
         {
@@ -34,7 +35,7 @@ namespace Buzzbox_Common
             {
                 case "MINION":
                     return DisplayMinion();
-                
+
                 case "SPELL":
                     return DisplaySpell();
 
@@ -46,7 +47,7 @@ namespace Buzzbox_Common
 
                 default:
                     return base.ToString();
-            }            
+            }
         }
 
         private string DisplayMinion()
@@ -81,5 +82,5 @@ namespace Buzzbox_Common
             return $"[{Rarity.CapitalizeOnlyFirstLetter()}] {(CardClass ?? "Neutral").CapitalizeOnlyFirstLetter()} Weapon: {Name} - {Attack}/{Durability} for {Cost} - {text}";
         }
     }
-    
+
 }

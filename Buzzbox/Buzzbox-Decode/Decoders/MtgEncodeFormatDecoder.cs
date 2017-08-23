@@ -99,6 +99,10 @@ namespace Buzzbox_Decode.Decoders
             {
                 return null;
             }
+            if (cardRarity == "LEGENDARY")
+            {
+                newCard.Elite = true;
+            }
             newCard.Rarity = cardRarity;
 
             //Assign card race/tribe
@@ -179,6 +183,10 @@ namespace Buzzbox_Decode.Decoders
             {
                 return null;
             }
+            if (cardRarity == "LEGENDARY")
+            {
+                newCard.Elite = true;
+            }
             newCard.Rarity = cardRarity;
 
             //Assign card name
@@ -238,6 +246,10 @@ namespace Buzzbox_Decode.Decoders
             if (cardRarity == "Unknown")
             {
                 return null;
+            }
+            if (cardRarity == "LEGENDARY")
+            {
+                newCard.Elite = true;
             }
             newCard.Rarity = cardRarity;
 

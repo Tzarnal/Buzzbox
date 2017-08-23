@@ -85,7 +85,10 @@ namespace Buzzbox_Decode.Decoders
                 _ConsoleLog.VerboseWriteLine($"{splitLine[3]} is not a recognized rarity in Hearthstone.");
                 return null;
             }
-
+            if (rarity == "LEGENDARY")
+            {
+                newCard.Elite = true;
+            }
             newCard.Rarity = rarity;
 
             //try to parse Manacost
@@ -149,7 +152,10 @@ namespace Buzzbox_Decode.Decoders
                 _ConsoleLog.VerboseWriteLine($"{splitLine[2]} is not a recognized rarity in Hearthstone.");
                 return null;
             }
-
+            if (rarity == "LEGENDARY")
+            {
+                newCard.Elite = true;
+            }
             newCard.Rarity = rarity;
 
             //try to parse Manacost
@@ -204,7 +210,10 @@ namespace Buzzbox_Decode.Decoders
                _ConsoleLog.VerboseWriteLine($"{splitLine[2]} is not a regcognized rarity in Hearthstone.");
                 return null;
             }
-
+            if (rarity == "LEGENDARY")
+            {
+                newCard.Elite = true;
+            }
             newCard.Rarity = rarity;
 
             //try to parse Manacost
