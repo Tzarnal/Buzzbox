@@ -56,7 +56,7 @@ namespace Buzzbox_Decode.Decoders
         private Card DecodeMinion(string[] splitLine)
         {
             var newCard = new Card {Type = "MINION"};
-                     
+
             //Assign Card name
             var nameClass = splitLine[0].Split('@');
             newCard.Name = nameClass[0].Trim();
@@ -69,7 +69,7 @@ namespace Buzzbox_Decode.Decoders
                 return null;
             }
 
-            newCard.PlayerClass = className;
+            newCard.CardClass = className;
 
             //Assign card race/tribe
             var race = splitLine[1].Trim().ToUpper();
@@ -85,7 +85,10 @@ namespace Buzzbox_Decode.Decoders
                 _ConsoleLog.VerboseWriteLine($"{splitLine[3]} is not a recognized rarity in Hearthstone.");
                 return null;
             }
-
+            if (rarity == "LEGENDARY")
+            {
+                newCard.Elite = true;
+            }
             newCard.Rarity = rarity;
 
             //try to parse Manacost
@@ -126,7 +129,7 @@ namespace Buzzbox_Decode.Decoders
         }
 
         private Card DecodeHero(string[] splitLine)
-        {            
+        {
             var newCard = new Card { Type = "HERO" };
 
             //Assign Card name
@@ -139,9 +142,9 @@ namespace Buzzbox_Decode.Decoders
             {
                 _ConsoleLog.VerboseWriteLine("${nameClass[1]} is not a recognized Class in Hearthstone.");
                 return null;
-            }            
-            newCard.PlayerClass = className;
-            
+            }
+            newCard.CardClass = className;
+
             //Assign Rarity
             var rarity = DecodeRarity(splitLine[2]);
             if (rarity == "Unknown")
@@ -149,7 +152,10 @@ namespace Buzzbox_Decode.Decoders
                 _ConsoleLog.VerboseWriteLine($"{splitLine[2]} is not a recognized rarity in Hearthstone.");
                 return null;
             }
-            
+            if (rarity == "LEGENDARY")
+            {
+                newCard.Elite = true;
+            }
             newCard.Rarity = rarity;
 
             //try to parse Manacost
@@ -158,23 +164,23 @@ namespace Buzzbox_Decode.Decoders
             {
                 _ConsoleLog.VerboseWriteLine($"{splitLine[3]} is not convertable to a number for manacost.");
                 return null;
-            }            
+            }
 
             int health;
             if (!int.TryParse(splitLine[4].Trim(), out health))
             {
                 _ConsoleLog.VerboseWriteLine($"{splitLine[4]} is not convertable to a number for attack.");
                 return null;
-            }            
+            }
 
             //assign all the numbers at once, why not
-            newCard.Cost = manaCost;            
+            newCard.Cost = manaCost;
             newCard.Health = health;
 
             var cardText = DecodeText(splitLine[6]);
 
             newCard.Text = cardText;
-            
+
             return newCard;
         }
 
@@ -194,7 +200,7 @@ namespace Buzzbox_Decode.Decoders
                 return null;
             }
 
-            newCard.PlayerClass = className;
+            newCard.CardClass = className;
 
 
             //Assign Rarity
@@ -204,7 +210,10 @@ namespace Buzzbox_Decode.Decoders
                _ConsoleLog.VerboseWriteLine($"{splitLine[2]} is not a regcognized rarity in Hearthstone.");
                 return null;
             }
-
+            if (rarity == "LEGENDARY")
+            {
+                newCard.Elite = true;
+            }
             newCard.Rarity = rarity;
 
             //try to parse Manacost
@@ -241,7 +250,7 @@ namespace Buzzbox_Decode.Decoders
                 return null;
             }
 
-            newCard.PlayerClass = className;
+            newCard.CardClass = className;
 
             //Assign Rarity
             var rarity = DecodeRarity(splitLine[2]);
@@ -292,7 +301,7 @@ namespace Buzzbox_Decode.Decoders
 
         private string DecodeText(string cardText)
         {
-            
+
             if (string.IsNullOrWhiteSpace(cardText))
             {
                 return "";
@@ -342,13 +351,9 @@ namespace Buzzbox_Decode.Decoders
             className = className.Trim();
             className = className.ToUpper();
 
-            if (className == "NEUTRAL")
-            {
-                return null;
-            }
-
             var legalClasses = new[]
             {
+                "NEUTRAL",
                 "PALADIN",
                 "HUNTER",
                 "MAGE",
@@ -370,7 +375,7 @@ namespace Buzzbox_Decode.Decoders
         }
 
         private string FindCardType(string[] splitLine)
-        {            
+        {
             if (splitLine.Count() == 8)
             {
                 if (splitLine[2].Trim() == "Minion")
@@ -401,7 +406,7 @@ namespace Buzzbox_Decode.Decoders
                 }
             }
 
-            //No clue what it is            
+            //No clue what it is
             return "Unknown";
         }
     }

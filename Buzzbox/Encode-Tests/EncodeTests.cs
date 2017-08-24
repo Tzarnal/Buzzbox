@@ -11,7 +11,7 @@ namespace Buzzbox.Tests
         {
             Name = "Tirion Fordring",
             Type = "MINION",
-            PlayerClass = "PALADIN",
+            CardClass = "PALADIN",
             Rarity = "LEGENDARY",
             Cost = 8,
             Attack = 6,
@@ -23,7 +23,7 @@ namespace Buzzbox.Tests
         {
             Name = "Fireball",
             Type = "SPELL",
-            PlayerClass = "MAGE",
+            CardClass = "MAGE",
             Rarity = "FREE",
             Cost = 4,
             Text = "Deal $6 damage."
@@ -33,7 +33,7 @@ namespace Buzzbox.Tests
         {
             Name = "Death's Bite",
             Type = "WEAPON",
-            PlayerClass = "WARRIOR",
+            CardClass = "WARRIOR",
             Rarity = "COMMON",
             Cost = 4,
             Attack = 4,
@@ -45,7 +45,7 @@ namespace Buzzbox.Tests
         {
             Name = "Awaken the Makers",
             Type = "SPELL",
-            PlayerClass = "PRIEST",
+            CardClass = "PRIEST",
             Rarity = "LEGENDARY",
             Cost = 1,
             Text = "<b>Quest:</b> Summon\\n7 <b>Deathrattle</b> minions.<b>\\nReward:</b> Amara, Warden of Hope."
@@ -55,7 +55,7 @@ namespace Buzzbox.Tests
         {
             Name = "Uther of the Ebon Blade",
             Type = "HERO",
-            PlayerClass = "PALADIN",
+            CardClass = "PALADIN",
             Rarity = "LEGENDARY",
             Cost = 9,
             Health = 30,

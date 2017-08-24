@@ -44,7 +44,7 @@ namespace Buzzbox_Common.Encoders
 
         private string EncodeMinion(Card card)
         {
-            var encodedClass = EncodeCardClass(card.PlayerClass);
+            var encodedClass = EncodeCdClass(card.CardClass);
             var encodedRace = EncodeCardRace(card.Race);
             var encodedType = EncodeCardType(card.Type);
             var encodedRarity = EncodeCardRarity(card.Rarity);
@@ -70,7 +70,7 @@ namespace Buzzbox_Common.Encoders
             if (card.Set == "CORE" || card.Set == "HERO_SKINS")
                 return "";
 
-            var encodedClass = EncodeCardClass(card.PlayerClass);            
+            var encodedClass = EncodeCdClass(card.CardClass);            
             var encodedType = EncodeCardType(card.Type);
             var encodedRarity = EncodeCardRarity(card.Rarity);
             var encodedText = EncodeCardText(card.Text);
@@ -93,7 +93,7 @@ namespace Buzzbox_Common.Encoders
 
         private string EncodeWeapon(Card card)
         {
-            var encodedClass = EncodeCardClass(card.PlayerClass);            
+            var encodedClass = EncodeCdClass(card.CardClass);            
             var encodedType = EncodeCardType(card.Type);
             var encodedRarity = EncodeCardRarity(card.Rarity);
             var encodedText = EncodeCardText(card.Text);
@@ -113,7 +113,7 @@ namespace Buzzbox_Common.Encoders
 
         private string EncodeSpell(Card card)
         {
-            var encodedClass = EncodeCardClass(card.PlayerClass);
+            var encodedClass = EncodeCdClass(card.CardClass);
             var encodedType = EncodeCardType(card.Type);
             var encodedRarity = EncodeCardRarity(card.Rarity);
             var encodedText = EncodeCardText(card.Text);
@@ -162,14 +162,14 @@ namespace Buzzbox_Common.Encoders
             return race.CapitalizeOnlyFirstLetter();
         }
 
-        private string EncodeCardClass(string cardClass)
+        private string EncodeCdClass(string cdClass)
         {
-            if (string.IsNullOrWhiteSpace(cardClass))
+            if (string.IsNullOrWhiteSpace(cdClass))
             {
                 return "Neutral";
             }
 
-            return cardClass.CapitalizeOnlyFirstLetter();
+            return cdClass.CapitalizeOnlyFirstLetter();
         }
 
         private string EncodeCardType(string type)

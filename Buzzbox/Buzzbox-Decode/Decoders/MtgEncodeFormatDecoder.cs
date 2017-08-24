@@ -10,9 +10,9 @@ namespace Buzzbox_Decode.Decoders
     public class MtgEncodeFormatDecoder : IDecoderInterface
     {
         /*
-         * Format Explained: 
-         * 
-         * Field Labels 
+         * Format Explained:
+         *
+         * Field Labels
          * 1: Name
          * 2: Text
          * 3: Type ( Minion/Spell/Weapon )
@@ -23,8 +23,8 @@ namespace Buzzbox_Decode.Decoders
          * 8: Attack
          * 9: Health/Durability
          * 10: Flavourtext. Optional.
-         * 
-         * 
+         *
+         *
          * all text in lowercase, type/class/rarity not abreviated
          * numbers replaced with &^^^ format. amount of ^ indicates number
          * fields seperated by | with leading and closing |
@@ -86,18 +86,22 @@ namespace Buzzbox_Decode.Decoders
             var newCard = new Card { Type = "MINION" };
 
             //Assign card class
-            var cardClass = DecodeClass(cardLine);
-            if (cardClass == "Unknown")
-            {                
+            var cdClass = DecodeClass(cardLine);
+            if (cdClass == "Unknown")
+            {
                 return null;
             }
-            newCard.PlayerClass = cardClass;
+            newCard.CardClass = cdClass;
 
             //Assign card rarity
             var cardRarity = DecodeRarity(cardLine);
             if (cardRarity == "Unknown")
             {
                 return null;
+            }
+            if (cardRarity == "LEGENDARY")
+            {
+                newCard.Elite = true;
             }
             newCard.Rarity = cardRarity;
 
@@ -151,7 +155,7 @@ namespace Buzzbox_Decode.Decoders
                 return null;
             }
             newCard.Text = cardText;
-            
+
             var cardFlavor = FindField(cardLine, 10);
             if (!string.IsNullOrWhiteSpace(cardFlavor))
             {
@@ -166,18 +170,22 @@ namespace Buzzbox_Decode.Decoders
             var newCard = new Card { Type = "HERO" };
 
             //Assign card class
-            var cardClass = DecodeClass(cardLine);
-            if (cardClass == "Unknown")
+            var cdClass = DecodeClass(cardLine);
+            if (cdClass == "Unknown")
             {
                 return null;
             }
-            newCard.PlayerClass = cardClass;
+            newCard.CardClass = cdClass;
 
             //Assign card rarity
             var cardRarity = DecodeRarity(cardLine);
             if (cardRarity == "Unknown")
             {
                 return null;
+            }
+            if (cardRarity == "LEGENDARY")
+            {
+                newCard.Elite = true;
             }
             newCard.Rarity = cardRarity;
 
@@ -226,18 +234,22 @@ namespace Buzzbox_Decode.Decoders
             var newCard = new Card { Type = "SPELL" };
 
             //Assign card class
-            var cardClass = DecodeClass(cardLine);
-            if (cardClass == "Unknown")
+            var cdClass = DecodeClass(cardLine);
+            if (cdClass == "Unknown")
             {
                 return null;
             }
-            newCard.PlayerClass = cardClass;
+            newCard.CardClass = cdClass;
 
             //Assign card rarity
             var cardRarity = DecodeRarity(cardLine);
             if (cardRarity == "Unknown")
             {
                 return null;
+            }
+            if (cardRarity == "LEGENDARY")
+            {
+                newCard.Elite = true;
             }
             newCard.Rarity = cardRarity;
 
@@ -272,18 +284,18 @@ namespace Buzzbox_Decode.Decoders
 
             return newCard;
         }
-        
+
         private Card DecodeWeapon(string cardLine)
         {
             var newCard = new Card { Type = "WEAPON" };
 
             //Assign card class
-            var cardClass = DecodeClass(cardLine);
-            if (cardClass == "Unknown")
+            var cdClass = DecodeClass(cardLine);
+            if (cdClass == "Unknown")
             {
                 return null;
             }
-            newCard.PlayerClass = cardClass;
+            newCard.CardClass = cdClass;
 
             //Assign card rarity
             var cardRarity = DecodeRarity(cardLine);
@@ -406,7 +418,7 @@ namespace Buzzbox_Decode.Decoders
 
             cardRarity = cardRarity.ToUpper();
 
-            var legalRarities = new[] 
+            var legalRarities = new[]
             {
                 "COMMON",
                 "RARE",
@@ -424,22 +436,18 @@ namespace Buzzbox_Decode.Decoders
 
         private string DecodeClass(string cardLine)
         {
-            var cardClass = FindField(cardLine, 4);
-            if (string.IsNullOrWhiteSpace(cardClass))
+            var cdClass = FindField(cardLine, 4);
+            if (string.IsNullOrWhiteSpace(cdClass))
             {
                 _ConsoleLog.VerboseWriteLine("Could not find a field for class.");
                 return "Unknown";
             }
 
-            cardClass = cardClass.ToUpper();
-
-            if (cardClass == "NEUTRAL")
-            {
-                return null;
-            }
+            cdClass = cdClass.ToUpper();
 
             var legalClasses = new[]
             {
+                "NEUTRAL",
                 "PALADIN",
                 "HUNTER",
                 "MAGE",
@@ -452,16 +460,16 @@ namespace Buzzbox_Decode.Decoders
 
             };
 
-            if (!legalClasses.Contains(cardClass))
+            if (!legalClasses.Contains(cdClass))
             {
-                _ConsoleLog.VerboseWriteLine($"{cardClass} is not a recognized class in Hearthstone.");
+                _ConsoleLog.VerboseWriteLine($"{cdClass} is not a recognized class in Hearthstone.");
                 return "Unknown";
             }
 
-            return cardClass;
+            return cdClass;
         }
 
-       
+
         private string DecodeNumbers(string input)
         {
             var symbolMatches = Regex.Matches(input, @"&(\^*)");
@@ -474,7 +482,7 @@ namespace Buzzbox_Decode.Decoders
                 var count = symbolString.Length - 1;
 
                 if(!numberSymbolsToReplace.ContainsKey(symbolString))
-                    numberSymbolsToReplace.Add(symbolString, count);                    
+                    numberSymbolsToReplace.Add(symbolString, count);
             }
 
             //order by the longest first, this should avoid dangeling ^^^'s
@@ -482,7 +490,7 @@ namespace Buzzbox_Decode.Decoders
 
             foreach (var entry in sortedSymbols)
             {
-                
+
                 input = input.Replace(entry.Key,  entry.Value.ToString() );
             }
 
@@ -501,7 +509,7 @@ namespace Buzzbox_Decode.Decoders
 
             int number;
             if (!int.TryParse(numberField, out number))
-            {                
+            {
                 return null;
             }
 
@@ -513,10 +521,10 @@ namespace Buzzbox_Decode.Decoders
         {
             var regex = @"\|" + fieldNumber + @"([\D].*?)\|";
             var matches = Regex.Matches(cardLine, regex);
-            
+
             if (matches.Count == 0)
             {
-                //Console.WriteLine("Could not find Field labeled {0} -- {1}", fieldNumber,cardLine);               
+                //Console.WriteLine("Could not find Field labeled {0} -- {1}", fieldNumber,cardLine);
                 if (cardLine.EndsWith($"{fieldNumber}|"))
                 {
                     return "";

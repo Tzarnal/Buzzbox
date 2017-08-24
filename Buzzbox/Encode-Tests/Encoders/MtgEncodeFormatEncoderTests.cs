@@ -11,7 +11,7 @@ namespace Buzzbox.Encoders.Tests
         {
             Name = "Tirion Fordring",
             Type = "MINION",
-            PlayerClass = "PALADIN",
+            CardClass = "PALADIN",
             Rarity = "LEGENDARY",
             Cost = 8,
             Attack = 6,
@@ -23,7 +23,7 @@ namespace Buzzbox.Encoders.Tests
         {
             Name = "Fireball",
             Type = "SPELL",
-            PlayerClass = "MAGE",
+            CardClass = "MAGE",
             Rarity = "FREE",
             Cost = 4,
             Text = "Deal $6 damage."
@@ -33,7 +33,7 @@ namespace Buzzbox.Encoders.Tests
         {
             Name = "Death's Bite",
             Type = "WEAPON",
-            PlayerClass = "WARRIOR",
+            CardClass = "WARRIOR",
             Rarity = "COMMON",
             Cost = 4,
             Attack = 4,

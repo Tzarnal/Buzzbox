@@ -24,9 +24,10 @@ namespace Buzzbox_Common
         public string HowToEarn { get; set; }
         public string Flavor { get; set; }
         public List<int?> Dust { get; set; }
-        public string PlayerClass { get; set; }
+        public string CardClass { get; set; }
         public int? Durability { get; set; }
         public string Source { get; set; }
+        public bool Elite { get; set; } = false;
 
         public override string ToString()
         {
@@ -34,7 +35,7 @@ namespace Buzzbox_Common
             {
                 case "MINION":
                     return DisplayMinion();
-                
+
                 case "SPELL":
                     return DisplaySpell();
 
@@ -46,7 +47,7 @@ namespace Buzzbox_Common
 
                 default:
                     return base.ToString();
-            }            
+            }
         }
 
         private string DisplayMinion()
@@ -54,7 +55,7 @@ namespace Buzzbox_Common
             var text = Text.RemoveMarkup();
             text = Regex.Replace(text, @"\r\n?|\n", " ");
 
-            return $"[{Rarity.CapitalizeOnlyFirstLetter()}] {(PlayerClass ?? "Neutral").CapitalizeOnlyFirstLetter()} {(Race ?? "-").CapitalizeOnlyFirstLetter()} Minion: {Name} - {Attack}/{Health} for {Cost} - {text}";
+            return $"[{Rarity.CapitalizeOnlyFirstLetter()}] {(CardClass ?? "Neutral").CapitalizeOnlyFirstLetter()} {(Race ?? "-").CapitalizeOnlyFirstLetter()} Minion: {Name} - {Attack}/{Health} for {Cost} - {text}";
         }
 
         private string DisplayHero()
@@ -62,7 +63,7 @@ namespace Buzzbox_Common
             var text = Text.RemoveMarkup();
             text = Regex.Replace(text, @"\r\n?|\n", " ");
 
-            return $"[{Rarity.CapitalizeOnlyFirstLetter()}] {(PlayerClass ?? "Neutral").CapitalizeOnlyFirstLetter()} Hero: {Name} - {Health} Armor for {Cost} - {text}";
+            return $"[{Rarity.CapitalizeOnlyFirstLetter()}] {(CardClass ?? "Neutral").CapitalizeOnlyFirstLetter()} Hero: {Name} - {Health} Armor for {Cost} - {text}";
         }
 
         private string DisplaySpell()
@@ -70,7 +71,7 @@ namespace Buzzbox_Common
             var text = Text.RemoveMarkup();
             text = Regex.Replace(text, @"\r\n?|\n", " ");
 
-            return $"[{Rarity.CapitalizeOnlyFirstLetter()}] {(PlayerClass ?? "Neutral").CapitalizeOnlyFirstLetter()} Spell: {Name} - {Cost} mana - {text}";
+            return $"[{Rarity.CapitalizeOnlyFirstLetter()}] {(CardClass ?? "Neutral").CapitalizeOnlyFirstLetter()} Spell: {Name} - {Cost} mana - {text}";
         }
 
         private string DisplayWeapon()
@@ -78,8 +79,8 @@ namespace Buzzbox_Common
             var text = Text.RemoveMarkup();
             text = Regex.Replace(text, @"\r\n?|\n", " ");
 
-            return $"[{Rarity.CapitalizeOnlyFirstLetter()}] {(PlayerClass ?? "Neutral").CapitalizeOnlyFirstLetter()} Weapon: {Name} - {Attack}/{Durability} for {Cost} - {text}";
+            return $"[{Rarity.CapitalizeOnlyFirstLetter()}] {(CardClass ?? "Neutral").CapitalizeOnlyFirstLetter()} Weapon: {Name} - {Attack}/{Durability} for {Cost} - {text}";
         }
     }
-    
+
 }
